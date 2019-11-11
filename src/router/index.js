@@ -5,91 +5,125 @@ import layout from '../views/layout/Layout.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '',
-    redirect: '/login',
-    component: () => import('../views/login/index'),
+  path: '',
+  name: 'login',
+  redirect: '/login',
+  component: () => import('../views/login/index'),
+  meta: {
+    keepAlive: true
+  },
+  children: [{
+    path: '/login',
+    component: () => import('../views/login/index')
+  }]
+},
+{
+  path: '/home',
+  name: 'home',
+  meta: {
+    title: '首页'
+  },
+  component: layout,
+  children: [{
+    path: '/home',
+    component: () => import('../views/home/index')
+  }]
+},
+{
+  path: '/newitem',
+  component: layout,
+  redirect: '/product',
+  name: 'newitem',
+  meta: {
+    title: '新建'
+  },
+  children: [{
+    path: '/product',
+    name: 'product',
+    component: () => import('../views/newitem/newproduct'),
     meta: {
-      keepAlive: true
-    },
-    children: [{
-      path: '/login',
-      component: () => import('../views/login/index'),
-    }]
+      title: '制品'
+    }
   },
   {
-    path: '/layout',
-    component: layout,
-    redirect: '/home',
-    children: [{
-      path: '/home',
-      name: 'home',
-      component: () => import('../views/home/index'),
-      meta: {
-        title: "首页"
-      }
-    }]
+    path: '/equipment',
+    name: 'equipment',
+    component: () => import('../views/newitem/newequipment'),
+    meta: {
+      title: '设备'
+    }
   },
   {
-    path: '/newitem',
-    component: layout,
-    redirect: '/product',
+    path: '/linkitem',
+    name: 'linkitem',
+    component: () => import('../views/newitem/linkitem'),
     meta: {
-      title: "新建"
-    },
-    children: [{
-        path: '/product',
-        component: () => import('../views/newitem/newproduct'),
-        meta: {
-          title: "制品"
-        }
-      },
-      {
-        path: '/equipment',
-        component: () => import('../views/newitem/newequipment'),
-        meta: {
-          title: "设备"
-        }
-      },
-      {
-        path: '/link',
-        component: () => import('../views/newitem/link'),
-        meta: {
-          title: "关联"
-        }
-      }
-
-    ]
-  },
-  {
-    path: '/confirm',
-    component: layout,
-    redirect: '/confirm',
-    meta: {
-      title: "确认"
-    },
-    children: [
-      {
-        path: '/confirm',
-        component: () => import('../views/confirm/confirm')
-      }
-
-    ]
-  },
-  {
-    path: '/query',
-    component: layout,
-    redirect: '/query',
-    meta: {
-      title: "查询"
-    },
-    children: [
-      {
-        path: '/query',
-        component: () => import('../views/query/query')
-      }
-
-    ]
+      title: '关联'
+    }
   }
+
+  ]
+},
+{
+  path: '/confirm',
+  name: 'confirm',
+  component: layout,
+  meta: {
+    title: '确认'
+  },
+  children: [
+    {
+      path: '/confirm',
+      component: () => import('../views/confirm/confirm'),
+      meta: {
+        title: '确认'
+      }
+    }
+
+  ]
+},
+{
+  path: '/query',
+  name: 'query',
+  component: layout,
+  meta: {
+    title: '查询'
+  },
+  children: [
+    {
+      path: '/query',
+      component: () => import('../views/query/query')
+    }
+
+  ]
+},
+{
+  path: '/highquery',
+  name: 'highquery',
+  redirect: '/proanalysis',
+  component: layout,
+  meta: {
+    title: '高级查询'
+  },
+  children: [
+    {
+      path: '/proanalysis',
+      name: 'proanalysis',
+      component: () => import('../views/highquery/proanalysis'),
+      meta: {
+        title: '制品分析'
+      }
+    },
+    {
+      path: '/equanalysis',
+      name: 'equAnalysis',
+      component: () => import('../views/highquery/equanalysis'),
+      meta: {
+        title: '设备分析'
+      }
+    }
+  ]
+}
 
 ]
 

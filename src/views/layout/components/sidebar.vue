@@ -41,29 +41,29 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       menulist: [],
       iconlist: {
-        "101": "el-icon-s-home",
-        "102": "el-icon-edit-outline",
-        "106": "el-icon-document-checked",
-        "107": "el-icon-search",
-        "108": "el-icon-data-line"
+        '101': 'el-icon-s-home',
+        '102': 'el-icon-edit-outline',
+        '106': 'el-icon-document-checked',
+        '107': 'el-icon-search',
+        '108': 'el-icon-data-line'
       }
     }
   },
   methods: {
-    async getMenuList() {
-      const { data: res } = await this.$http.get("/menulist")
-      if (res.mate.status != 200) {
-        this.$message.error("获取失败")
+    async getMenuList () {
+      const { data: res } = await this.$http.get('/menulist')
+      if (res.mate.status !== 200) {
+        this.$message.error('获取失败')
       } else {
         this.menulist = res.data
       }
     }
   },
-  created() {
+  created () {
     this.getMenuList()
   }
 }

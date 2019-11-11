@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import sidebar from "./components/sidebar";
-import navbar from "./components/navbar";
+import sidebar from './components/sidebar'
+import navbar from './components/navbar'
 export default {
   components: {
     sidebar,
-    navbar  }
-};
+    navbar }
+}
 </script>
 
 <style lang="stylus" scoped></style>

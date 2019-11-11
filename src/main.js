@@ -9,22 +9,21 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 import axios from 'axios'
 
-//配置请求根路径
-// axios.defaults.baseURL = 'http://10.1.10.1234'
-//使用拦截器 在请求头中加入token
-
-axios.interceptors.request.use(config => {
-  config.headers.Authorization = window.sessionStorage.getItem("token")
-  //最后必须return config
-  return config
-  
-})
-
-import qs from "qs"
+import qs from 'qs'
 import './permission'
 import './mock'
 
 import store from './store/index'
+
+// 配置请求根路径
+// axios.defaults.baseURL = 'http://10.1.10.1234'
+// 使用拦截器 在请求头中加入token
+
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  // 最后必须return config
+  return config
+})
 
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios

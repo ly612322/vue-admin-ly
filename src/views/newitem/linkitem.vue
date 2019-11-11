@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h2>link</h2>
+        <h2>linkitem</h2>
     </div>
 </template>
 
 <script>
 export default {
-    name:'link'
-    
+  name: 'linkitem'
+
 }
 </script>
 <style lang="stylus" scoped>

@@ -1,19 +1,19 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      collapse:false
+    collapse: false
   },
   mutations: {
-      toCollapse(state){
-          state.collapse = !state.collapse
-      }
+    toCollapse (state) {
+      state.collapse = !state.collapse
+    }
   },
   actions: {
   },
   modules: {
-  },
-});
+  }
+})

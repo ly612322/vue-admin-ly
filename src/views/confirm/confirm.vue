@@ -6,8 +6,8 @@
 
 <script>
 export default {
-    name:'confirm'
-    
+  name: 'confirm'
+
 }
 </script>
 <style lang="stylus" scoped>

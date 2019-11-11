@@ -20,36 +20,34 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       levelList: null
     }
   },
   watch: {
-    $route() {
+    $route () {
       this.getBreadcrumb()
     }
   },
   methods: {
-    logout() {
+    logout () {
       window.sessionStorage.clear()
-      this.$router.push("/login")
+      this.$router.push('/login')
     },
-    collapse() {
-      this.$store.commit("toCollapse")
+    collapse () {
+      this.$store.commit('toCollapse')
     },
-    getBreadcrumb() {
-      console.log(this.$route.matched);
+    getBreadcrumb () {
       let matched = this.$route.matched.filter(item => item.name)
-      const first = matched[0]     
-      if (first && first.name !== "home") {
-        matched = [{ path: "/home", meta: { title: "首页" } }].concat(matched)
+      const first = matched[0]
+      if (first && first.name !== 'home') {
+        matched = [{ path: '/home', meta: { title: '首页' } }].concat(matched)
       }
       this.levelList = matched
-      
     }
   },
-  created() {
+  created () {
     this.getBreadcrumb()
   }
 }

@@ -45,21 +45,21 @@
   </div>
 </template>
 <script>
-import loginCenter from "../../assets/images/login_center_bg.png"
+import loginCenter from '../../assets/images/login_center_bg.png'
 export default {
-  data() {
+  data () {
     return {
       loginCenter,
       loginForm: {
-        username: "admin",
-        password: "123456"
+        username: 'admin',
+        password: '123456'
       },
       rules: {
         username: [
-          { required: true, message: "请输入登陆名", trigger: "blur" },
-          { min: 3, max: 7, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { required: true, message: '请输入登陆名', trigger: 'blur' },
+          { min: 3, max: 7, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       }
       //   note: {
       //     backgroundImage:
@@ -74,21 +74,21 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
+    handleLogin () {
       this.$refs.loginForm.validate(async valid => {
         // 表单预检验 校验成功valid为true
         if (!valid) return
         const { data: res } = await this.$http.post(
-          "/login",
+          '/login',
           this.$qs.stringify(this.loginForm)
         )
-        if (res.meta.status !== 200) return this.$message.error("登陆失败")
-        this.$message.success("登陆成功")
-        window.sessionStorage.setItem("token", res.data.token)
-        this.$router.push("/layout")
+        if (res.meta.status !== 200) return this.$message.error('登陆失败')
+        this.$message.success('登陆成功')
+        window.sessionStorage.setItem('token', res.data.token)
+        this.$router.push('/home')
       })
     },
-    resetForm() {
+    resetForm () {
       this.$refs.loginForm.resetFields()
     }
   }

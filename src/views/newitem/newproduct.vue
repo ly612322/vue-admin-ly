@@ -6,8 +6,8 @@
 
 <script>
 export default {
-    name:'product'
-    
+  name: 'product'
+
 }
 </script>
 <style lang="stylus" scoped>
