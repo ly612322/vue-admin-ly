@@ -11,23 +11,86 @@ const routes = [{
     meta: {
       keepAlive: true
     },
-    children:[{
-      path:'/login',
+    children: [{
+      path: '/login',
       component: () => import('../views/login/index'),
     }]
   },
   {
-    path: '/home',
-    component:layout,
+    path: '/layout',
+    component: layout,
+    redirect: '/home',
     children: [{
-      path: 'home',
+      path: '/home',
       name: 'home',
       component: () => import('../views/home/index'),
       meta: {
-        title: '首页'
+        title: "首页"
       }
     }]
   },
+  {
+    path: '/newitem',
+    component: layout,
+    redirect: '/product',
+    meta: {
+      title: "新建"
+    },
+    children: [{
+        path: '/product',
+        component: () => import('../views/newitem/newproduct'),
+        meta: {
+          title: "制品"
+        }
+      },
+      {
+        path: '/equipment',
+        component: () => import('../views/newitem/newequipment'),
+        meta: {
+          title: "设备"
+        }
+      },
+      {
+        path: '/link',
+        component: () => import('../views/newitem/link'),
+        meta: {
+          title: "关联"
+        }
+      }
+
+    ]
+  },
+  {
+    path: '/confirm',
+    component: layout,
+    redirect: '/confirm',
+    meta: {
+      title: "确认"
+    },
+    children: [
+      {
+        path: '/confirm',
+        component: () => import('../views/confirm/confirm')
+      }
+
+    ]
+  },
+  {
+    path: '/query',
+    component: layout,
+    redirect: '/query',
+    meta: {
+      title: "查询"
+    },
+    children: [
+      {
+        path: '/query',
+        component: () => import('../views/query/query')
+      }
+
+    ]
+  }
+
 ]
 
 const router = new VueRouter({

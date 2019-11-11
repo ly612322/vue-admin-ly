@@ -1,13 +1,12 @@
 <template>
     <div>
-        <h2>home</h2>
+        <h2>query</h2>
     </div>
 </template>
 
 <script>
 export default {
-    name:'confirm'
-    
+    name:'query'
 }
 </script>
 <style lang="stylus" scoped>

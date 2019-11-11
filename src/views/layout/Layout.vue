@@ -9,7 +9,7 @@
           <navbar />
         </el-header>
         <el-main>
-          <appmain><router-view></router-view></appmain>
+          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -19,13 +19,10 @@
 <script>
 import sidebar from "./components/sidebar";
 import navbar from "./components/navbar";
-import appmain from "./components/appmain";
 export default {
   components: {
     sidebar,
-    navbar,
-    appmain
-  }
+    navbar  }
 };
 </script>
 

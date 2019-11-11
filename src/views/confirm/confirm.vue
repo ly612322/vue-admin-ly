@@ -1,11 +1,12 @@
 <template>
     <div>
-              <router-view></router-view>
-
+        <h2>确认</h2>
     </div>
 </template>
+
 <script>
 export default {
+    name:'confirm'
     
 }
 </script>
