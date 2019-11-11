@@ -20,34 +20,56 @@ const routes = [{
 {
   path: '/home',
   name: 'home',
+  redirect: '/product',
   meta: {
     title: '首页'
   },
   component: layout,
   children: [{
-    path: '/home',
-    component: () => import('../views/home/index')
-  }]
+    path: '/product',
+    name: 'product',
+    component: () => import('../views/home/product'),
+    meta: {
+      title: '制品单'
+    }
+  },
+  {
+    path: '/equipment',
+    name: 'equipment',
+    component: () => import('../views/home/equipment'),
+    meta: {
+      title: '设备单'
+    }
+  },
+  {
+    path: '/beforehand',
+    name: 'beforehand',
+    component: () => import('../views/home/beforehand'),
+    meta: {
+      title: '预开票'
+    }
+  }
+  ]
 },
 {
   path: '/newitem',
   component: layout,
-  redirect: '/product',
+  redirect: '/newproduct',
   name: 'newitem',
   meta: {
     title: '新建'
   },
   children: [{
-    path: '/product',
-    name: 'product',
+    path: '/newproduct',
+    name: 'newproduct',
     component: () => import('../views/newitem/newproduct'),
     meta: {
       title: '制品'
     }
   },
   {
-    path: '/equipment',
-    name: 'equipment',
+    path: '/newequipment',
+    name: 'newequipment',
     component: () => import('../views/newitem/newequipment'),
     meta: {
       title: '设备'

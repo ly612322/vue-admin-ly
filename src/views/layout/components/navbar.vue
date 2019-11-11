@@ -1,7 +1,6 @@
 <template>
   <div>
-    <i class="el-icon-s-fold navbar-img" @click="collapse"></i>
-    <!-- <img :src="list" alt   /> -->
+    <i :class="[listicon ?'el-icon-s-unfold':'el-icon-s-fold']" class="navbar-img" @click="collapse"></i>
     <el-dropdown class="user" placement="bottom" @command="logout">
       <i class="el-icon-user-solid"></i>
       <el-dropdown-menu slot="dropdown">
@@ -22,7 +21,8 @@
 export default {
   data () {
     return {
-      levelList: null
+      levelList: null,
+      listicon: false,
     }
   },
   watch: {
@@ -36,6 +36,7 @@ export default {
       this.$router.push('/login')
     },
     collapse () {
+      this.listicon = !this.listicon
       this.$store.commit('toCollapse')
     },
     getBreadcrumb () {

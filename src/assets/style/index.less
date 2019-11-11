@@ -6,6 +6,7 @@ body{
   transition: all .5s;
 }
 
+// fade
 .breadcrumb-enter,
 .breadcrumb-leave-active {
   opacity: 0;
@@ -18,4 +19,15 @@ body{
 
 .breadcrumb-leave-active {
   position: absolute;
+}
+
+//
+.item-enter,
+.item-leave-to {
+  transform: translateY(30px);
+  opacity: 0;
+}
+.item-enter-active,
+.item-leave-active {
+  transition: all 0.3s ease;
 }

@@ -9,7 +9,9 @@
           <navbar />
         </el-header>
         <el-main>
-          <router-view></router-view>
+          <transition mode="out-in" name="item">
+            <router-view></router-view>
+          </transition>
         </el-main>
       </el-container>
     </el-container>
@@ -17,12 +19,13 @@
 </template>
 
 <script>
-import sidebar from './components/sidebar'
-import navbar from './components/navbar'
+import sidebar from "./components/sidebar"
+import navbar from "./components/navbar"
 export default {
   components: {
     sidebar,
-    navbar }
+    navbar
+  }
 }
 </script>
 

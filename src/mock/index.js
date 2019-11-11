@@ -32,7 +32,26 @@ Mock.mock('/menulist', 'get', Options => {
       'id': 101,
       'title': '首页',
       'path': 'home',
-      'children': []
+      'children': [
+        {
+          'id': 110,
+          'title': '预开票',
+          'path': 'beforehand',
+          'children': []
+        },
+        {
+          'id': 111,
+          'title': '制品单',
+          'path': 'product',
+          'children': []
+        },
+        {
+          'id': 112,
+          'title': '设备单',
+          'path': 'equipment',
+          'children': []
+        }
+      ]
     },
     {
       'id': 102,
@@ -40,19 +59,19 @@ Mock.mock('/menulist', 'get', Options => {
       'path': '新建',
       'children': [{
         'id': 103,
-        'title': '制品单',
-        'path': 'product',
+        'title': '新建制品单',
+        'path': 'newproduct',
         'children': []
       },
       {
         'id': 104,
-        'title': '设备单',
-        'path': 'equipment',
+        'title': '新建设备单',
+        'path': 'newequipment',
         'children': []
       },
       {
         'id': 105,
-        'title': '关联单',
+        'title': '新建关联单',
         'path': 'linkitem',
         'children': []
       }
