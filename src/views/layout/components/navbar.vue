@@ -1,54 +1,69 @@
 <template>
+  <!-- 顶部navbar 包含折叠按钮 面包屑导航 退出按钮-->
   <div>
-    <i :class="[listicon ?'el-icon-s-unfold':'el-icon-s-fold']" class="navbar-img" @click="collapse"></i>
+    <!-- 折叠按钮切换 -->
+    <i
+      :class="[listicon ?'el-icon-s-unfold':'el-icon-s-fold']"
+      class="navbar-img"
+      @click="collapse"
+    ></i>
+    <!-- 退出下拉菜单 -->
     <el-dropdown class="user" placement="bottom" @command="logout">
       <i class="el-icon-user-solid"></i>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-      <el-breadcrumb class="elbreadcrumb" separator="/">
-    <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item,index)  in levelList" :key="item.path" >
-        <span v-if="item.redirect==='noredirect'||index==levelList.length-1" class="no-redirect">{{item.meta.title}}</span>
-        <router-link v-else :to="item.redirect||item.path">{{item.meta.title}}</router-link>
-      </el-breadcrumb-item>
-    </transition-group>
-  </el-breadcrumb>
+    <!-- 面包屑导航 -->
+    <el-breadcrumb class="elbreadcrumb" separator="/">
+      <transition-group name="breadcrumb">
+        <el-breadcrumb-item v-for="(item,index)  in levelList" :key="item.path">
+          <span
+            v-if="item.redirect==='noredirect'|| index==levelList.length-1"
+            class="no-redirect"
+          >{{item.meta.title}}</span>
+          <router-link v-else :to="item.redirect||item.path">{{item.meta.title}}</router-link>
+        </el-breadcrumb-item>
+      </transition-group>
+    </el-breadcrumb>
   </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       levelList: null,
-      listicon: false,
+      listicon: false
     }
   },
   watch: {
-    $route () {
+    $route() {
+      //监听路由
       this.getBreadcrumb()
     }
   },
   methods: {
-    logout () {
+    logout() {
+      // 退出清空token 跳转登录页
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push("/login")
     },
-    collapse () {
+    collapse() {
       this.listicon = !this.listicon
-      this.$store.commit('toCollapse')
+      this.$store.commit("toCollapse")
     },
-    getBreadcrumb () {
+    getBreadcrumb() {
+      //获取route的matched
       let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0]
-      if (first && first.name !== 'home') {
-        matched = [{ path: '/home', meta: { title: '首页' } }].concat(matched)
+      if (first && first.name !== "home") {
+        // 如果不是在首页 则在头部加入首页 ，不需要时注释即可
+        matched = [{ path: "/home", meta: { title: "首页" } }].concat(matched)
       }
       this.levelList = matched
     }
   },
-  created () {
+  created() {
     this.getBreadcrumb()
   }
 }

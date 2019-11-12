@@ -5,6 +5,7 @@
       background-color="#304156"
       text-color="white"
       router
+      unique-opened
       :collapse="this.$store.state.collapse"
       :collapse-transition="true"
       :default-active="this.$route.path"

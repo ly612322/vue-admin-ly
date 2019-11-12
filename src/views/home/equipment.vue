@@ -3,7 +3,7 @@
     <template>
       <el-table
         v-loading="loading"
-        :data="equipmentdata"
+        :data="tableData"
         border
         style="width: 100%"
         max-height="800"
@@ -57,7 +57,6 @@ export default {
       tableData: []
     };
   },
-  props: ["equipmentdata"],
   methods: {
     //页面筛选函数
     filterHandler(value, row, column) {

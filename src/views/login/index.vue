@@ -38,63 +38,88 @@
         <el-form-item style="margin-bottom: 60px;text-align: center">
           <el-button style="width: 45%" type="primary" @click.native.prevent="handleLogin">登录</el-button>
           <el-button style="width: 45%" type="primary" @click.native.prevent="resetForm">重置</el-button>
+          <el-link class="changepassword" @click="dialogVisible = true">修改密码?</el-link>
         </el-form-item>
       </el-form>
     </el-card>
     <img :src="loginCenter" class="login-center-layout" />
+    <el-dialog title="密码修改" :visible.sync="dialogVisible" width="30%" class="password" center >
+      <el-form :model="changeform" label-width="90px" >
+        <el-form-item label="用户名" >
+          <el-input v-model="changeform.name"></el-input>
+        </el-form-item>
+        <el-form-item label="原密码">
+          <el-input v-model="changeform.beforePassword"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码">
+          <el-input v-model="changeform.newPassword"></el-input>
+        </el-form-item>
+        <el-form-item label="确认新密码">
+          <el-input v-model="changeform.againnewPassword"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
-import loginCenter from '../../assets/images/login_center_bg.png'
+import loginCenter from "../../assets/images/login_center_bg.png"
 export default {
-  data () {
+  data() {
     return {
       loginCenter,
+      dialogVisible: false,
       loginForm: {
-        username: 'admin',
-        password: '123456'
+        username: "admin",
+        password: "123456"
       },
-      rules: {
+      changeform:{ //密码修改表单
+        name:'',
+        beforePassword:'',
+        newPassword:'',
+        againnewPassword:''
+      },
+      rules: { //登陆表单验证
         username: [
-          { required: true, message: '请输入登陆名', trigger: 'blur' },
-          { min: 3, max: 7, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: "请输入登陆名", trigger: "blur" },
+          { min: 3, max: 7, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
-      //   note: {
-      //     backgroundImage:
-      //       'url(' + require('../../assets/images/login.jpg') + ')',
-      //     backgroundRepeat: 'no-repeat',
-      //     backgroundSize: '100% 100%'
-      //   },
-      //   form: {
-      //     name: '12345',
-      //     passward: '12345'
-      //   }
     }
   },
   methods: {
-    handleLogin () {
+    handleLogin() {
       this.$refs.loginForm.validate(async valid => {
         // 表单预检验 校验成功valid为true
         if (!valid) return
         const { data: res } = await this.$http.post(
-          '/login',
+          "/login",
           this.$qs.stringify(this.loginForm)
         )
-        if (res.meta.status !== 200) return this.$message.error('登陆失败')
-        this.$message.success('登陆成功')
-        window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/home')
+        if (res.meta.status !== 200) return this.$message.error("登陆失败")
+        this.$message.success("登陆成功")
+        window.sessionStorage.setItem("token", res.data.token) // 存储返回的token
+        this.$router.push("/home") //跳转主页
       })
     },
-    resetForm () {
-      this.$refs.loginForm.resetFields()
+    resetForm() {
+      this.$refs.loginForm.resetFields() // 重置登陆表单信息
     }
+    // handleClose(done) {
+    //   this.$confirm("确认关闭？")
+    //     .then(_ => {
+    //       done()
+    //     })
+    //     .catch(_ => {})
+    // }
   }
 }
 </script>
-<style scoped>
+<style lang='less' scoped>
 .login-form-layout {
   position: absolute;
   left: 0;
@@ -115,5 +140,19 @@ export default {
   max-width: 100%;
   max-height: 100%;
   margin-top: 200px;
+}
+.changepassword {
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  color: #409eff;
+  line-height: 30px;
+  margin-top: 20%;
+  transform: translate(-50%);
+}
+.el-dialog{
+  .el-input{
+    width: 85%;
+  }
 }
 </style>

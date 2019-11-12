@@ -5,21 +5,22 @@
         v-loading="loading"
         :data="productdata"
         border
-        style="width: 100%"
+        style="width: 100%;white-space:nowrap"
         max-height="800"
         highlight-current-row
+        :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
-        <el-table-column prop="编号" label="编号" width="250" align="center" sortable></el-table-column>
-        <el-table-column prop="创建" label="创建" width="120" align="center"></el-table-column>
-        <el-table-column prop="日期" label="日期" width="120" align="center" sortable></el-table-column>
-        <el-table-column prop="LOT" label="LOT" width="120" align="center">
+        <el-table-column prop="编号" label="编号" width="215" align="center" sortable></el-table-column>
+        <el-table-column prop="创建" label="创建" width="75" align="center"></el-table-column>
+        <el-table-column prop="日期" label="日期" width="100" align="center" sortable></el-table-column>
+        <el-table-column prop="LOT" label="LOT" width="90" align="center">
           <template slot-scope="scope">
             <el-link type="primary" @click.prevent="queryLot(scope.row.LOT)">{{ scope.row.LOT}}</el-link>
           </template>
         </el-table-column>
-        <el-table-column prop="设备" label="设备" width="120" align="center"></el-table-column>
-        <el-table-column prop="异常" label="异常" width="180" align="center"></el-table-column>
-        <el-table-column prop="现象" label="现象" align="center"></el-table-column>
+        <el-table-column prop="设备" label="设备" width="90" align="center"></el-table-column>
+        <el-table-column prop="异常" label="异常" width="150" align="center" ></el-table-column>
+        <el-table-column prop="现象" label="现象" align="center"  :show-overflow-tooltip="true"></el-table-column>
         <el-table-column
           prop="处置"
           label="处置"
@@ -55,6 +56,16 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage1"
+          :page-size="100"
+          layout="total, prev, pager, next"
+          :total="1000"
+        ></el-pagination>
+      </div>
     </template>
     <el-drawer :visible.sync="table" direction="rtl" size="60%" title="LOT履历">
       <h3 style="margin:0">LOT:{{Lot}}</h3>
@@ -88,17 +99,37 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import qs from "qs";
 export default {
   data() {
     return {
       table: false,
       Lot: "",
+      productdata: [
+        {
+          编号: "制品异常-面板厂-2019-19847",
+          创建: "周亦睿",
+          日期: "2019-09-20",
+          LOT: "19914051",
+          设备: "MMO004",
+          异常: "成膜区域超规格",
+          现象:
+            "S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格",
+          处置: "CVD"
+        },
+        {
+          编号: "制品异常-面板厂-2019-19846",
+          创建: "熊琴",
+          日期: "2019-09-20",
+          LOT: "19914037",
+          设备: "REP005",
+          异常: "线状异物",
+          现象: "S5 P6-99 线状异物 发生率4%",
+          处置: "TEST"
+        }
+      ],
       LotData: []
-    };
+    }
   },
-  props: ["productdata"],
   methods: {
     dealrouter(index, row) {
       this.$router.push({
@@ -106,7 +137,7 @@ export default {
         params: {
           id: row.编号 //row.hid为变量
         }
-      });
+      })
     },
     changerouter(index, row) {
       this.$router.push({
@@ -114,29 +145,29 @@ export default {
         params: {
           id: row.编号 //row.hid为变量
         }
-      });
+      })
     },
     //页面筛选函数
     filterHandler(value, row, column) {
-      const property = column["property"];
-      return row[property] === value;
+      const property = column["property"]
+      return row[property] === value
     },
 
     async queryLot(lot) {
-      this.Lot = lot;
+      this.Lot = lot
       const { data } = await axios.post(
         "/API/异常处置系统/工程实绩_LOT履历.py",
         qs.stringify({
           LOT_ID: lot,
           工厂: ""
         })
-      );
+      )
       if (data.state === "") {
-        this.LotData = data.data;
+        this.LotData = data.data
       } else {
-        alert(data.state);
+        alert(data.state)
       }
-      this.table = true;
+      this.table = true
     },
     deleteRow(index, rows) {
       this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
@@ -145,13 +176,13 @@ export default {
         type: "warning"
       })
         .then(() => {
-          rows.splice(index, 1);
+          rows.splice(index, 1)
           this.$notify({
             title: "提示",
             message: "删除成功！",
             type: "success",
             duration: "1400"
-          });
+          })
         })
         .catch(() => {
           this.$notify({
@@ -159,14 +190,30 @@ export default {
             message: "已取消删除",
             type: "warning",
             duration: "1400"
-          });
-        });
+          })
+        })
     }
   },
   created() {
     // this.getNewsList();
+  },
+  computed: {
+    cellStyle: () => {
+      return
+    }
   }
-};
+}
 </script>
-<style  scoped>
+<style>
+.el-table__header tr,
+  .el-table__header th {
+    padding: 0;
+    height: 40px ;
+}
+.el-table__body tr,
+  .el-table__body td {
+    padding: 0;
+    height: 60px;
+}
+
 </style>
