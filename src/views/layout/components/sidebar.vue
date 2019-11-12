@@ -21,7 +21,7 @@
             <span slot="title">{{item.title}}</span>
           </template>
           <el-menu-item :index="'/' + subitem.path" v-for="subitem in item.children" :key="subitem.id">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-edit-outline"></i>
             <span slot="title">{{subitem.title}}</span>
           </el-menu-item>
         </el-submenu>

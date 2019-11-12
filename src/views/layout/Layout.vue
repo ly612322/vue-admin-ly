@@ -29,4 +29,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped></style>
+<style scoped>
+.el-main {
+  padding: 0px 10px;
+}
+</style>

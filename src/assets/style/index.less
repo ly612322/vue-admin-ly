@@ -21,13 +21,30 @@ body{
   position: absolute;
 }
 
-//
+//item
 .item-enter,
 .item-leave-to {
-  transform: translateY(30px);
+  // transform: translateY(30px);
   opacity: 0;
 }
 .item-enter-active,
 .item-leave-active {
   transition: all 0.3s ease;
 }
+//dialog head
+.el-dialog--center .el-dialog__body {
+  text-align: initial;
+  padding: 2px 25px 30px !important
+}
+.el-dialog__header {
+  padding: 10px 20px 10px !important
+}
+.el-dialog__title {
+  line-height: 24px;
+  font-size: 18px;
+  font-weight: 550;
+  color: #303133;
+}
+body .el-table th.gutter{
+  display: table-cell!important;
+  }

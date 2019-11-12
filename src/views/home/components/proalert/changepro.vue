@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <el-card class="box-card">
@@ -7,7 +8,7 @@
         label-width="110px"
         class="elform"
         :rules="rules"
-        size="mini"
+        size="small"
         label-position="left"
       >
         <el-form-item label="异常发生时间" prop="time">
@@ -85,42 +86,42 @@
           <el-table-column prop="小工程" label="小工程" align="center" sortable></el-table-column>
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-              <el-button @click="add(scope.row)" type="primary" size="small">添加</el-button>
+              <el-button @click="add(scope.row)" type="primary" size="small" plain>添加</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-card>
       <el-divider content-position="center" style="margin-top:50%">已添加信息</el-divider>
-      <el-card shadow="hover" class="box-card1">
+      <el-card shadow="hover" class="box-card1" style="height:280px">
         <el-table
           v-loading="loading"
           :data="lotallmessage"
           border
           style="width: 100%"
-          max-height="230"
+          max-height="220"
           highlight-current-row
         >
-          <el-table-column prop="LOT" label="LOT" width="90" align="center" :show-overflow-tooltip="true">
+          <el-table-column prop="LOT" label="LOT" width="100" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.LOT}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="SHEET" label="SHEET" width="90" align="center" :show-overflow-tooltip="true">
+          <el-table-column prop="SHEET" label="SHEET" width="100" align="center" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
               <span>{{scope.row.SHEET}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="PANEL" label="PANEL" width="90" align="center" :show-overflow-tooltip="true">
+          <el-table-column prop="PANEL" label="PANEL" width="100" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.PANEL}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="品名" label="品名" width="140" align="center" :show-overflow-tooltip="true">
+          <el-table-column prop="品名" label="品名" width="180" align="center" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
               <span>{{scope.row.品名}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="设备" label="设备" width="100" align="center" >
+          <el-table-column prop="设备" label="设备" width="80" align="center" >
             <template slot-scope="scope">
               <span>{{scope.row.设备}}</span>
             </template>
@@ -135,13 +136,13 @@
               <span>{{scope.row.小工程}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="备注" label="备注" align="center" :show-overflow-tooltip="true">
+          <el-table-column prop="备注" label="备注" width="150" align="center" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
               <span>{{scope.row.备注}}</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" align="center" width="100">
+          <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button
                 type="primary"
@@ -157,9 +158,9 @@
       <el-col>
         <label class="labletext">异常名称:</label>
         <el-button-group style="float:left;margin-left:10px;">
-          <el-button  size='small' type="primary">通用</el-button>
-          <el-button  size='small' type="primary">ARRAY</el-button>
-          <el-button  size='small' type="primary">CELL</el-button>
+          <el-button plain type="primary">通用</el-button>
+          <el-button plain type="primary">ARRAY</el-button>
+          <el-button plain type="primary">CELL</el-button>
         </el-button-group>
       </el-col>
       <el-form ref="otherform" :model="productform" :rules="rules" size="mini">
@@ -191,7 +192,7 @@
       <el-col>
         <label class="labletext">不良位置:</label>
         <div class="picdisplay">
-          <div style="margin-left: 75%">1300</div>
+          <div style="margin-left: 66%">1300</div>
           <div
             class="picture"
             :class="{red: !picture.位1,green: picture.位1}"
@@ -211,7 +212,7 @@
           <div
             class="picture"
             :class="{red: !picture.位4,green: picture.位4}"
-            @click="picture.位4=!picture.位4" 
+            @click="picture.位4=!picture.位4"
             style="margin-left:5%"
           ></div>
 
@@ -225,8 +226,8 @@
             :class="{red: !picture.位6,green: picture.位6}"
             @click="picture.位6=!picture.位6"
           ></div>
-          <div style="width:90%">
-            <span style="float:left;margin-left:15%">1100</span>
+          <div style="width:70%">
+            <span style="float:left">1100</span>
             <span style="float:right">OF</span>
           </div>
         </div>
@@ -239,10 +240,9 @@
   </div>
 </template>
 <script>
-import qs from "qs";
-import axios from "axios";
 
 export default {
+  name:"productchange",
   data() {
     return {
       productform: {
@@ -363,6 +363,9 @@ export default {
     };
   },
   methods: {
+       goBack() {
+      this.$router.go(-1);
+    },
     add(data) {
       this.lotallmessage.push({
         LOT: this.productform.lot,
@@ -380,9 +383,9 @@ export default {
     },
     async queryLot(lot) {
       this.Lot = lot;
-      const { data } = await axios.post(
+      const { data } = await this.$http.post(
         "/API/异常处置系统/LOT.py",
-        qs.stringify({
+        this.$qs.stringify({
           LOT_ID: from.lot
         })
       );
@@ -487,10 +490,10 @@ export default {
         位5: place[4],
         位6: place[5]
       };
-      data.$on("eqsend", message => {
+      data.$on("ethis.$qsend", message => {
         Object.assign(params, message);
       });
-      await axios.post("/API/异常处置系统/LOT.py", qs.stringify(params));
+      await this.$http.post("/API/异常处置系统/LOT.py", this.$qs.stringify(params));
       if (data.state === "") {
         this.lotDate = data.data;
       } else {
@@ -528,22 +531,20 @@ export default {
 }
 .box-card {
   width: 73%;
+  height: 93vh;
   float: left;
-  height: 90vh;
 }
 .box-card1 >>> .el-card__body {
   padding: 0 !important;
   border: 0;
-    height: 90vh;
-  height: 350px;
+  height: 380px;
 }
 .box-card2 {
   width: 25%;
   padding: 0;
   float: left;
   margin-left: 10px;
-  height: 90vh;
-  text-align: center
+  height:93vh;
 }
 .labletext {
   float: left;
@@ -556,11 +557,12 @@ export default {
 }
 .picdisplay {
   margin-top: 10%;
+  margin-left: 15%
 }
 .picture {
   display: inline-block;
   width: 17%;
-  height: 115px;
+  height: 119px;
   margin-left: 5%;
   background-color: #cfff45;
   border: 1px solid rgba(170, 170, 170, 0.87);
@@ -571,12 +573,21 @@ export default {
   background-color: red;
 }
 .green {
-  background-color: #87FF50;
+  background-color: #87ff50;
 }
 .upload {
-  margin-top: 12px;
+  margin-top: 30px;
+  margin-left: 12%;
   width: 70%;
   height: 45px;
-  font-size: 19px;
+  font-size: 20px;
+}
+.el-page-header {
+  line-height: 50px;
+}
+.el-page-header__text >>> .el-page-header__content {
+  font-size: 20px;
+  margin-left: 42%;
+  font-weight: bold;
 }
 </style>

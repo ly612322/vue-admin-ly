@@ -8,7 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 import axios from 'axios'
-
+import common from './utils/common'
 import qs from 'qs'
 import './permission'
 import './mock'
@@ -24,7 +24,7 @@ axios.interceptors.request.use(config => {
   // 最后必须return config
   return config
 })
-
+Vue.prototype.common = common; //公共方法
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios
 Vue.use(ElementUI, {

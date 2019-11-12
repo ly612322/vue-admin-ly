@@ -2,8 +2,7 @@
   <div>
     <template>
       <el-table
-        v-loading="loading"
-        :data="productdata"
+        :data="productdata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
         style="width: 100%;white-space:nowrap"
         max-height="800"
@@ -19,12 +18,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="设备" label="设备" width="90" align="center"></el-table-column>
-        <el-table-column prop="异常" label="异常" width="150" align="center" ></el-table-column>
-        <el-table-column prop="现象" label="现象" align="center"  :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="异常" label="异常" width="150" align="center"></el-table-column>
+        <el-table-column prop="现象" label="现象" align="center" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column
           prop="处置"
           label="处置"
-          width="120"
+          width="100"
           align="center"
           sortable
           :filters="[{ text: 'PVD', value: 'PVD' }, { text: 'CVD', value: 'CVD' },{text:'TEST',value:'TEST'}
@@ -45,13 +44,13 @@
               @click="changerouter(scope.$index, scope.row)"
               type="warning"
               size="small"
-              style="margin-left:0"
+              style="margin-left:5px"
             >修改</el-button>
             <el-button
               type="danger"
               @click.native.prevent="deleteRow(scope.$index, productdata)"
               size="small"
-              style="margin-left:0"
+              style="margin-left:5px"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -60,22 +59,17 @@
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page.sync="currentPage1"
-          :page-size="100"
-          layout="total, prev, pager, next"
-          :total="1000"
+          :current-page="currentPage"
+          :page-sizes="[5, 10, 20, 40]"
+          :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="productdata.length"
         ></el-pagination>
       </div>
     </template>
-    <el-drawer :visible.sync="table" direction="rtl" size="60%" title="LOT履历">
+    <el-drawer :visible.sync="table" direction="ttb" size="60%" title="LOT履历">
       <h3 style="margin:0">LOT:{{Lot}}</h3>
-      <el-table
-        :data="LotData"
-        v-loading="loading"
-        border
-        style="width:100%;overflow:auto"
-        max-height="620"
-      >
+      <el-table :data="LotData" border style="width:100%;overflow:auto" max-height="620">
         <el-table-column property="品名" label="品名"></el-table-column>
         <el-table-column property="LOT_NO" label="LOT_NO"></el-table-column>
         <el-table-column property="工单号" label="工单号"></el-table-column>
@@ -96,13 +90,39 @@
         <el-table-column property="作业Memo" label="作业Memo"></el-table-column>
       </el-table>
     </el-drawer>
+    <el-dialog
+      title="制品单处置"
+      :visible.sync="dealproduct"
+      width="72%"
+      top="4%"
+      destroy-on-close
+      center
+      fullscreen
+    >
+      <deal></deal>
+    </el-dialog>
+    <el-dialog
+      title="制品单修改"
+      :visible.sync="changeproduct"
+      width="72%"
+      top="4%"
+      center
+      destroy-on-close
+      fullscreen
+    >
+      <change></change>
+    </el-dialog>
   </div>
 </template>
 <script>
+import deal from "./components/proalert/dealproduct"
+import change from './components/proalert/changepro'
 export default {
   data() {
     return {
       table: false,
+      dealproduct: false,
+      changeproduct:false,
       Lot: "",
       productdata: [
         {
@@ -125,27 +145,42 @@ export default {
           异常: "线状异物",
           现象: "S5 P6-99 线状异物 发生率4%",
           处置: "TEST"
+        },
+        {
+          编号: "制品异常-面板厂-2019-19846",
+          创建: "熊琴",
+          日期: "2019-09-20",
+          LOT: "19914037",
+          设备: "REP005",
+          异常: "线状异物",
+          现象: "S5 P6-99 线状异物 发生率4%",
+          处置: "TEST"
         }
       ],
-      LotData: []
+      LotData: [],
+      currentPage: 1, //初始页
+      pagesize: 10 //    每页的数据
     }
   },
+  components: { deal,change },
   methods: {
     dealrouter(index, row) {
-      this.$router.push({
-        name: "productProcess",
-        params: {
-          id: row.编号 //row.hid为变量
-        }
-      })
+      this.dealproduct = true
+      // this.$router.push({
+      //   name: "productProcess",
+      //   params: {
+      //     id: row.编号 //row.hid为变量
+      //   }
+      // })
     },
     changerouter(index, row) {
-      this.$router.push({
-        name: "productchange",
-        params: {
-          id: row.编号 //row.hid为变量
-        }
-      })
+      this.changeproduct = true
+      // this.$router.push({
+      //   name: "productchange",
+      //   params: {
+      //     id: row.编号 //row.hid为变量
+      //   }
+      // })
     },
     //页面筛选函数
     filterHandler(value, row, column) {
@@ -154,6 +189,8 @@ export default {
     },
 
     async queryLot(lot) {
+      this.table = true
+
       this.Lot = lot
       const { data } = await axios.post(
         "/API/异常处置系统/工程实绩_LOT履历.py",
@@ -167,7 +204,6 @@ export default {
       } else {
         alert(data.state)
       }
-      this.table = true
     },
     deleteRow(index, rows) {
       this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
@@ -192,6 +228,13 @@ export default {
             duration: "1400"
           })
         })
+    },
+    // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function(size) {
+      this.pagesize = size
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage
     }
   },
   created() {
@@ -206,14 +249,13 @@ export default {
 </script>
 <style>
 .el-table__header tr,
-  .el-table__header th {
-    padding: 0;
-    height: 40px ;
+.el-table__header th {
+  padding: 0;
+  height: 40px;
 }
 .el-table__body tr,
-  .el-table__body td {
-    padding: 0;
-    height: 60px;
+.el-table__body td {
+  padding: 0;
+  height: 8vh;
 }
-
 </style>
