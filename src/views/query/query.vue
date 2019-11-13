@@ -185,14 +185,39 @@
         </transition>
       </el-col>
     </el-row>
+    <el-dialog
+      title="制品处置详情"
+      :visible.sync="querypro"
+      width="72%"
+      top="2.4%"
+      destroy-on-close
+      center
+      fullscreen
+    >
+      <querypro></querypro>
+    </el-dialog>
+    <el-dialog
+      title="设备处置详情"
+      :visible.sync="queryequip"
+      width="72%"
+      top="2.4%"
+      destroy-on-close
+      center
+    >
+      <queryequip></queryequip>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import querypro from "./components/alertpro"
+import queryequip from "./components/alertequip"
 export default {
   data() {
     return {
       tableShow: true,
+      querypro: false,
+      queryequip: false,
       type: "制品异常单",
       protableData: [
         {
@@ -297,6 +322,10 @@ export default {
       }
     }
   },
+  components: {
+    querypro,
+    queryequip
+  },
   methods: {
     //初始异常时间
     formatTime() {
@@ -335,8 +364,12 @@ export default {
           duration: "4000"
         })
     },
-    productEdit() {},
-    equipmentEdit() {}
+    productEdit() {
+      this.querypro = true
+    },
+    equipmentEdit() {
+      this.queryequip = true
+    }
   },
   created() {
     this.formatTime()
