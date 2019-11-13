@@ -4,7 +4,8 @@ import layout from '../views/layout/Layout.vue'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+  {
   path: '',
   name: 'login',
   redirect: '/login',

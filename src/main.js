@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store/index'
 
 import './assets/style/index.less'
 
@@ -13,7 +14,6 @@ import qs from 'qs'
 import './permission'
 import './mock'
 
-import store from './store/index'
 
 // 配置请求根路径
 // axios.defaults.baseURL = 'http://10.1.10.1234'

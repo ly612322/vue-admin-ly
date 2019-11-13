@@ -45,7 +45,7 @@ export default {
   methods: {
     logout() {
       // 退出清空token 跳转登录页
-      window.sessionStorage.clear()
+        window.sessionStorage.clear()
       this.$router.push("/login")
     },
     collapse() {

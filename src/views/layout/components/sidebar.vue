@@ -29,16 +29,6 @@
     </el-menu>
   </div>
 </template>
-<style>
-.el-menu-vertica:not(.el-menu--collapse) {
-  width: 200px;
-  height: 100vh;
-}
-.el-menu-vertica {
-  width: 200px;
-  height: 100vh;
-}
-</style>
 
 <script>
 export default {
@@ -69,3 +59,14 @@ export default {
   }
 }
 </script>
+
+<style>
+.el-menu-vertica:not(.el-menu--collapse) {
+  width: 200px;
+  height: 100vh;
+}
+.el-menu-vertica {
+  width: 60px;
+  height: 100vh;
+}
+</style>

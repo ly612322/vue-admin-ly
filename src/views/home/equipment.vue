@@ -101,8 +101,8 @@
   </div>
 </template>
 <script>
-import deal from './components/equalert/dealequipment'
-import change from './components/equalert/changeequip'
+import deal from "./components/equalert/dealequipment"
+import change from "./components/equalert/changeequip"
 export default {
   data() {
     return {
@@ -138,28 +138,43 @@ export default {
       pagesize: 10 //    每页的数据
     }
   },
-  components:{
-    deal,change
+  components: {
+    deal,
+    change
   },
   methods: {
-        dealrouter(index, row) {
+    dealrouter(index, row) {
       this.dealequipment = true
     },
     changerouter(index, row) {
       this.changeequipment = true
     },
+     async getNewsList() {
+      const { data } = await this.$http.post("/API/异常处置系统/异常单_面板厂.py");
+      //把数据挂载到 data上
+      const h = this.$createElement;
+      if (data.state === "") {
+        this.tableData = data.设备单;
+        this.$notify({
+          title: "提示",
+          message: h("i", { style: "color:teal" }, "加载成功"),
+          type: "success",
+          duration: "1200"
+        });
+      } else {
+        const h = this.$createElement;
+        this.$notify({
+          title: "错误！",
+          message: h("i", { style: "color: teal" }, data.state),
+          type: "error",
+          duration: "4000"
+        });
+      }
+    },
     //页面筛选函数
     filterHandler(value, row, column) {
       const property = column["property"]
       return row[property] === value
-    },
-    async getNewsList() {
-      //
-      const { data } = await this.$http.post(
-        "/API/异常处置系统/异常单_面板厂.py"
-      )
-      //把数据挂载到 data上
-      if (data.state === "") return (this.tableData = data.制品单)
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
@@ -194,7 +209,7 @@ export default {
     }
   },
   created() {
-    // this.getNewsList();
+    this.getNewsList();
   }
 }
 </script>

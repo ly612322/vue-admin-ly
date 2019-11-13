@@ -7,6 +7,7 @@
         label-width="106px"
         class="elform"
         :rules="rules"
+        size="small"
       >
         <el-form-item label="故障时间" prop="time">
           <el-date-picker v-model="equipmentform.time" type="datetime" placeholder="选择日期时间"></el-date-picker>

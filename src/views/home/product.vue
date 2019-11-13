@@ -166,21 +166,31 @@ export default {
   methods: {
     dealrouter(index, row) {
       this.dealproduct = true
-      // this.$router.push({
-      //   name: "productProcess",
-      //   params: {
-      //     id: row.编号 //row.hid为变量
-      //   }
-      // })
     },
     changerouter(index, row) {
       this.changeproduct = true
-      // this.$router.push({
-      //   name: "productchange",
-      //   params: {
-      //     id: row.编号 //row.hid为变量
-      //   }
-      // })
+    },
+     async getNewsList() {
+      const { data } = await this.$http.post("/API/异常处置系统/异常单_面板厂.py");
+      //把数据挂载到 data上
+      const h = this.$createElement;
+      if (data.state === "") {
+        this.productdata = data.制品单;
+        this.$notify({
+          title: "提示",
+          message: h("i", { style: "color:teal" }, "加载成功"),
+          type: "success",
+          duration: "1200"
+        });
+      } else {
+        const h = this.$createElement;
+        this.$notify({
+          title: "错误！",
+          message: h("i", { style: "color: teal" }, data.state),
+          type: "error",
+          duration: "4000"
+        });
+      }
     },
     //页面筛选函数
     filterHandler(value, row, column) {
@@ -190,11 +200,10 @@ export default {
 
     async queryLot(lot) {
       this.table = true
-
       this.Lot = lot
-      const { data } = await axios.post(
+      const { data } = await this.$http.post(
         "/API/异常处置系统/工程实绩_LOT履历.py",
-        qs.stringify({
+        this.$qs.stringify({
           LOT_ID: lot,
           工厂: ""
         })
@@ -238,7 +247,7 @@ export default {
     }
   },
   created() {
-    // this.getNewsList();
+    this.getNewsList();
   },
   computed: {
     cellStyle: () => {

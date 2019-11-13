@@ -1,15 +1,31 @@
 <template>
     <div>
-        <h2>功能开发中...</h2>
-    </div>
+    <img :src="gif404" class="login-center-layout" />
+   </div>
 </template>
 
 <script>
+import gif404 from '../../assets/images/404.png'
 export default {
-  name: 'home'
+  name: 'home',
+  data() {
+    return {
+      gif404
+    }
+  }
 
 }
 </script>
-<style lang="stylus" scoped>
+<style  scoped>
+.login-center-layout {
+  margin: 0 auto;
+  width:45vw;
+  height: 50vh;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  transform: translate(-10%)
+  /* margin-top: 200px; */
+}
 
 </style>

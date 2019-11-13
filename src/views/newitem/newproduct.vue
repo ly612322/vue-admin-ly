@@ -559,8 +559,8 @@ export default {
 }
 .picture {
   display: inline-block;
-  width: 17%;
-  height: 115px;
+  width: 14%;
+  height: 94px;
   margin-left: 5%;
   background-color: #cfff45;
   border: 1px solid rgba(170, 170, 170, 0.87);
