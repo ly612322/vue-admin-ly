@@ -99,7 +99,7 @@
       center
       fullscreen
     >
-      <deal></deal>
+      <deal :id="ticNumber"></deal>
     </el-dialog>
     <el-dialog
       title="制品单修改"
@@ -107,7 +107,6 @@
       width="72%"
       top="4%"
       center
-      destroy-on-close
       fullscreen
     >
       <change></change>
@@ -116,14 +115,15 @@
 </template>
 <script>
 import deal from "./components/proalert/dealproduct"
-import change from './components/proalert/changepro'
+import change from "./components/proalert/changepro"
 export default {
   data() {
     return {
       table: false,
       dealproduct: false,
-      changeproduct:false,
+      changeproduct: false,
       Lot: "",
+      ticNumber: null,
       productdata: [
         {
           编号: "制品异常-面板厂-2019-19847",
@@ -162,34 +162,43 @@ export default {
       pagesize: 10 //    每页的数据
     }
   },
-  components: { deal,change },
+  components: { deal, change },
   methods: {
+    // dialog开关
     dealrouter(index, row) {
+      this.ticNumber = row.编号
+      console.log(this.ticNumber);
+      
       this.dealproduct = true
     },
     changerouter(index, row) {
+      this.ticNumber = row.编号
       this.changeproduct = true
     },
-     async getNewsList() {
-      const { data } = await this.$http.post("/API/异常处置系统/异常单_面板厂.py");
+
+    // 制品数据
+    async getNewsList() {
+      const { data } = await this.$http.post(
+        "/api/API/异常处置系统/异常单_面板厂.py"
+      )
       //把数据挂载到 data上
-      const h = this.$createElement;
+      const h = this.$createElement
       if (data.state === "") {
-        this.productdata = data.制品单;
+        this.productdata = data.制品单
         this.$notify({
           title: "提示",
           message: h("i", { style: "color:teal" }, "加载成功"),
           type: "success",
           duration: "1200"
-        });
+        })
       } else {
-        const h = this.$createElement;
+        const h = this.$createElement
         this.$notify({
           title: "错误！",
           message: h("i", { style: "color: teal" }, data.state),
           type: "error",
           duration: "4000"
-        });
+        })
       }
     },
     //页面筛选函数
@@ -247,7 +256,7 @@ export default {
     }
   },
   created() {
-    this.getNewsList();
+    this.getNewsList()
   },
   computed: {
     cellStyle: () => {

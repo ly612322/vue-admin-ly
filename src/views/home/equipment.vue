@@ -2,7 +2,6 @@
   <div>
     <template>
       <el-table
-        v-loading="loading"
         :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
         style="width: 100%"
@@ -150,7 +149,7 @@ export default {
       this.changeequipment = true
     },
      async getNewsList() {
-      const { data } = await this.$http.post("/API/异常处置系统/异常单_面板厂.py");
+      const { data } = await this.$http.post("/api/API/异常处置系统/异常单_面板厂.py");
       //把数据挂载到 data上
       const h = this.$createElement;
       if (data.state === "") {

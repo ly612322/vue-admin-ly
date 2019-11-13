@@ -277,17 +277,17 @@ export default {
       allInstruct: []
     };
   },
+  props:["id"],
   methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
     async querymessage() {
       const { data } = await this.$http.post(
-        "/API/异常处置系统/制品单关联.py",
+        "/api/API/异常处置系统/制品单关联.py",
         this.$qs.stringify({
-          编号: this.$route.params.id
+          编号: this.id
         })
       );
+      console.log();
+      
       let details = data.制品异常详情;
       let list = {};
       for (let i = 2; i < 8; i++) {
@@ -450,6 +450,9 @@ export default {
         );
       }
     }
+  },
+  computed: {
+    
   },
   created() {
     this.querymessage();
