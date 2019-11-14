@@ -1,5 +1,6 @@
 <template>
     <div>
+      <h3>功能开发中...</h3>
     <img :src="gif404" class="login-center-layout" />
    </div>
 </template>
@@ -17,6 +18,9 @@ export default {
 }
 </script>
 <style  scoped>
+h3{
+  color: #000
+}
 .login-center-layout {
   margin: 0 auto;
   width:45vw;

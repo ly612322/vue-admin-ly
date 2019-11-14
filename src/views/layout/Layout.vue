@@ -33,4 +33,7 @@ export default {
 .el-main {
   padding: 0px 10px;
 }
+.el-container{
+  height: 100vh;
+}
 </style>

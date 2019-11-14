@@ -188,19 +188,19 @@
     <el-dialog
       title="制品处置详情"
       :visible.sync="querypro"
-      width="72%"
-      top="2.4%"
+      width="85%"
+      top="3%"
       destroy-on-close
       center
-      fullscreen
+      
     >
       <querypro></querypro>
     </el-dialog>
     <el-dialog
       title="设备处置详情"
       :visible.sync="queryequip"
-      width="72%"
-      top="2.4%"
+      width="85%"
+      top="3%"
       destroy-on-close
       center
     >

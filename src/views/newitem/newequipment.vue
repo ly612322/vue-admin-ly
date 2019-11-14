@@ -7,7 +7,6 @@
         label-width="106px"
         class="elform"
         :rules="rules"
-        size="small"
       >
         <el-form-item label="故障时间" prop="time">
           <el-date-picker v-model="equipmentform.time" type="datetime" placeholder="选择日期时间"></el-date-picker>
@@ -86,16 +85,11 @@
   </div>
 </template>
 <script>
-// import Vue from "vue";
-// import vuex from "vuex";
-import axios from "axios"
-import qs from "qs"
 export default {
   data() {
     return {
       isdisabled: false,
       equipmentform: {
-        link: "否",
         time: "",
         group: "",
         eqgroup: "",
@@ -110,15 +104,6 @@ export default {
     }
   },
   methods: {
-    changeupload() {
-      if (this.equipmentform.link == "是") {
-        this.$refs.uploadtext.innerText = "请填写相关制品异常单"
-        this.isdisabled = true
-      } else {
-        this.$refs.uploadtext.innerText = "提交"
-        this.isdisabled = false
-      }
-    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {

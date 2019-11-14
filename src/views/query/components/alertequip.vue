@@ -181,7 +181,7 @@ td {
   vertical-align: top;
 }
 .el-button {
-  width: 120px;
+  width: 100px;
 }
 .el-row {
   margin-bottom: 5px;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu
+    <el-menu  
       class="el-menu-vertica"
       background-color="#304156"
       text-color="white"
