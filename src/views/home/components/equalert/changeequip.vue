@@ -1,7 +1,7 @@
 
 <template>
-  <div>
-    <el-card class="box-card">
+  <div >
+    <el-row  type="flex" justify="center">
       <el-form
         ref="equipmentform"
         :model="equipmentform"
@@ -63,12 +63,15 @@
             <el-option label="5" value="5"></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="故障现象" prop="group" class="selectitem">
-          <el-input type="textarea" v-model="equipmentform.desc" :rows="3"></el-input>
+          <el-input type="textarea" v-model="equipmentform.desc"></el-input>
         </el-form-item>
+
         <el-form-item label="品名" prop="group" class="selectitem">
           <el-input type="text" v-model="equipmentform.pinming" placeholder="请输入品名"></el-input>
         </el-form-item>
+    
         <el-button
           ref="uploadbtn"
           type="primary"
@@ -80,7 +83,7 @@
           <i class="el-icon-upload el-icon--right"></i>
         </el-button>
       </el-form>
-    </el-card>
+      </el-row>
   </div>
 </template>
 <script>
@@ -141,11 +144,6 @@ export default {
 };
 </script>
 <style scoped>
-.box-card {
-  width: 600px;
-  margin: 0 auto;
-  text-align: center
-}
 .el-radio-group {
   float: left;
   padding-top: 6px;
@@ -158,16 +156,10 @@ export default {
   width: 221px !important;
 }
 .upload {
-  width: 70%;
+  width: 90%;
   height: 45px;
   font-size: 20px;
+  margin-left: 15%
 }
-.el-page-header {
-  line-height: 50px;
-}
-.el-page-header__text >>> .el-page-header__content {
-  font-size: 20px;
-  margin-left: 8%;
-  font-weight: bold;
-}
+
 </style>

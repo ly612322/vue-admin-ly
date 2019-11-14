@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.lock="fullscreenLoading" element-loading-text="加载中...">
     <table class="table table-bordered" style="margin-bottom:10px;">
       <tr>
         <td>编号</td>
@@ -59,11 +59,7 @@
         <el-table-column align="center" prop="模式" width="120" label="模式"></el-table-column>
         <el-table-column align="center" prop="确认" width="120" label="确认">
           <template slot-scope="scope">
-            <el-checkbox
-      
-              v-model="scope.row.确认"
-              :checked="scope.row.确认 == '是'?true:false"
-            ></el-checkbox>
+            <el-checkbox v-model="scope.row.确认" :checked="scope.row.确认 == '是'?true:false"></el-checkbox>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="状态" width="120" label="状态">
@@ -89,13 +85,7 @@
     <el-divider>
       <i class="el-icon-edit">处置中</i>
     </el-divider>
-    <el-form
-      :model="equipmentform"
-      label-width="106px"
-      class="elform"
-      :rules="rules"
-      label-position="right"
-    >
+    <el-form :model="equipmentform" label-width="106px" class="elform" label-position="right">
       <el-row type="flex" justify="start" :gutter="10">
         <el-col :span="15">
           <el-form-item label="原因" prop="原因">
@@ -146,7 +136,7 @@
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6">
           <el-form-item label="水平展开" prop="type">
             <el-radio-group v-model="equipmentform.水平展开">
               <el-radio label="展开"></el-radio>
@@ -186,13 +176,12 @@
             <el-input placeholder="经理备注" disabled></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="4" :offset='1'>
+        <el-col :span="4" :offset="1">
           <el-button
             ref="uploadbtn"
             type="primary"
             class="upload"
             @click="submitForm"
-            :disabled="isdisabled"
             style="width:200px"
           >
             <span ref="uploadtext">提交</span>
@@ -204,12 +193,12 @@
   </div>
 </template>
 <script>
-
-import inputFilter from "../../../../utils/index.js";
+import inputFilter from "../../../../utils/index.js"
 export default {
   name: "equipmentprocess",
   data() {
     return {
+      fullscreenLoading: false,
       equipmentform: {
         原因: "",
         处置完成时间: "",
@@ -224,42 +213,45 @@ export default {
       rules: [],
       details: [],
       equipmentItem: []
-    };
+    }
   },
+  props: ["id"],
   methods: {
     async queryMessage() {
-      const { data } = await this.$axios.post(
-        "/API/异常处置系统/设备立上_设备单处置_异常单.py",
-        qs.stringify({
-          编号: this.$route.params.id
+      this.fullscreenLoading = true
+      const { data } = await this.$http.post(
+        "/api/API/异常处置系统/设备立上_设备单处置_异常单.py",
+        this.$qs.stringify({
+          编号: this.id
         })
-      );
-      this.details = data.设备异常详情;
-      this.equipmentItem = data.设备立上;
+      )
+      this.details = data.设备异常详情
+      this.equipmentItem = data.设备立上
+      this.fullscreenLoading = false
     },
     //初始异常时间
     formatTime() {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const date = new Date()
+      const year = date.getFullYear()
+      const month = (date.getMonth() + 1).toString().padStart(2, "0")
       const day = date
         .getDate()
         .toString()
-        .padStart(2, "0");
+        .padStart(2, "0")
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, "0");
+        .padStart(2, "0")
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, "0");
+        .padStart(2, "0")
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, "0");
-      this.equipmentform.处置完成时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-      this.equipmentform.量产时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+        .padStart(2, "0")
+      this.equipmentform.处置完成时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
+      this.equipmentform.量产时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
     async submitForm() {
       let params = {
@@ -267,52 +259,52 @@ export default {
         编号: this.$route.params.id,
         上限: this.equipmentItem
           .map(ele => {
-            return ele.上限.replace("None", "");
+            return ele.上限.replace("None", "")
           })
           .join(","),
         下限: this.equipmentItem
           .map(ele => {
-            return ele.下限.replace("None", "");
+            return ele.下限.replace("None", "")
           })
           .join(","),
         模式: this.equipmentItem
           .map(ele => {
-            return ele.模式;
+            return ele.模式
           })
           .join(","),
         确认: this.equipmentItem
           .map(ele => {
-            return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否");
+            return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否")
           })
           .join(","),
         状态: this.equipmentItem
           .map(ele => {
-            return ele.状态;
+            return ele.状态
           })
           .join(","),
         结果: this.equipmentItem
           .map(ele => {
-            return ele.结果;
+            return ele.结果
           })
           .join(","),
         备注: this.equipmentItem
           .map(ele => {
-            return ele.备注;
+            return ele.备注
           })
           .join(",")
-      };
-      params = Object.assign(params, this.equipmentform);
-      console.log(params);
+      }
+      params = Object.assign(params, this.equipmentform)
+      console.log(params)
     },
     goBack() {
-      this.$router.go(-1);
+      this.$router.go(-1)
     }
   },
   created() {
-    this.queryMessage();
-    this.formatTime();
+    this.queryMessage()
+    this.formatTime()
   }
-};
+}
 </script>
 <style scoped>
 .table {
@@ -322,6 +314,7 @@ export default {
   background-color: transparent;
   border-spacing: 0;
   border-collapse: collapse;
+  text-align: center
 }
 .table-bordered {
   border: 1px solid #ddd;

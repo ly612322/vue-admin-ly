@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.lock="fullscreenLoading" element-loading-text="加载中...">
     <el-table :data="productdetails" max-height="250" border style="width: 100%" align="center">
       <el-table-column align="center" prop="异常单" label="异常单" width="220"></el-table-column>
       <el-table-column align="center" prop="异常发生时间" label="异常发生时间" width="180"></el-table-column>
@@ -38,26 +38,29 @@
               width="200"
               :formatter="this.common.sliceDate"
             ></el-table-column>
-            <el-table-column align="center" prop="指示" label="指示"></el-table-column>
+            <el-table-column align="center" prop="指示" label="指示" :show-overflow-tooltip="true"></el-table-column>
             <el-table-column
               align="center"
               prop="结果"
               label="结果"
+              width="150"
               :formatter="this.common.removeNone"
+              :show-overflow-tooltip="true"
             ></el-table-column>
             <el-table-column align="center" prop="进度" label="进度" width="100"></el-table-column>
             <el-table-column
               align="center"
               prop="确认时间"
               label="确认时间"
-              width="180"
+              width="100"
               :formatter="this.common.removeNone"
+              :show-overflow-tooltip="true"
             ></el-table-column>
             <el-table-column
               align="center"
               prop="确认人"
               label="确认人"
-              width="100"
+              width="90"
               :formatter="this.common.removeNone"
             ></el-table-column>
           </el-table>
@@ -69,7 +72,7 @@
             <span>不良位置</span>
           </div>
           <div class="picdisplay">
-            <div style="margin-left: 82%">1300</div>
+            <div style="margin-left: 80%">1300</div>
             <div class="picture"></div>
             <div class="picture"></div>
             <div class="picture"></div>
@@ -212,7 +215,12 @@
                   <el-button size="mini" type="text" @click="visible = false">取消</el-button>
                   <el-button type="primary" size="mini" @click="endInstruct">确定</el-button>
                 </div>
-                <el-button class="btn-submit" type="primary" slot="reference" :loading="endloading">完结</el-button>
+                <el-button
+                  class="btn-submit"
+                  type="primary"
+                  slot="reference"
+                  :loading="endloading"
+                >完结</el-button>
               </el-popover>
 
               <!-- <el-button
@@ -220,7 +228,7 @@
                 type="primary"
                 @click="endInstruct"
                 :loading="endloading"
-              >完结</el-button> -->
+              >完结</el-button>-->
             </el-form-item>
           </el-form>
         </el-card>
@@ -253,7 +261,7 @@
   </div>
 </template>
 <script>
-import inputFilter from '../../../../utils/index'
+import inputFilter from "../../../../utils/index"
 export default {
   name: "productprocess",
   directives: {
@@ -261,7 +269,8 @@ export default {
   },
   data() {
     return {
-      visible:false,
+      fullscreenLoading: false,
+      visible: false,
       submitloading: false,
       endloading: false,
       productdetails: [],
@@ -275,37 +284,37 @@ export default {
       dealGroup: "",
       instructData: [],
       allInstruct: []
-    };
+    }
   },
-  props:["id"],
+  props: ["id"],
   methods: {
     async querymessage() {
+      this.fullscreenLoading = true
       const { data } = await this.$http.post(
         "/api/API/异常处置系统/制品单关联.py",
         this.$qs.stringify({
           编号: this.id
         })
-      );
-      console.log();
-      
-      let details = data.制品异常详情;
-      let list = {};
+      )
+      let details = data.制品异常详情
+      let list = {}
       for (let i = 2; i < 8; i++) {
-        list[Object.keys(details)[i]] = Object.values(details)[i];
+        list[Object.keys(details)[i]] = Object.values(details)[i]
       }
-      this.productdetails.push(list);
-      this.lotData = data.LOT信息;
-      this.dealstep = data.最新处置进度;
-      this.manager = Object.values(data.经理确认)[0];
-      this.causeequipment = Object.values(data.制品异常详情)[9];
-      this.track = Object.values(data.制品异常详情)[10];
-      this.reason = Object.values(data.制品异常详情)[11];
-      let pictrue = document.getElementsByClassName("picture");
+      this.productdetails.push(list)
+      this.lotData = data.LOT信息
+      this.dealstep = data.最新处置进度
+      this.manager = Object.values(data.经理确认)[0]
+      this.causeequipment = Object.values(data.制品异常详情)[9]
+      this.track = Object.values(data.制品异常详情)[10]
+      this.reason = Object.values(data.制品异常详情)[11]
+      let pictrue = document.getElementsByClassName("picture")
       for (var i = 0; i < 6; i++) {
         if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
-          pictrue[i].style.backgroundColor = "red";
+          pictrue[i].style.backgroundColor = "red"
         }
       }
+      this.fullscreenLoading = false
     },
     addInstruct() {
       if (this.newInstruct == "") {
@@ -314,8 +323,8 @@ export default {
           message: "请填写指示内容",
           type: "warning",
           duration: "2000"
-        });
-        return;
+        })
+        return
       }
       for (let i in this.instructData) {
         if (this.instructData[i].指示 == this.newInstruct) {
@@ -324,18 +333,18 @@ export default {
             message: "请勿添加相同指示",
             type: "warning",
             duration: "2000"
-          });
-          return;
+          })
+          return
         }
       }
 
       this.instructData.push({
         指示: this.newInstruct,
         确认组: this.dealGroup
-      });
+      })
     },
     deleteRow(index, rows) {
-      rows.splice(index, 1);
+      rows.splice(index, 1)
     },
     async submitInstruct() {
       if (this.instructData.length === 0) {
@@ -344,8 +353,8 @@ export default {
           message: "请添加指示内容",
           type: "warning",
           duration: "2000"
-        });
-        return;
+        })
+        return
       }
       if (this.reason === "") {
         this.$notify({
@@ -353,32 +362,35 @@ export default {
           message: "请填写原因",
           type: "warning",
           duration: "2000"
-        });
-        return;
+        })
+        return
       }
-      this.submitloading = true;
+      this.submitloading = true
       let params = {
         编号: this.$route.params.id,
         工号: "C00000",
         指示: this.instructData
           .map(ele => {
-            return ele.指示;
+            return ele.指示
           })
           .join(),
         确认组: this.instructData
           .map(ele => {
-            return ele.确认组;
+            return ele.确认组
           })
           .join(),
         起因设备: this.causeequipment,
         正向追踪单: this.track,
         原因: this.reason
-      };
+      }
 
-      let { data } = await this.$http.post("/API/api", this.$qs.stringify(params));
+      let { data } = await this.$http.post(
+        "/API/api",
+        this.$qs.stringify(params)
+      )
       if (data.state == "提交成功") {
-        const h = this.$createElement;
-        this.submitloading = false;
+        const h = this.$createElement
+        this.submitloading = false
         this.$alert(
           h("span", { style: "font-size: 18px" }, "指示成功"),
           "提示",
@@ -387,10 +399,10 @@ export default {
             showClose: false,
             type: "success",
             callback: action => {
-              this.$router.push({ name: "home" });
+              this.$router.push({ name: "home" })
             }
           }
-        );
+        )
       }
     },
     async endInstruct() {
@@ -400,8 +412,8 @@ export default {
           message: "未进行处置，无法完结",
           type: "warning",
           duration: "2000"
-        });
-        return;
+        })
+        return
       }
       for (var i = 0; i < this.dealstep.length; i++) {
         if (this.dealstep[i][Object.keys(this.dealstep[i])[3]] == "进行") {
@@ -410,32 +422,35 @@ export default {
             message: "还有未完结的指示内容",
             type: "warning",
             duration: "2000"
-          });
-          return;
+          })
+          return
         }
       }
-      this.endloading = true;
+      this.endloading = true
       let params = {
         编号: this.$route.params.id,
         工号: "C00000",
         指示: this.instructData
           .map(ele => {
-            return ele.指示;
+            return ele.指示
           })
           .join(),
         确认组: this.instructData
           .map(ele => {
-            return ele.确认组;
+            return ele.确认组
           })
           .join(),
         起因设备: this.causeequipment,
         正向追踪单: this.track,
         原因: this.reason
-      };
-      let { data } = await this.$http.post("/API/api", this.$qs.stringify(params));
+      }
+      let { data } = await this.$http.post(
+        "/API/api",
+        this.$qs.stringify(params)
+      )
       if (data.state == "提交成功") {
-        const h = this.$createElement;
-        this.submitloading = false;
+        const h = this.$createElement
+        this.submitloading = false
         this.$alert(
           h("span", { style: "font-size: 18px" }, "制品单已完结"),
           "提示",
@@ -444,20 +459,18 @@ export default {
             showClose: false,
             type: "success",
             callback: action => {
-              this.$router.push({ name: "home" });
+              this.$router.push({ name: "home" })
             }
           }
-        );
+        )
       }
     }
   },
-  computed: {
-    
-  },
+  computed: {},
   created() {
-    this.querymessage();
+    this.querymessage()
   }
-};
+}
 </script>
 <style scoped>
 .el-input,
@@ -523,7 +536,7 @@ export default {
 }
 .picdisplay {
   margin-top: 15%;
-  margin-left: 15%
+  margin-left: 15%;
 }
 .picture {
   display: inline-block;

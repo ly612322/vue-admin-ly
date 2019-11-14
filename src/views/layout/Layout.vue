@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-aside style="width:auto">
-        <sidebar />
+        <sidebar ></sidebar>
       </el-aside>
       <el-container>
         <el-header style="padding:0">

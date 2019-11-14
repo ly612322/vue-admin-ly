@@ -2,11 +2,10 @@
   <div>
     <template>
       <el-table
-        v-loading="loading"
         :data="confirmdata"
         border
         style="width: 100%"
-        max-height="800"
+        max-height="650"
         highlight-current-row
       >
         <el-table-column prop="编号" label="编号" width="250" align="center" sortable></el-table-column>
@@ -36,21 +35,24 @@
         </el-table-column>
         <el-table-column label="操作" width="220" align="center">
           <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="primary" size="small">查看</el-button>
+              <el-button @click="handleClick(scope.$index, scope.row)" type="primary" size="small">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
     </template>
+    <transition name="dialog">
         <el-dialog
       title="制品指示确认"
       :visible.sync="proconfirm"
+      v-if="proconfirm"
       width="70%"
       top="2%"
       destroy-on-close
       center
     >
-      <con></con>
+      <con :id="ticNumber"></con>
     </el-dialog>
+    </transition>
   </div>
 </template>
 <script>
@@ -59,6 +61,7 @@ export default {
   name: "confirm",
   data() {
     return {
+      ticNumber:null,
       proconfirm:false,
       confirmdata: [
         {
@@ -84,6 +87,7 @@ export default {
   methods: {
     handleClick(index,row){
       this.proconfirm = true
+      this.ticNumber = row.编号
     },
         //页面筛选函数
     filterHandler(value, row, column) {
@@ -92,7 +96,7 @@ export default {
     },
     async getList() {
       const { data } = await this.$http.post(
-        "/API/异常处置系统/查询_制品指示确认.py"
+        "/api/API/异常处置系统/查询_制品指示确认.py"
       );
       //把数据挂载到 data上
       if (data.state === "") {

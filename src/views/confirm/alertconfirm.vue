@@ -1,31 +1,31 @@
 <template>
-  <div>
+  <div v-loading.lock="fullscreenLoading" element-loading-text="加载中...">
     <table class="table table-bordered" style="margin-bottom:10px;">
       <tr>
         <td>异常单编号</td>
-        <td colspan="3">{{details.故障类型}}</td>
+        <td colspan="3">{{details.编号}}</td>
       </tr>
       <tr>
         <td>指示</td>
-        <td colspan="3">{{details.故障类型}}</td>
+        <td colspan="3">{{details.指示}}</td>
       </tr>
       <tr>
         <td>指示人员</td>
-        <td>{{details.号机}}</td>
+        <td>{{details.指示人员}}</td>
         <td>指示组</td>
-        <td>{{details.大单元}}</td>
+        <td>{{details.确认组}}</td>
       </tr>
       <tr>
         <td>指示时间</td>
-        <td>{{details.小单元}}</td>
+        <td>{{details.指示时间}}</td>
         <td>最后确认结果</td>
-        <td>{{details.品名}}</td>
+        <td>{{details.最后确认结果}}</td>
       </tr>
       <tr>
         <td>最后确认人</td>
-        <td>{{details.小单元}}</td>
+        <td>{{details.最后确认人}}</td>
         <td>最后确认时间</td>
-        <td>{{details.品名}}</td>
+        <td>{{details.最后确认时间}}</td>
       </tr>
     </table>
     <el-card class="box-card el-card__head el-card-body" shadow="never">
@@ -52,7 +52,6 @@
       :model="equipmentform"
       label-width="106px"
       class="elform"
-      :rules="rules"
       label-position="right"
     >
       <el-row type="flex" justify="center">
@@ -80,7 +79,6 @@
             type="primary"
             class="upload"
             @click="submitForm"
-            :disabled="isdisabled"
             style="width:250px"
           >
             <span ref="uploadtext">提交</span>
@@ -95,110 +93,40 @@
 <script>
 import inputFilter from "../../utils/index.js";
 export default {
-  name: "equipmentprocess",
+  name: "conf",
   data() {
     return {
-      equipmentform: {
-        原因: "",
-        处置完成时间: "",
-        处置方法: "",
-        量产时间: "",
-        处置结果: "",
-        水平展开: "不展开",
-        更换备件: "",
-        水平展开_备注: "",
-        设备_状态: "进行"
+      fullscreenLoading:false,
+      equipmentItem:[],
+      equipmentform:{
+        原因:'',
+        水平展开:''
       },
       rules: [],
-      details: [],
-      equipmentItem: []
+      details:[],
     };
   },
+  props:["id"],
   methods: {
     async queryMessage() {
+      this.fullscreenLoading = true
       const { data } = await this.$http.post(
-        "/API/异常处置系统/设备立上_设备单处置_异常单.py",
+        "/api/API/异常处置系统/展示_制品指示确认.py",
         this.$qs.stringify({
-          编号: this.$route.params.id
+          编号: this.id
         })
       );
-      this.details = data.设备异常详情;
-      this.equipmentItem = data.设备立上;
+      this.details = data.详细[0];
+      this.equipmentItem = data.PANEL;
+      this.fullscreenLoading = false
     },
-    //初始异常时间
-    formatTime() {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const day = date
-        .getDate()
-        .toString()
-        .padStart(2, "0");
-      const hour = date
-        .getHours()
-        .toString()
-        .padStart(2, "0");
-      const minute = date
-        .getMinutes()
-        .toString()
-        .padStart(2, "0");
-      const second = date
-        .getSeconds()
-        .toString()
-        .padStart(2, "0");
-      this.equipmentform.处置完成时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-      this.equipmentform.量产时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+
+     submitForm() {
+
     },
-    async submitForm() {
-      let params = {
-        确认人: "C00000",
-        编号: this.$route.params.id,
-        上限: this.equipmentItem
-          .map(ele => {
-            return ele.上限.replace("None", "");
-          })
-          .join(","),
-        下限: this.equipmentItem
-          .map(ele => {
-            return ele.下限.replace("None", "");
-          })
-          .join(","),
-        模式: this.equipmentItem
-          .map(ele => {
-            return ele.模式;
-          })
-          .join(","),
-        确认: this.equipmentItem
-          .map(ele => {
-            return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否");
-          })
-          .join(","),
-        状态: this.equipmentItem
-          .map(ele => {
-            return ele.状态;
-          })
-          .join(","),
-        结果: this.equipmentItem
-          .map(ele => {
-            return ele.结果;
-          })
-          .join(","),
-        备注: this.equipmentItem
-          .map(ele => {
-            return ele.备注;
-          })
-          .join(",")
-      };
-      params = Object.assign(params, this.equipmentform);
-      console.log(params);
-    },
-    goBack() {
-      this.$router.go(-1);
-    }
   },
-  created() {
+  mounted() {
     this.queryMessage();
-    this.formatTime();
   }
 };
 </script>

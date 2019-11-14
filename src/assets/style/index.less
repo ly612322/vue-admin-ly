@@ -34,6 +34,18 @@ body {
   transition: all 0.3s ease;
 }
 
+//dialog
+.dialog-enter,
+.dialog-leave-to {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+
+.dialog-enter-active,
+.dialog-leave-active {
+  transition: all 0.3s ease;
+}
+
 //dialog head
 .el-dialog--center .el-dialog__body {
   text-align: initial;
@@ -53,6 +65,10 @@ body {
 
 body .el-table th.gutter {
   display: table-cell !important;
+}
+
+.el-loading-spinner {
+  top: 27% !important;
 }
 
 //

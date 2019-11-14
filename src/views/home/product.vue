@@ -60,9 +60,8 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[5, 10, 20, 40]"
           :page-size="pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :total="productdata.length"
         ></el-pagination>
       </div>
@@ -90,27 +89,32 @@
         <el-table-column property="作业Memo" label="作业Memo"></el-table-column>
       </el-table>
     </el-drawer>
-    <el-dialog
-      title="制品单处置"
-      :visible.sync="dealproduct"
-      width="72%"
-      top="4%"
-      destroy-on-close
-      center
-      fullscreen
-    >
-      <deal :id="ticNumber"></deal>
-    </el-dialog>
+    <transition name="dialog">
+      <el-dialog
+        title="制品单处置"
+        :visible.sync="dealproduct"
+        v-if="dealproduct"
+        width="85%"
+        top="3%"
+        destroy-on-close
+        center
+      >
+        <deal :id="ticNumber"></deal>
+      </el-dialog>
+    </transition>
+    <transition name="dialog">
     <el-dialog
       title="制品单修改"
       :visible.sync="changeproduct"
-      width="72%"
+      v-if="changeproduct"
+      width="85%"
       top="4%"
+      destroy-on-close
       center
-      fullscreen
     >
-      <change></change>
+      <change :id="ticNumber"></change>
     </el-dialog>
+    </transition>
   </div>
 </template>
 <script>
@@ -167,8 +171,6 @@ export default {
     // dialog开关
     dealrouter(index, row) {
       this.ticNumber = row.编号
-      console.log(this.ticNumber);
-      
       this.dealproduct = true
     },
     changerouter(index, row) {
@@ -185,15 +187,15 @@ export default {
       const h = this.$createElement
       if (data.state === "") {
         this.productdata = data.制品单
-        this.$notify({
+        this.$message({
           title: "提示",
-          message: h("i", { style: "color:teal" }, "加载成功"),
+          message:  "加载成功",
           type: "success",
           duration: "1200"
         })
       } else {
         const h = this.$createElement
-        this.$notify({
+        this.$message({
           title: "错误！",
           message: h("i", { style: "color: teal" }, data.state),
           type: "error",

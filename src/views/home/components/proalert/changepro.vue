@@ -1,7 +1,10 @@
 
 <template>
   <div>
-    <el-card class="box-card">
+    <!-- <el-card class="box-card"> -->
+      <el-row>
+
+    <el-col :span="18">
       <el-form
         ref="productform"
         :model="productform"
@@ -153,16 +156,16 @@
           </el-table-column>
         </el-table>
       </el-card>
-    </el-card>
-    <el-card class="box-card2">
-      <el-col>
-        <label class="labletext">异常名称:</label>
-        <el-button-group style="float:left;margin-left:10px;">
-          <el-button plain type="primary">通用</el-button>
-          <el-button plain type="primary">ARRAY</el-button>
-          <el-button plain type="primary">CELL</el-button>
-        </el-button-group>
+    <!-- </el-card>
+    <el-card class="box-card2"> -->
       </el-col>
+      <el-col :span='5' style="margin-left:10px">
+        <label class="labletext">异常名称:</label>
+        <el-button-group style="float:left;margin:5px 0">
+          <el-button size='small' plain type="primary">通用</el-button>
+          <el-button size='small' plain type="primary">ARRAY</el-button>
+          <el-button size='small' plain type="primary">CELL</el-button>
+        </el-button-group>
       <el-form ref="otherform" :model="productform" :rules="rules" size="mini">
         <el-form-item lable="异常名称" prop="abnormalName" style="margin:38px 0 10px 0;">
           <el-select
@@ -236,7 +239,10 @@
         提交
         <i class="el-icon-upload el-icon--right"></i>
       </el-button>
-    </el-card>
+    <!-- </el-card> -->
+          </el-col>
+
+      </el-row>
   </div>
 </template>
 <script>
@@ -562,7 +568,7 @@ export default {
 .picture {
   display: inline-block;
   width: 17%;
-  height: 119px;
+  height: 105px;
   margin-left: 5%;
   background-color: #cfff45;
   border: 1px solid rgba(170, 170, 170, 0.87);
@@ -576,7 +582,7 @@ export default {
   background-color: #87ff50;
 }
 .upload {
-  margin-top: 30px;
+  margin-top: 15px;
   margin-left: 12%;
   width: 70%;
   height: 45px;

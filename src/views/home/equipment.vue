@@ -78,22 +78,21 @@
     <el-dialog
       title="设备单处置"
       :visible.sync="dealequipment"
-      width="72%"
-      top="4%"
+      v-if="dealequipment"
+      width="85%"
+      top="3%"
       destroy-on-close
       center
-      fullscreen
     >
-      <deal></deal>
+      <deal :id="ticNumber"></deal>
     </el-dialog>
     <el-dialog
       title="设备单修改"
       :visible.sync="changeequipment"
-      width="72%"
-      top="4%"
+      width="50%"
+      top="3%"
       center
       destroy-on-close
-      fullscreen
     >
       <change></change>
     </el-dialog>
@@ -107,6 +106,7 @@ export default {
     return {
       dealequipment: false,
       changeequipment: false,
+      ticNumber: null,
       tableData: [
         {
           编号: "设备异常-面板厂-2019-19847",
@@ -144,30 +144,34 @@ export default {
   methods: {
     dealrouter(index, row) {
       this.dealequipment = true
+      this.ticNumber = row.编号
     },
     changerouter(index, row) {
       this.changeequipment = true
+      this.ticNumber = row.编号
     },
-     async getNewsList() {
-      const { data } = await this.$http.post("/api/API/异常处置系统/异常单_面板厂.py");
+    async getNewsList() {
+      const { data } = await this.$http.post(
+        "/api/API/异常处置系统/异常单_面板厂.py"
+      )
       //把数据挂载到 data上
-      const h = this.$createElement;
+      const h = this.$createElement
       if (data.state === "") {
-        this.tableData = data.设备单;
-        this.$notify({
+        this.tableData = data.设备单
+        this.$message({
           title: "提示",
-          message: h("i", { style: "color:teal" }, "加载成功"),
+          message:"加载成功",
           type: "success",
           duration: "1200"
-        });
+        })
       } else {
-        const h = this.$createElement;
-        this.$notify({
+        const h = this.$createElement
+        this.$message({
           title: "错误！",
           message: h("i", { style: "color: teal" }, data.state),
           type: "error",
           duration: "4000"
-        });
+        })
       }
     },
     //页面筛选函数
@@ -183,14 +187,14 @@ export default {
       this.currentPage = currentPage
     },
     deleteRow(index, rows) {
-      this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
+      this.$message("此操作将删除该异常单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
           rows.splice(index, 1)
-          this.$notify({
+          this.$message({
             title: "提示",
             message: "删除成功！",
             type: "success",
@@ -198,7 +202,7 @@ export default {
           })
         })
         .catch(() => {
-          this.$notify({
+          this.$message({
             title: "提示",
             message: "已取消删除",
             type: "warning",
@@ -208,7 +212,7 @@ export default {
     }
   },
   created() {
-    this.getNewsList();
+    this.getNewsList()
   }
 }
 </script>
