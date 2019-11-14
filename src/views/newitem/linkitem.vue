@@ -188,7 +188,7 @@
           <el-row>
             <el-col :span="24" :gutter="2">
               <label class="labletext">
-                <i style="color:red">*</i>异常名称:
+                <i style="color:#F56C9B;margin-right:3px">*</i>异常名称:
               </label>
               <el-button-group style="float:left;margin-left:10px;">
                 <el-button
@@ -224,7 +224,7 @@
             </el-form-item>
             <el-col>
               <label class="labletext">
-                <i style="color:red">*</i>异常描述:
+                <i style="color:#F56C9B;margin-right:4px">*</i>异常描述:
               </label>
               <el-form-item lable="异常描述" prop="discribe">
                 <el-input
@@ -842,6 +842,7 @@ export default {
   margin-left: 0.5%;
   margin-top: 2px;
   height: 700px;
+  text-align: center
 }
 .labletext {
   float: left;

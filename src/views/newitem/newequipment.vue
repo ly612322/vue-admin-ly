@@ -796,10 +796,10 @@ export default {
   margin-top: 2px;
 }
 .upload {
-  width: 40%;
+  width: 220px;
   height: 45px;
   font-size: 20px;
-  margin-left: 15%;
+  margin-left: 105px;
 }
 .elform {
   width: 50%;
