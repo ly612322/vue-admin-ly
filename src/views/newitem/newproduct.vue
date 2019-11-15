@@ -91,11 +91,11 @@
               max-height="380"
               highlight-current-row
             >
-              <el-table-column prop="品名" label="品名" align="center" width="200" sortable></el-table-column>
-              <el-table-column prop="设备" label="设备" align="center" sortable></el-table-column>
-              <el-table-column prop="大工程" label="大工程" align="center" sortable></el-table-column>
-              <el-table-column prop="小工程" label="小工程" align="center" sortable></el-table-column>
-              <el-table-column label="操作" align="center">
+                 <el-table-column prop="品名" label="品名" align="center" :show-overflow-tooltip="true" sortable></el-table-column>
+              <el-table-column prop="设备" label="设备" align="center" width="80" :show-overflow-tooltip="true" sortable></el-table-column>
+              <el-table-column prop="大工程" label="大工程" align="center" width="90" sortable></el-table-column>
+              <el-table-column prop="小工程" label="小工程" align="center" width="90" sortable></el-table-column>
+              <el-table-column label="操作" align="center" width="60">
                 <template slot-scope="scope">
                   <el-button @click="add(scope.row)" type="primary" size="small" plain>添加</el-button>
                 </template>
@@ -169,7 +169,7 @@
           <el-row>
             <el-col :span="24" :gutter="2">
               <label class="labletext">
-                <i style="color:red">*</i>异常名称:
+                <i style="color:#F56C9B;margin-right:3px">*</i>异常名称:
               </label>
               <el-button-group style="float:left;margin-left:10px;">
                 <el-button
@@ -216,7 +216,7 @@
             </el-form-item>
             <el-col>
               <label class="labletext">
-                <i style="color:red">*</i>异常描述:
+                <i style="color:#F56C9B;margin-right:3px">*</i>异常描述:
               </label>
               <el-form-item lable="异常描述" prop="discribe">
                 <el-input

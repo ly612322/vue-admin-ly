@@ -95,14 +95,50 @@ Mock.mock('/menulist', 'get', Options => {
       'path': 'highquery',
       'children': [{
         'id': 109,
-        'title': '制品分析',
-        'path': 'proanalysis',
+        'title': '制品异常分析',
+        'path': '制品异常分析',
         'children': []
       },
       {
-        'id': 102,
-        'title': '设备分析',
-        'path': 'equanalysis',
+        'id': 122,
+        'title': '设备异常分析',
+        'path': '设备异常分析',
+        'children': []
+      },
+      {
+        'id': 123,
+        'title': '票据关联',
+        'path': '票据关联',
+        'children': []
+      },
+      {
+        'id': 124,
+        'title': '品名查LOT',
+        'path': '品名查LOT',
+        'children': []
+      },
+      {
+        'id': 125,
+        'title': 'LOT查异常',
+        'path': 'LOT查异常',
+        'children': []
+      },
+      {
+        'id': 126,
+        'title': '开票数统计',
+        'path': '开票数统计',
+        'children': []
+      },
+      {
+        'id': 127,
+        'title': '故障时间统计',
+        'path': '故障时间统计',
+        'children': []
+      },
+      {
+        'id': 128,
+        'title': '异常名称查票据',
+        'path': '异常名称查票据',
         'children': []
       }
 

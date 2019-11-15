@@ -110,13 +110,13 @@
               max-height="380"
               highlight-current-row
             >
-              <el-table-column prop="品名" label="品名" align="center" width="200" sortable></el-table-column>
-              <el-table-column prop="设备" label="设备" align="center" sortable></el-table-column>
-              <el-table-column prop="大工程" label="大工程" align="center" sortable></el-table-column>
-              <el-table-column prop="小工程" label="小工程" align="center" sortable></el-table-column>
-              <el-table-column label="操作" align="center">
-                <template slot-scope="scope">
-                  <el-button @click="add(scope.row)" type="primary" size="small" plain>添加</el-button>
+              <el-table-column prop="品名" label="品名" align="center" :show-overflow-tooltip="true" sortable></el-table-column>
+              <el-table-column prop="设备" label="设备" align="center" width="80" :show-overflow-tooltip="true" sortable></el-table-column>
+              <el-table-column prop="大工程" label="大工程" align="center" width="90" sortable></el-table-column>
+              <el-table-column prop="小工程" label="小工程" align="center" width="90" sortable></el-table-column>
+              <el-table-column label="操作" align="center" width="60">
+                <template slot-scope="scope" >
+                  <el-button @click="add(scope.row)" type="primary" size="small"  plain>添加</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -130,42 +130,42 @@
               max-height="350"
               highlight-current-row
             >
-              <el-table-column prop="LOT" label="LOT" align="center" sortable>
+              <el-table-column prop="LOT" label="LOT" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.LOT}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="SHEET" label="SHEET" align="center" sortable>
+              <el-table-column prop="SHEET" label="SHEET" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.SHEET}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="PANEL" label="PANEL" align="center" sortable>
+              <el-table-column prop="PANEL" label="PANEL" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.PANEL}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="品名" label="品名" align="center" sortable>
+              <el-table-column prop="品名" label="品名" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.品名}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="设备" label="设备" align="center" sortable>
+              <el-table-column prop="设备" label="设备" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.设备}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="大工程" label="大工程" align="center" sortable>
+              <el-table-column prop="大工程" label="大工程" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.大工程}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="小工程" label="小工程" align="center" sortable>
+              <el-table-column prop="小工程" label="小工程" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.小工程}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="备注" label="备注" align="center" sortable>
+              <el-table-column prop="备注" label="备注" align="center" >
                 <template slot-scope="scope">
                   <span>{{scope.row.备注}}</span>
                 </template>
@@ -195,9 +195,10 @@
                   type="primary"
                   @click="queryname(btnname.tongyong)"
                   plain
+                  size="small" 
                 >{{btnname.tongyong}}</el-button>
-                <el-button type="primary" @click="queryname(btnname.array)" plain>{{btnname.array}}</el-button>
-                <el-button type="primary" @click="queryname(btnname.cell)" plain>{{btnname.cell}}</el-button>
+                <el-button size="small" type="primary" @click="queryname(btnname.array)" plain>{{btnname.array}}</el-button>
+                <el-button size="small" type="primary" @click="queryname(btnname.cell)" plain>{{btnname.cell}}</el-button>
               </el-button-group>
             </el-col>
           </el-row>
@@ -764,7 +765,7 @@ export default {
         设备_品名: this.equipmentform.pinming
       };
       const { data } = await axios.post(
-        "/API/异常处置系统/新建_异常单_面板厂.py",
+        "/api/API/异常处置系统/新建_异常单_面板厂.py",
         qs.stringify(params)
       );
       if (data.state == "插入成功") {

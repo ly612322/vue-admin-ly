@@ -4,8 +4,7 @@ import layout from '../views/layout/Layout.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
   path: '',
   name: 'login',
   redirect: '/login',
@@ -94,14 +93,13 @@ const routes = [
   meta: {
     title: '确认'
   },
-  children: [
-    {
-      path: '/confirm',
-      component: () => import('../views/confirm/confirm'),
-      meta: {
-        title: '确认'
-      }
+  children: [{
+    path: '/confirm',
+    component: () => import('../views/confirm/confirm'),
+    meta: {
+      title: '确认'
     }
+  }
 
   ]
 },
@@ -112,39 +110,85 @@ const routes = [
   meta: {
     title: '查询'
   },
-  children: [
-    {
-      path: '/query',
-      component: () => import('../views/query/query')
-    }
+  children: [{
+    path: '/query',
+    component: () => import('../views/query/query')
+  }
 
   ]
 },
 {
   path: '/highquery',
   name: 'highquery',
-  redirect: '/proanalysis',
+  redirect: '/制品异常分析',
   component: layout,
   meta: {
     title: '高级查询'
   },
-  children: [
-    {
-      path: '/proanalysis',
-      name: 'proanalysis',
-      component: () => import('../views/highquery/proanalysis'),
-      meta: {
-        title: '制品分析'
-      }
-    },
-    {
-      path: '/equanalysis',
-      name: 'equAnalysis',
-      component: () => import('../views/highquery/equanalysis'),
-      meta: {
-        title: '设备分析'
-      }
+  children: [{
+    path: '/制品异常分析',
+    name: 'proanalysis',
+    component: () => import('../views/highquery/proanalysis'),
+    meta: {
+      title: '制品异常分析'
     }
+  },
+  {
+    path: '/设备异常分析',
+    name: 'equAnalysis',
+    component: () => import('../views/highquery/equanalysis'),
+    meta: {
+      title: '设备异常分析'
+    }
+  },
+  {
+    path: '/票据关联',
+    name: '票据关联',
+    component: () => import('../views/highquery/ticlink'),
+    meta: {
+      title: '票据关联'
+    }
+  },
+  {
+    path: '/品名查LOT',
+    name: '品名查LOT',
+    component: () => import('../views/highquery/pmquerylot'),
+    meta: {
+      title: '品名查LOT'
+    }
+  },
+  {
+    path: '/LOT查异常',
+    name: 'LOT查异常',
+    component: () => import('../views/highquery/lotquerytic'),
+    meta: {
+      title: 'LOT查异常'
+    }
+  },
+  {
+    path: '/开票数统计',
+    name: '开票数统计',
+    component: () => import('../views/highquery/ticcount'),
+    meta: {
+      title: '开票数统计'
+    }
+  },
+  {
+    path: '/故障时间统计',
+    name: '故障时间统计',
+    component: () => import('../views/highquery/timecount'),
+    meta: {
+      title: '故障时间统计'
+    }
+  },
+  {
+    path: '/异常名称查票据',
+    name: '异常名称查票据',
+    component: () => import('../views/highquery/namequerytic'),
+    meta: {
+      title: '异常名称查票据'
+    }
+  }
   ]
 }
 
