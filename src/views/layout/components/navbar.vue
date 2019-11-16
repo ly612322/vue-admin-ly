@@ -30,40 +30,40 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       levelList: null,
       listicon: false
     }
   },
   watch: {
-    $route() {
-      //监听路由
+    $route () {
+      // 监听路由
       this.getBreadcrumb()
     }
   },
   methods: {
-    logout() {
+    logout () {
       // 退出清空token 跳转登录页
-        window.sessionStorage.clear()
-      this.$router.push("/login")
+      window.sessionStorage.clear()
+      this.$router.push('/login')
     },
-    collapse() {
+    collapse () {
       this.listicon = !this.listicon
-      this.$store.commit("toCollapse")
+      this.$store.commit('toCollapse')
     },
-    getBreadcrumb() {
-      //获取route的matched
+    getBreadcrumb () {
+      // 获取route的matched
       let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0]
-      if (first && first.name !== "home") {
+      if (first && first.name !== 'home') {
         // 如果不是在首页 则在头部加入首页 ，不需要时注释即可
-        matched = [{ path: "/home", meta: { title: "首页" } }].concat(matched)
+        matched = [{ path: '/home', meta: { title: '首页' } }].concat(matched)
       }
       this.levelList = matched
     }
   },
-  created() {
+  created () {
     this.getBreadcrumb()
   }
 }

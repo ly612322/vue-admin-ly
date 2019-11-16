@@ -193,34 +193,34 @@
   </div>
 </template>
 <script>
-import inputFilter from "../../../../utils/index.js"
+import inputFilter from '../../../../utils/index.js'
 export default {
-  name: "equipmentprocess",
-  data() {
+  name: 'equipmentprocess',
+  data () {
     return {
       fullscreenLoading: false,
       equipmentform: {
-        原因: "",
-        处置完成时间: "",
-        处置方法: "",
-        量产时间: "",
-        处置结果: "",
-        水平展开: "不展开",
-        更换备件: "",
-        水平展开_备注: "",
-        设备_状态: "进行"
+        原因: '',
+        处置完成时间: '',
+        处置方法: '',
+        量产时间: '',
+        处置结果: '',
+        水平展开: '不展开',
+        更换备件: '',
+        水平展开_备注: '',
+        设备_状态: '进行'
       },
       rules: [],
       details: [],
       equipmentItem: []
     }
   },
-  props: ["id"],
+  props: ['id'],
   methods: {
-    async queryMessage() {
+    async queryMessage () {
       this.fullscreenLoading = true
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/设备立上_设备单处置_异常单.py",
+        '/api/API/异常处置系统/设备立上_设备单处置_异常单.py',
         this.$qs.stringify({
           编号: this.id
         })
@@ -229,78 +229,78 @@ export default {
       this.equipmentItem = data.设备立上
       this.fullscreenLoading = false
     },
-    //初始异常时间
-    formatTime() {
+    // 初始异常时间
+    formatTime () {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, "0")
+      const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const day = date
         .getDate()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       this.equipmentform.处置完成时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
       this.equipmentform.量产时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
-    async submitForm() {
+    async submitForm () {
       let params = {
-        确认人: "C00000",
+        确认人: 'C00000',
         编号: this.$route.params.id,
         上限: this.equipmentItem
           .map(ele => {
-            return ele.上限.replace("None", "")
+            return ele.上限.replace('None', '')
           })
-          .join(","),
+          .join(','),
         下限: this.equipmentItem
           .map(ele => {
-            return ele.下限.replace("None", "")
+            return ele.下限.replace('None', '')
           })
-          .join(","),
+          .join(','),
         模式: this.equipmentItem
           .map(ele => {
             return ele.模式
           })
-          .join(","),
+          .join(','),
         确认: this.equipmentItem
           .map(ele => {
-            return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否")
+            return ele.确认 == true ? (ele.确认 = '是') : (ele.确认 = '否')
           })
-          .join(","),
+          .join(','),
         状态: this.equipmentItem
           .map(ele => {
             return ele.状态
           })
-          .join(","),
+          .join(','),
         结果: this.equipmentItem
           .map(ele => {
             return ele.结果
           })
-          .join(","),
+          .join(','),
         备注: this.equipmentItem
           .map(ele => {
             return ele.备注
           })
-          .join(",")
+          .join(',')
       }
       params = Object.assign(params, this.equipmentform)
       console.log(params)
     },
-    goBack() {
+    goBack () {
       this.$router.go(-1)
     }
   },
-  created() {
+  created () {
     this.queryMessage()
     this.formatTime()
   }

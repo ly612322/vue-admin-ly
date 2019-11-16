@@ -5,8 +5,9 @@
         <sidebar ></sidebar>
       </el-aside>
       <el-container>
-        <el-header style="padding:0">
+        <el-header >
           <navbar />
+          <tabsbar></tabsbar>
         </el-header>
         <el-main>
           <transition mode="out-in" name="item">
@@ -19,17 +20,23 @@
 </template>
 
 <script>
-import sidebar from "./components/sidebar"
-import navbar from "./components/navbar"
+import sidebar from './components/sidebar'
+import navbar from './components/navbar'
+import tabsbar from './components/tabsbar'
 export default {
   components: {
     sidebar,
-    navbar
+    navbar,
+    tabsbar
   }
 }
 </script>
 
 <style scoped>
+.el-header{
+  padding: 0;
+  height: auto !important;
+}
 .el-main {
   padding: 0px 10px;
 }

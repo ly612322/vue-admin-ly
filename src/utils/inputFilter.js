@@ -1,4 +1,4 @@
-const addListener = function (el, type, fn) { //事件监听
+const addListener = function (el, type, fn) { // 事件监听
   el.addEventListener(type, fn, false)
 }
 // const spaceFilter = function (el) { //其他过滤器，可添加
@@ -10,14 +10,12 @@ const addListener = function (el, type, fn) { //事件监听
 const specialFilter = function (el) {
   addListener(el, 'keyup', () => {
     el.value = el.value.replace(/\\+|\~+|\!+|\@+|¥+|\￥+|\^+|\&+|\*+|\(+|\)+|\'+|(\")+|\$+|`+|\“+|\”+|\‘+|\’+|\n+|\t/g, '')
-      .replace('None', '') //特殊字符
-
+      .replace('None', '') // 特殊字符
   })
 }
 
-
 export default {
-  bind(el, binding) {
+  bind (el, binding) {
     if (el.tagName.toLowerCase() !== 'input') {
       el = el.getElementsByTagName('input')[0]
     }

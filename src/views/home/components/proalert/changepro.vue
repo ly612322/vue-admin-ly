@@ -248,20 +248,20 @@
 <script>
 
 export default {
-  name:"productchange",
-  data() {
+  name: 'productchange',
+  data () {
     return {
       productform: {
-        time: "",
-        group: "",
-        lot: "",
-        sheet: "",
-        abnormalName: "",
-        panel: "",
-        remark: "",
-        discribe: "",
-        type: "轻微",
-        classify: "试做"
+        time: '',
+        group: '',
+        lot: '',
+        sheet: '',
+        abnormalName: '',
+        panel: '',
+        remark: '',
+        discribe: '',
+        type: '轻微',
+        classify: '试做'
       },
       lotDate: [],
       lotallmessage: [],
@@ -277,102 +277,102 @@ export default {
       },
       options: [
         {
-          value: "HTML",
-          label: "HTML"
+          value: 'HTML',
+          label: 'HTML'
         },
         {
-          value: "CSS",
-          label: "CSS"
+          value: 'CSS',
+          label: 'CSS'
         },
         {
-          value: "JavaScript",
-          label: "JavaScript"
+          value: 'JavaScript',
+          label: 'JavaScript'
         }
       ],
       rules: {
         time: [
           {
-            type: "date",
+            type: 'date',
             required: true,
-            message: "请选择异常发生时间",
-            trigger: "blur"
+            message: '请选择异常发生时间',
+            trigger: 'blur'
           }
         ],
-        group: [{ required: true, message: "请选择处置组", trigger: "change" }],
+        group: [{ required: true, message: '请选择处置组', trigger: 'change' }],
         type: [
           {
-            type: "string",
+            type: 'string',
             required: true,
-            message: "请至少选择一个异常类型"
+            message: '请至少选择一个异常类型'
           }
         ],
-        lot: [{ required: true, message: "请填写Lot" }],
+        lot: [{ required: true, message: '请填写Lot' }],
         classify: [
           {
             required: true,
-            message: "请至少选择一个制品分类",
-            trigger: "change"
+            message: '请至少选择一个制品分类',
+            trigger: 'change'
           }
         ],
-        sheet: [{ required: true, message: "请填写SHEET", trigger: "blur" }],
+        sheet: [{ required: true, message: '请填写SHEET', trigger: 'blur' }],
         discribe: [
-          { required: true, message: "请填写异常描述", trigger: "blur" }
+          { required: true, message: '请填写异常描述', trigger: 'blur' }
         ],
         abnormalName: [
-          { required: true, message: "请选择异常名称", trigger: "change" }
+          { required: true, message: '请选择异常名称', trigger: 'change' }
         ]
       },
       lotDate: [
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         },
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         },
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         },
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         },
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         },
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         },
         {
-          品名: "123654646",
-          设备: "MMAOI002",
-          大工程: "050",
-          小工程: "050"
+          品名: '123654646',
+          设备: 'MMAOI002',
+          大工程: '050',
+          小工程: '050'
         }
       ]
-    };
+    }
   },
   methods: {
-       goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
-    add(data) {
+    add (data) {
       this.lotallmessage.push({
         LOT: this.productform.lot,
         SHEET: this.productform.sheet,
@@ -382,46 +382,46 @@ export default {
         大工程: data.大工程,
         小工程: data.小工程,
         备注: this.productform.remark
-      });
+      })
     },
-    deleteRow(index, rows) {
-      rows.splice(index, 1);
+    deleteRow (index, rows) {
+      rows.splice(index, 1)
     },
-    async queryLot(lot) {
-      this.Lot = lot;
+    async queryLot (lot) {
+      this.Lot = lot
       const { data } = await this.$http.post(
-        "/API/异常处置系统/LOT.py",
+        '/API/异常处置系统/LOT.py',
         this.$qs.stringify({
           LOT_ID: from.lot
         })
-      );
-      if (data.state === "") {
-        this.lotDate = data.data;
+      )
+      if (data.state === '') {
+        this.lotDate = data.data
       } else {
-        alert(data.state);
+        alert(data.state)
       }
     },
-    formatTime() {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    formatTime () {
+      const date = new Date()
+      const year = date.getFullYear()
+      const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const day = date
         .getDate()
         .toString()
-        .padStart(2, "0");
+        .padStart(2, '0')
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, "0");
+        .padStart(2, '0')
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, "0");
+        .padStart(2, '0')
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, "0");
-      this.productform.time = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+        .padStart(2, '0')
+      this.productform.time = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
     // getcontext() {
     //     console.log(this.lotallmessage);
@@ -431,19 +431,19 @@ export default {
     //   console.log(this.textarray);
 
     // },
-    async upload() {
-      let place = [];
+    async upload () {
+      let place = []
       for (let [key, value] of Object.entries(this.picture)) {
-        if (typeof value == "boolean") {
-          place.push(Number(value));
+        if (typeof value === 'boolean') {
+          place.push(Number(value))
         } else {
-          place.push(value);
+          place.push(value)
         }
       }
       let params = {
-        工号: "C00000",
+        工号: 'C00000',
         制品_异常时间: this.productform.time,
-        制品_异常类型: "制品异常单",
+        制品_异常类型: '制品异常单',
         制品_处置组: this.productform.group,
         制品_异常程度: this.productform.type,
         制品_制品分类: this.productform.classify,
@@ -451,42 +451,42 @@ export default {
         制品_异常描述: this.productform.discribe,
         制品_LOT: this.lotallmessage
           .map(ele => {
-            return ele.LOT;
+            return ele.LOT
           })
           .join(),
         制品_SHEET: this.lotallmessage
           .map(ele => {
-            return ele.SHEET;
+            return ele.SHEET
           })
           .join(),
         制品_PANEL: this.lotallmessage
           .map(ele => {
-            return ele.PANEL;
+            return ele.PANEL
           })
           .join(),
         制品_品名: this.lotallmessage
           .map(ele => {
-            return ele.品名;
+            return ele.品名
           })
           .join(),
         制品_设备: this.lotallmessage
           .map(ele => {
-            return ele.设备;
+            return ele.设备
           })
           .join(),
         制品_大工程: this.lotallmessage
           .map(ele => {
-            return ele.大工程;
+            return ele.大工程
           })
           .join(),
         制品_小工程: this.lotallmessage
           .map(ele => {
-            return ele.小工程;
+            return ele.小工程
           })
           .join(),
         制品_备注: this.lotallmessage
           .map(ele => {
-            return ele.备注;
+            return ele.备注
           })
           .join(),
         位1: place[0],
@@ -495,22 +495,22 @@ export default {
         位4: place[3],
         位5: place[4],
         位6: place[5]
-      };
-      data.$on("ethis.$qsend", message => {
-        Object.assign(params, message);
-      });
-      await this.$http.post("/API/异常处置系统/LOT.py", this.$qs.stringify(params));
-      if (data.state === "") {
-        this.lotDate = data.data;
+      }
+      data.$on('ethis.$qsend', message => {
+        Object.assign(params, message)
+      })
+      await this.$http.post('/API/异常处置系统/LOT.py', this.$qs.stringify(params))
+      if (data.state === '') {
+        this.lotDate = data.data
       } else {
-        alert(data.state);
+        alert(data.state)
       }
     }
   },
-  created() {
-    this.formatTime();
+  created () {
+    this.formatTime()
   }
-};
+}
 </script>
 <style scoped>
 .elform {

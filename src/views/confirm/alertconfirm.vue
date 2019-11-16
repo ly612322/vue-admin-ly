@@ -85,50 +85,50 @@
             <i class="el-icon-upload el-icon--right"></i>
           </el-button>
         </el-col>
-     
+
       </el-row>
     </el-form>
   </div>
 </template>
 <script>
-import inputFilter from "../../utils/index.js";
+import inputFilter from '../../utils/index.js'
 export default {
-  name: "conf",
-  data() {
+  name: 'conf',
+  data () {
     return {
-      fullscreenLoading:false,
-      equipmentItem:[],
-      equipmentform:{
-        原因:'',
-        水平展开:''
+      fullscreenLoading: false,
+      equipmentItem: [],
+      equipmentform: {
+        原因: '',
+        水平展开: ''
       },
       rules: [],
-      details:[],
-    };
+      details: []
+    }
   },
-  props:["id"],
+  props: ['id'],
   methods: {
-    async queryMessage() {
+    async queryMessage () {
       this.fullscreenLoading = true
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/展示_制品指示确认.py",
+        '/api/API/异常处置系统/展示_制品指示确认.py',
         this.$qs.stringify({
           编号: this.id
         })
-      );
-      this.details = data.详细[0];
-      this.equipmentItem = data.PANEL;
+      )
+      this.details = data.详细[0]
+      this.equipmentItem = data.PANEL
       this.fullscreenLoading = false
     },
 
-     submitForm() {
+    submitForm () {
 
-    },
+    }
   },
-  mounted() {
-    this.queryMessage();
+  mounted () {
+    this.queryMessage()
   }
-};
+}
 </script>
 <style scoped>
 .table {

@@ -9,7 +9,7 @@
 import gif404 from '../../assets/images/404.png'
 export default {
   name: 'home',
-  data() {
+  data () {
     return {
       gif404
     }

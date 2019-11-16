@@ -71,7 +71,7 @@
         <el-form-item label="品名" prop="group" class="selectitem">
           <el-input type="text" v-model="equipmentform.pinming" placeholder="请输入品名"></el-input>
         </el-form-item>
-    
+
         <el-button
           ref="uploadbtn"
           type="primary"
@@ -89,28 +89,28 @@
 <script>
 
 export default {
-  name:"equipmentchange",
-  data() {
+  name: 'equipmentchange',
+  data () {
     return {
       isdisabled: false,
       equipmentform: {
-        link: "否",
-        time: "",
-        group: "",
-        eqgroup: "",
-        eqnum: "",
-        bigunit: "",
-        smallunit: "",
-        faulttype: "",
-        desc: "",
-        pinming: ""
+        link: '否',
+        time: '',
+        group: '',
+        eqgroup: '',
+        eqnum: '',
+        bigunit: '',
+        smallunit: '',
+        faulttype: '',
+        desc: '',
+        pinming: ''
       },
       rules: {}
-    };
+    }
   },
   methods: {
-      goBack() {
-      this.$router.go(-1);
+    goBack () {
+      this.$router.go(-1)
     },
     // changeupload() {
     //   if (this.equipmentform.link == "是") {
@@ -121,27 +121,27 @@ export default {
     //     this.isdisabled = false;
     //   }
     // },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let params = this.equipmentform;
-          this.$http.post("/API/异常处置系统/LOT.py", this.$qs.stringify(params));
-          if (data.state === "") {
-            this.lotDate = data.data;
+          let params = this.equipmentform
+          this.$http.post('/API/异常处置系统/LOT.py', this.$qs.stringify(params))
+          if (data.state === '') {
+            this.lotDate = data.data
           } else {
-            alert(data.state);
+            alert(data.state)
           }
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     }
   },
-  updated() {
-    console.log(this.$user);
+  updated () {
+    console.log(this.$user)
   }
-};
+}
 </script>
 <style scoped>
 .el-radio-group {

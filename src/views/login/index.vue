@@ -66,47 +66,47 @@
   </div>
 </template>
 <script>
-import loginCenter from "../../assets/images/login_center_bg.png"
+import loginCenter from '../../assets/images/login_center_bg.png'
 export default {
-  data() {
+  data () {
     return {
       loginCenter,
       dialogVisible: false,
       loginForm: {
-        username: "admin",
-        password: "123456"
+        username: 'admin',
+        password: '123456'
       },
-      changeform:{ //密码修改表单
-        name:'',
-        beforePassword:'',
-        newPassword:'',
-        againnewPassword:''
+      changeform: { // 密码修改表单
+        name: '',
+        beforePassword: '',
+        newPassword: '',
+        againnewPassword: ''
       },
-      rules: { //登陆表单验证
+      rules: { // 登陆表单验证
         username: [
-          { required: true, message: "请输入登陆名", trigger: "blur" },
-          { min: 3, max: 7, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { required: true, message: '请输入登陆名', trigger: 'blur' },
+          { min: 3, max: 7, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       }
     }
   },
   methods: {
-    handleLogin() {
+    handleLogin () {
       this.$refs.loginForm.validate(async valid => {
         // 表单预检验 校验成功valid为true
         if (!valid) return
         const { data: res } = await this.$http.post(
-          "/login",
+          '/login',
           this.$qs.stringify(this.loginForm)
         )
-        if (res.meta.status !== 200) return this.$message.error("登陆失败")
-        this.$message.success("登陆成功")
-        window.sessionStorage.setItem("token", res.data.token) // 存储返回的token
-        this.$router.push("/home") //跳转主页
+        if (res.meta.status !== 200) return this.$message.error('登陆失败')
+        this.$message.success('登陆成功')
+        window.sessionStorage.setItem('token', res.data.token) // 存储返回的token
+        this.$router.push('/home') // 跳转主页
       })
     },
-    resetForm() {
+    resetForm () {
       this.$refs.loginForm.resetFields() // 重置登陆表单信息
     }
     // handleClose(done) {

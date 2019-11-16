@@ -93,7 +93,7 @@
         <el-table-column align="center" prop="确认" width="120" label="确认">
           <template slot-scope="scope">
             <el-checkbox
-      
+
               v-model="scope.row.确认"
               :checked="scope.row.确认 == '是'?true:false"
             ></el-checkbox>

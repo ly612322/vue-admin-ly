@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    username:window.top.SS_UID,
+    username: window.top.SS_UID,
     collapse: false
   },
   mutations: {

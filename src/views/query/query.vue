@@ -192,7 +192,7 @@
       top="3%"
       destroy-on-close
       center
-      
+
     >
       <querypro></querypro>
     </el-dialog>
@@ -210,115 +210,115 @@
 </template>
 
 <script>
-import querypro from "./components/alertpro"
-import queryequip from "./components/alertequip"
+import querypro from './components/alertpro'
+import queryequip from './components/alertequip'
 export default {
-  data() {
+  data () {
     return {
       tableShow: true,
       querypro: false,
       queryequip: false,
-      type: "制品异常单",
+      type: '制品异常单',
       protableData: [
         {
-          编号: "制品异常-面板厂-2019-23492",
-          状态: "进行",
-          创建: "王兴",
-          创建时间: "2019-11-12 05:00:22",
-          制品: "试做",
-          程度: "轻微",
-          异常: "圈状mura、横线不良",
-          现象: "导航中检出圈状mura、横线不良",
-          处置: "前工程",
-          经理: "None",
-          PQC: "None"
+          编号: '制品异常-面板厂-2019-23492',
+          状态: '进行',
+          创建: '王兴',
+          创建时间: '2019-11-12 05:00:22',
+          制品: '试做',
+          程度: '轻微',
+          异常: '圈状mura、横线不良',
+          现象: '导航中检出圈状mura、横线不良',
+          处置: '前工程',
+          经理: 'None',
+          PQC: 'None'
         }
       ],
       equtableData: [
         {
-          编号: "设备异常-面板厂-2019-7383",
-          状态: "完成",
-          创建: "刘志强",
-          创建时间: "2019-11-12 03:05:10",
-          设备: "ODL",
-          号机: "3",
-          Main: "EQ3",
-          Sub: "Alignment stage",
-          现象: "画像异常",
-          处置: "中工程",
-          经理: "None",
-          PQC: "None"
+          编号: '设备异常-面板厂-2019-7383',
+          状态: '完成',
+          创建: '刘志强',
+          创建时间: '2019-11-12 03:05:10',
+          设备: 'ODL',
+          号机: '3',
+          Main: 'EQ3',
+          Sub: 'Alignment stage',
+          现象: '画像异常',
+          处置: '中工程',
+          经理: 'None',
+          PQC: 'None'
         },
         {
-          编号: "设备异常-面板厂-2019-7384",
-          状态: "完成",
-          创建: "刘志强",
-          创建时间: "2019-11-12 03:05:54",
-          设备: "ODL",
-          号机: "2",
-          Main: "LCD",
-          Sub: "LCD4",
-          现象: "Head：1#7#测量超标",
-          处置: "中工程",
-          经理: "None",
-          PQC: "None"
+          编号: '设备异常-面板厂-2019-7384',
+          状态: '完成',
+          创建: '刘志强',
+          创建时间: '2019-11-12 03:05:54',
+          设备: 'ODL',
+          号机: '2',
+          Main: 'LCD',
+          Sub: 'LCD4',
+          现象: 'Head：1#7#测量超标',
+          处置: '中工程',
+          经理: 'None',
+          PQC: 'None'
         },
         {
-          编号: "设备异常-面板厂-2019-7385",
-          状态: "完成",
-          创建: "刘志强",
-          创建时间: "2019-11-12 03:07:25",
-          设备: "ODL",
-          号机: "2",
-          Main: "MSD",
-          Sub: "MSD1",
-          现象: "R2 GAP异常多发换PUMP",
-          处置: "中工程",
-          经理: "None",
-          PQC: "None"
+          编号: '设备异常-面板厂-2019-7385',
+          状态: '完成',
+          创建: '刘志强',
+          创建时间: '2019-11-12 03:07:25',
+          设备: 'ODL',
+          号机: '2',
+          Main: 'MSD',
+          Sub: 'MSD1',
+          现象: 'R2 GAP异常多发换PUMP',
+          处置: '中工程',
+          经理: 'None',
+          PQC: 'None'
         },
         {
-          编号: "设备异常-面板厂-2019-7386",
-          状态: "完成",
-          创建: "刘志强",
-          创建时间: "2019-11-12 05:58:48",
-          设备: "ODL",
-          号机: "2",
-          Main: "MSD",
-          Sub: "MSD1",
-          现象: "PLC 通讯异常",
-          处置: "中工程",
-          经理: "None",
-          PQC: "None"
+          编号: '设备异常-面板厂-2019-7386',
+          状态: '完成',
+          创建: '刘志强',
+          创建时间: '2019-11-12 05:58:48',
+          设备: 'ODL',
+          号机: '2',
+          Main: 'MSD',
+          Sub: 'MSD1',
+          现象: 'PLC 通讯异常',
+          处置: '中工程',
+          经理: 'None',
+          PQC: 'None'
         },
         {
-          编号: "设备异常-面板厂-2019-7387",
-          状态: "完成",
-          创建: "刘志强",
-          创建时间: "2019-11-12 06:00:30",
-          设备: "ODL",
-          号机: "2",
-          Main: "MSD",
-          Sub: "MSD2",
-          现象: "R5补正值下限",
-          处置: "中工程",
-          经理: "None",
-          PQC: "None"
+          编号: '设备异常-面板厂-2019-7387',
+          状态: '完成',
+          创建: '刘志强',
+          创建时间: '2019-11-12 06:00:30',
+          设备: 'ODL',
+          号机: '2',
+          Main: 'MSD',
+          Sub: 'MSD2',
+          现象: 'R5补正值下限',
+          处置: '中工程',
+          经理: 'None',
+          PQC: 'None'
         }
       ],
       queryform: {
-        开始日期: "",
-        结束日期: "",
-        异常程度: "",
-        开票组: "",
-        处置组: "",
-        确认组: "",
-        异常名称: ""
+        开始日期: '',
+        结束日期: '',
+        异常程度: '',
+        开票组: '',
+        处置组: '',
+        确认组: '',
+        异常名称: ''
       },
       状态: [],
       api: {
-        product: "api/API/异常处置系统/制品单查询.py",
-        equipment: "api/API/异常处置系统/设备单查询.py"
+        product: 'api/API/异常处置系统/制品单查询.py',
+        equipment: 'api/API/异常处置系统/设备单查询.py'
       }
     }
   },
@@ -327,24 +327,24 @@ export default {
     queryequip
   },
   methods: {
-    //初始异常时间
-    formatTime() {
+    // 初始异常时间
+    formatTime () {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, "0")
+      const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const day = date
         .getDate()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       this.queryform.开始日期 = `${year}-${month}-${(day - 1)
         .toString()
-        .padStart(2, "0")}`
+        .padStart(2, '0')}`
       this.queryform.结束日期 = `${year}-${month}-${day} `
     },
-    async query() {
+    async query () {
       let formstate = this.状态.join()
-      let api = ""
-      this.type == "制品异常单"
+      let api = ''
+      this.type == '制品异常单'
         ? (api = this.api.product)
         : (api = this.api.equipment)
       this.queryform.状态 = formstate
@@ -352,26 +352,27 @@ export default {
         `${api}`,
         this.$qs.stringify(this.queryform)
       )
-      if (data.state == "") {
-        this.type == "制品异常单"
+      if (data.state == '') {
+        this.type == '制品异常单'
           ? (this.protableData = data.data)
           : (this.equtableData = data.data)
-      } else
+      } else {
         this.$notify({
-          title: "错误！",
+          title: '错误！',
           message: `${data.state}`,
-          type: "error",
-          duration: "4000"
+          type: 'error',
+          duration: '4000'
         })
+      }
     },
-    productEdit() {
+    productEdit () {
       this.querypro = true
     },
-    equipmentEdit() {
+    equipmentEdit () {
       this.queryequip = true
     }
   },
-  created() {
+  created () {
     this.formatTime()
   }
 }
@@ -437,5 +438,3 @@ body .el-table th.gutter {
   height: 8vh;
 }
 </style>
-
-

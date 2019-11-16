@@ -14,7 +14,6 @@ import qs from 'qs'
 import './permission'
 import './mock'
 
-
 // 配置请求根路径
 // axios.defaults.baseURL = 'http://10.1.10.1234'
 // 使用拦截器 在请求头中加入token
@@ -24,7 +23,7 @@ axios.interceptors.request.use(config => {
   // 最后必须return config
   return config
 })
-Vue.prototype.common = common; //公共方法
+Vue.prototype.common = common // 公共方法
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios
 Vue.use(ElementUI, {
