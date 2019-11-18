@@ -9,11 +9,7 @@
           <navbar />
           <tabsbar></tabsbar>
         </el-header>
-        <el-main>
-          <transition mode="out-in" name="item">
-            <router-view></router-view>
-          </transition>
-        </el-main>
+        <elmain></elmain>
       </el-container>
     </el-container>
   </div>
@@ -23,11 +19,18 @@
 import sidebar from './components/sidebar'
 import navbar from './components/navbar'
 import tabsbar from './components/tabsbar'
+import elmain from './components/main'
 export default {
+  data() {
+    return {
+      showMain:''
+    }
+  },
   components: {
     sidebar,
     navbar,
-    tabsbar
+    tabsbar,
+    elmain
   }
 }
 </script>

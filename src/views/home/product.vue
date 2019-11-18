@@ -163,7 +163,7 @@ export default {
       ],
       LotData: [],
       currentPage: 1, // 初始页
-      pagesize: 10 //    每页的数据
+      pagesize: 9 //    每页的数据
     }
   },
   components: { deal, change },

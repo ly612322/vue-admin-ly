@@ -8,23 +8,26 @@
     </div>
     <div class="bar-content" ref="scrollOuter">
       <div class="bar-scroll" ref="scrollBody" :style="{left: tagBodyLeft + 'px'}">
-        <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" class="">
-          <el-tab-pane
-            v-for="(item,index) in editableTabs"
-            :key="index"
-            :label="item.title"
-            :name="item.title"
-            calss="el-tabs"
-          >
-            <span slot="label" @click="hendleTabg(index)" class="spanIcon">
-              <!-- <i :class="activeClass == index ? 'el-icon-open':'el-icon-turn-off'"></i> {{item.name}} -->
-              <i class="el-icon-location"></i>
-              {{item.title}}
-            </span>
-          </el-tab-pane>
-        </el-tabs>
+          <el-tabs>
+            <el-tab-pane calss="el-tabs">测试</el-tab-pane>
+          </el-tabs>
       </div>
     </div>
+    <!-- <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+      <el-tab-pane
+        v-for="(item,index) in editableTabs"
+        :key="index"
+        :label="item.title"
+        :name="item.title"
+        calss="el-tabs"
+      >
+    <span slot="label" @click="hendleTabg(index)" class="spanIcon">-->
+    <!-- <i :class="activeClass == index ? 'el-icon-open':'el-icon-turn-off'"></i> {{item.name}} -->
+    <!-- <i class="el-icon-location"></i>
+          {{item.title}}
+        </span>
+      </el-tab-pane>
+    </el-tabs>-->
     <div class="bar-tool">
       <el-dropdown>
         <el-button type="primary">
@@ -47,7 +50,12 @@ export default {
       activeClass: -1,
       editableTabsValue: this.$store.state.activename,
       tabIndex: 0,
-      editableTabs: this.$store.state.tagslist
+      editableTabs: this.$store.state.tagslist,
+      items: [
+        {
+          title: "异常信息"
+        }
+      ]
     }
   },
   methods: {
@@ -83,25 +91,36 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.el-tabs /deep/ .el-tabs__item {
-  background: #fff;
-  margin: 4px 5px 0 0;
-  height: 30px;
-  line-height: 30px;
-}
-.el-tabs--card{
-  border:0 !important;
+.el-tag {
+  text-align: center;
+  color: #676f80;
+  width: 120px;
+  margin: 4px 2px;
+  border-radius: 0;
 }
 .el-button {
   background: #409eff;
   color: rgb(247, 247, 247);
   border: 0;
-  width: 92px;
+  width: 90px;
   height: 25px;
   margin: 6px;
   font-size: 13px;
   padding: 2px;
 }
-
+.el-tabs {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+  padding: 5px;
+}
+.el-tabs /deep/ .el-tabs__item {
+  border-bottom: 1px solid #e4e7ed !important;
+  background: #fff;
+  margin: 0 5px 0 0;
+}
 </style>
-
+<style>
+</style>

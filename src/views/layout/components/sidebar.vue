@@ -12,10 +12,10 @@
       :default-active="this.$route.path"
     >
       <template>
-        <h3 @click="collapse">
+        <el-menu-item>
           <i class="el-icon-warning" style="margin-right:4px"></i>
-          <span v-show="!this.$store.state.collapse">异常处置系统</span>
-        </h3>
+          <span v-show="!this.$store.state.collapse"><h3>异常处置系统</h3></span>
+        </el-menu-item>
       </template>
       <template v-for="item in menulist">
         <el-menu-item
@@ -89,10 +89,11 @@ export default {
 }
 
 h3 {
+  display: inline-block;
   color: #fff;
   text-align: center;
   font-size: 20px;
-  margin: 10px 0px;
+  margin: 0px 0px 0px  0px;
   padding: 0;
 }
 </style>
