@@ -111,6 +111,9 @@ const routes = [{
     title: '查询'
   },
   children: [{
+    meta: {
+      title: '查询'
+    },
     path: '/query',
     component: () => import('../views/query/query')
   }

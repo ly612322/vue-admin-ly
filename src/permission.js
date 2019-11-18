@@ -1,4 +1,5 @@
 import router from './router'
+import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css' // Progress 进度条样式
 
@@ -14,6 +15,11 @@ router.beforeEach((to, from, next) => {
       next('/login')
       NProgress.done()
     } else { // 如果有 则放行
+      store.state.tagslist.push({
+        title: to.meta.title,
+        name: to.meta.title
+      })
+      store.state.activename = to.meta.title
       next()
       NProgress.done() // 关闭进度条
     }

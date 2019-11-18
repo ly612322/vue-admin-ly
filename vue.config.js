@@ -5,7 +5,7 @@ module.exports = {
   devServer: {
     open: true, // 是否自动弹出浏览器页面
     host: 'localhost',
-    port: '8081\\\\\\\\\\\\',
+    port: '8081',
     https: false,
     hotOnly: false,
     proxy: {
