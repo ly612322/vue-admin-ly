@@ -14,7 +14,7 @@
             style="width: 56px;height: 56px;color: #409EFF;font-size:60px"
           ></i>
         </div>
-        <h2 class="login-title color-main" style="color:#409EFF">LY</h2>
+        <h2 class="login-title color-main" style="color:#409EFF">异常处置系统</h2>
         <el-form-item prop="username">
           <el-input
             name="username"
@@ -73,8 +73,8 @@ export default {
       loginCenter,
       dialogVisible: false,
       loginForm: {
-        username: 'admin',
-        password: '123456'
+        username: 'C00000',
+        password: '2'
       },
       changeform: { // 密码修改表单
         name: '',

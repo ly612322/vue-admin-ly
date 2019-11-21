@@ -5,7 +5,7 @@ Mock.setup({
 })
 // 登陆请求
 Mock.mock('/login', 'post', Options => {
-  if (Options.body === 'username=admin&password=123456') {
+  if (Options.body === 'username=C00000&password=2') {
     return {
       'data': {
         token: 'qwertyuiop'
@@ -36,19 +36,19 @@ Mock.mock('/menulist', 'get', Options => {
         {
           'id': 110,
           'title': '预开票',
-          'path': 'beforehand',
+          'path': '预开票',
           'children': []
         },
         {
           'id': 111,
           'title': '制品单',
-          'path': 'product',
+          'path': '制品单',
           'children': []
         },
         {
           'id': 112,
           'title': '设备单',
-          'path': 'equipment',
+          'path': '设备单',
           'children': []
         }
       ]
@@ -60,33 +60,33 @@ Mock.mock('/menulist', 'get', Options => {
       'children': [{
         'id': 103,
         'title': '新建制品单',
-        'path': 'newproduct',
+        'path': '新建制品单',
         'children': []
       },
       {
         'id': 104,
         'title': '新建设备单',
-        'path': 'newequipment',
+        'path': '新建设备单',
         'children': []
       },
       {
         'id': 105,
         'title': '新建关联单',
-        'path': 'linkitem',
+        'path': '新建关联单',
         'children': []
       }
       ]
     },
     {
       'id': 106,
-      'title': '确认',
-      'path': 'confirm',
+      'title': '制品指示确认',
+      'path': '制品指示确认',
       'children': []
     },
     {
       'id': 107,
-      'title': '查询',
-      'path': 'query',
+      'title': '异常单查询',
+      'path': '异常单查询',
       'children': []
     },
     {

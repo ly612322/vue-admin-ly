@@ -8,6 +8,8 @@
       @click="collapse"
     ></i>
     <!-- 退出下拉菜单 -->
+    <i class="el-icon-refresh refresh" @click="refreshMain"></i>
+    <fullscreen v-model="isFullscreen" class="fullscr" />
     <el-dropdown class="user" placement="bottom" @command="logout">
       <i class="el-icon-user-solid"></i>
       <el-dropdown-menu slot="dropdown">
@@ -29,41 +31,53 @@
   </div>
 </template>
 <script>
+import fullscreen from "../../../components/fullscreen/index"
 export default {
-  data () {
+  data() {
     return {
       levelList: null,
-      listicon: false
+      listicon: false,
+      refresh: this.$store.state.refresh,
+      isFullscreen: false
     }
   },
+  components: { fullscreen },
   watch: {
-    $route () {
+    $route() {
       // 监听路由
       this.getBreadcrumb()
     }
   },
   methods: {
-    logout () {
+    logout() {
       // 退出清空token 跳转登录页
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push("/login")
     },
-    collapse () {
+    collapse() {
       this.listicon = !this.listicon
-      this.$store.commit('toCollapse')
+      this.$store.commit("toCollapse")
     },
-    getBreadcrumb () {
+    getBreadcrumb() {
       // 获取route的matched
       let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0]
-      if (first && first.name !== 'home') {
+      if (first && first.name !== "home") {
         // 如果不是在首页 则在头部加入首页 ，不需要时注释即可
-        matched = [{ path: '/home', meta: { title: '首页' } }].concat(matched)
+        matched = [{ path: "/home", meta: { title: "首页" } }].concat(matched)
       }
       this.levelList = matched
+    },
+    refreshMain() {
+      this.refresh = false
+      // 在组件移除后，重新渲染组件
+      // this.$nextTick可实现在DOM 状态更新后，执行传入的方法。
+      this.$nextTick(() => {
+        this.refresh = true
+      })
     }
   },
-  created () {
+  created() {
     this.getBreadcrumb()
   }
 }
@@ -80,13 +94,27 @@ export default {
   width: 30px;
   height: 30px;
   float: left;
-  margin: 10px 15px;
+  margin: 10px 10px 10px 15px;
   font-size: 30px;
   color: gray;
 }
 .user {
   float: right;
-  margin: 10px 40px;
+  margin: 10px 10px;
   font-size: 23px;
+}
+.refresh {
+  float: left;
+  color: #808080;
+  line-height: 50px;
+  font-size: 26px;
+  font-weight: 550;
+  margin-right: 10px;
+}
+.fullscr{
+  float: right;
+  line-height: 51px;
+  margin-right: 15px;
+  font-size: 23px
 }
 </style>

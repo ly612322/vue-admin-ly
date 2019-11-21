@@ -1,22 +1,28 @@
 <template>
   <div>
-    <el-main>
+    <el-main v-if="refreshMain">
       <transition mode="out-in" name="item">
-        <router-view></router-view>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
       </transition>
     </el-main>
   </div>
 </template>
 <script>
 export default {
-  name: "elmain"
+  name: "elmain",
+  data() {
+    return {
+      refreshMain:this.$store.state.refresh
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
-.el-main{
+.el-main {
   overflow: auto;
   height: 87vh;
   padding: 12px;
 }
-
 </style>

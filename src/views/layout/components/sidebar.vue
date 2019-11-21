@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-scrollbar>
     <el-menu
       class="el-menu-vertica"
       background-color="#304156"
@@ -42,6 +43,7 @@
         </el-submenu>
       </template>
     </el-menu>
+    </el-scrollbar>
   </div>
 </template>
 

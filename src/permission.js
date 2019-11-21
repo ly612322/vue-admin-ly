@@ -15,12 +15,23 @@ router.beforeEach((to, from, next) => {
       next('/login')
       NProgress.done()
     } else { // 如果有 则放行
-      store.state.tagslist.push({
-        title: to.meta.title,
-        name: to.meta.title
-      })
-      store.state.activename = to.meta.title
-      next()
+      // 先遍历列表 是否已存在路由标签
+      // let flag = true
+      // store.state.tagslist.forEach((ele,index)=> {
+      //     if(ele.title == to.meta.title){
+      //       flag = false
+      //       store.state.activename = to.meta.title
+      //       next()
+      //     }
+      // })
+      // if(flag){
+      //   store.state.tagslist.push({
+      //     title: to.meta.title,
+      //     name: to.meta.title
+      //   })
+      //   store.state.activename = to.meta.title
+      //   console.log(store.state.activename);
+        next()
       NProgress.done() // 关闭进度条
     }
   }

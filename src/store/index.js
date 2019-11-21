@@ -3,18 +3,21 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+ const store = new Vuex.Store({
   state: {
     username: window.top.SS_UID,
     collapse: false,
+    refresh: true,
     tagslist: [],
-    activename: ''
+    activename: '制品单'
   },
   mutations: {
-    toCollapse (state) {
+    toCollapse(state) {
       state.collapse = !state.collapse
     }
   },
   actions: {},
   modules: {}
 })
+
+export default store
