@@ -122,9 +122,9 @@ export default {
   background: #409eff;
   color: rgb(247, 247, 247);
   border: 0;
-  width: 92px;
-  height: 25px;
-  margin: 6px;
+  width: 105px;
+  height: 32px;
+  margin: 2px;
   font-size: 13px;
   padding: 2px;
 }

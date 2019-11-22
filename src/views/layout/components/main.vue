@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-main v-if="refreshMain">
+    <el-main :key="this.$store.state.refresh">
       <transition mode="out-in" name="item">
         <keep-alive>
             <router-view></router-view>
@@ -11,12 +11,8 @@
 </template>
 <script>
 export default {
-  name: "elmain",
-  data() {
-    return {
-      refreshMain:this.$store.state.refresh
-    }
-  }
+  name: "elmain"
+
 }
 </script>
 <style lang="less" scoped>

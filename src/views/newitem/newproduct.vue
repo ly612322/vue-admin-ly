@@ -59,6 +59,7 @@
             </el-form-item>
             <el-form-item label="对象SHEET" class="longinput" prop="sheet">
               <el-input
+                v-input-filter
                 placeholder="请输入SHEET"
                 v-model="productform.sheet"
                 maxlength="50"
@@ -67,6 +68,7 @@
             </el-form-item>
             <el-form-item label="对象PANEL" class="longinput">
               <el-input
+                v-input-filter
                 placeholder="请输入PANEL"
                 v-model="productform.panel"
                 maxlength="50"
@@ -75,6 +77,7 @@
             </el-form-item>
             <el-form-item label="对象备注" class="longinput">
               <el-input
+                v-input-filter
                 placeholder="请输入备注"
                 v-model="productform.remark"
                 maxlength="40"
@@ -91,8 +94,21 @@
               max-height="380"
               highlight-current-row
             >
-                 <el-table-column prop="品名" label="品名" align="center" :show-overflow-tooltip="true" sortable></el-table-column>
-              <el-table-column prop="设备" label="设备" align="center" width="80" :show-overflow-tooltip="true" sortable></el-table-column>
+              <el-table-column
+                prop="品名"
+                label="品名"
+                align="center"
+                :show-overflow-tooltip="true"
+                sortable
+              ></el-table-column>
+              <el-table-column
+                prop="设备"
+                label="设备"
+                align="center"
+                width="80"
+                :show-overflow-tooltip="true"
+                sortable
+              ></el-table-column>
               <el-table-column prop="大工程" label="大工程" align="center" width="90" sortable></el-table-column>
               <el-table-column prop="小工程" label="小工程" align="center" width="90" sortable></el-table-column>
               <el-table-column label="操作" align="center" width="60">
@@ -223,7 +239,7 @@
                   type="textarea"
                   :rows="5"
                   placeholder="请输入内容"
-                  maxlength="40"
+                  maxlength="50"
                   show-word-limit
                   v-model="productform.discribe"
                 ></el-input>
@@ -279,150 +295,33 @@
           </el-col>
         </el-card>
       </div>
-      <div ref="equipmentTic" v-else key="equipment">
-        <el-card class="box-card" style="width:99.5%">
-          <el-form
-            ref="equipmentform"
-            :model="equipmentform"
-            label-width="106px"
-            class="elform"
-            size="small "
-          >
-            <el-form-item label="涉及制品" prop="classify">
-              <el-radio-group v-model="equipmentform.link" @change="changeupload">
-                <el-radio label="否">否</el-radio>
-                <el-radio label="是">是</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="故障时间" prop="time" class="selectitem">
-              <el-date-picker
-                v-model="equipmentform.time"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="选择日期时间"
-              ></el-date-picker>
-            </el-form-item>
-            <el-form-item label="处置组" prop="group" class="selectitem">
-              <el-select
-                v-model="equipmentform.group"
-                placeholder="请选择处置组"
-                @change="queryeqgroup(api.eqgroup,equipmentform.group)"
-              >
-                <el-option label="TEST" value="TEST"></el-option>
-                <el-option label="PVD" value="PVD"></el-option>
-                <el-option label="CVD" value="CVD"></el-option>
-                <el-option label="DET" value="DET"></el-option>
-                <el-option label="WET" value="WET"></el-option>
-                <el-option label="PHOTO" value="PHOTO"></el-option>
-                <el-option label="C-TEST" value="C-TEST"></el-option>
-                <el-option label="AT" value="AT"></el-option>
-                <el-option label="前工程" value="前工程"></el-option>
-                <el-option label="中工程" value="中工程"></el-option>
-                <el-option label="材料管理科" value="材料管理科"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="设备群" prop="group" class="selectitem">
-              <el-select
-                v-model="equipmentform.eqgroup"
-                placeholder="请选择设备群"
-                @change="queryeqnum(api.eqnum, equipmentform.eqgroup)"
-              >
-                <el-option
-                  v-for="item in eqgroup"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="号机" prop="group" class="selectitem">
-              <el-select
-                v-model="equipmentform.eqnum"
-                placeholder="请选择号机"
-                @change="querybigunit(api.bigunit, equipmentform.eqgroup,equipmentform.eqnum)"
-              >
-                <el-option
-                  v-for="item in eqnum"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="大单元" prop="group" class="selectitem">
-              <el-select
-                v-model="equipmentform.bigunit"
-                placeholder="请选择设大单元"
-                @change="querysmallunit(api.smallunit,equipmentform.eqgroup,equipmentform.eqnum,equipmentform.bigunit)"
-              >
-                <el-option
-                  v-for="item in bigunit"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="小单元" prop="group" class="selectitem">
-              <el-select
-                v-model="equipmentform.smallunit"
-                placeholder="请选择设小单元"
-                @change="queryfaulttype(api.faulttype,equipmentform.eqgroup,equipmentform.eqnum,equipmentform.bigunit,equipmentform.smallunit)"
-              >
-                <el-option
-                  v-for="item in smallunit"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="故障类型" prop="group" class="selectitem">
-              <el-select v-model="equipmentform.faulttype" placeholder="请选择设故障类型">
-                <el-option
-                  v-for="item in faulttype"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="故障现象" prop="group" class="selectitem">
-              <el-input type="textarea" v-model="equipmentform.desc" :rows="5" style="float:left"></el-input>
-            </el-form-item>
-            <el-form-item label="品名" prop="group" class="selectitem">
-              <el-input type="text" v-model="equipmentform.pinming" placeholder="请输入品名"></el-input>
-            </el-form-item>
-          </el-form>
-        </el-card>
-      </div>
     </transition>
   </div>
 </template>
 <script>
 export default {
-  name: 'newsheet',
-  data () {
+  name: "newsheet",
+  data() {
     return {
       loading: false,
       uploadbtn: false,
       ticshow: true,
       productform: {
-        time: '',
-        group: '',
-        lot: '',
-        sheet: '',
-        abnormalName: '',
-        panel: '',
-        remark: '',
-        discribe: '',
-        type: '轻微',
-        classify: '试做'
+        time: "",
+        group: "",
+        lot: "",
+        sheet: "",
+        abnormalName: "",
+        panel: "",
+        remark: "",
+        discribe: "",
+        type: "轻微",
+        classify: "试做"
       },
       btnname: {
-        tongyong: '通用',
-        array: 'ARRAY',
-        cell: 'CELL'
+        tongyong: "通用",
+        array: "ARRAY",
+        cell: "CELL"
       },
       lotDate: [],
       lotallmessage: [],
@@ -440,100 +339,76 @@ export default {
       rules: {
         time: [
           {
-            type: 'date',
+            type: "date",
             required: true,
-            message: '请选择异常发生时间',
-            trigger: 'blur'
+            message: "请选择异常发生时间",
+            trigger: "blur"
           }
         ],
-        group: [{ required: true, message: '请选择处置组', trigger: 'change' }],
+        group: [{ required: true, message: "请选择处置组", trigger: "change" }],
         type: [
           {
-            type: 'string',
+            type: "string",
             required: true,
-            message: '请至少选择一个异常类型'
+            message: "请至少选择一个异常类型"
           }
         ],
-        lot: [{ required: true, message: '请填写Lot' }],
+        lot: [{ required: true, message: "请填写Lot" }],
         classify: [
           {
             required: true,
-            message: '请至少选择一个制品分类',
-            trigger: 'change'
+            message: "请至少选择一个制品分类",
+            trigger: "change"
           }
         ],
-        sheet: [{ required: true, message: '请填写SHEET', trigger: 'blur' }],
+        sheet: [{ required: true, message: "请填写SHEET", trigger: "blur" }],
         discribe: [
-          { required: true, message: '请填写异常描述', trigger: 'blur' }
+          { required: true, message: "请填写异常描述", trigger: "blur" }
         ],
         abnormalName: [
-          { required: true, message: '请选择异常名称', trigger: 'change' }
+          { required: true, message: "请选择异常名称", trigger: "change" }
         ]
       },
-      lotDate: [],
-      api: {
-        eqgroup: '/API/异常处置系统/设备群_新建异常单_面板厂.py',
-        eqnum: '/API/异常处置系统/号机_新建异常单_面板厂.py',
-        bigunit: '/API/异常处置系统/大单元_新建异常单_面板厂.py',
-        smallunit: '/API/异常处置系统/小单元_新建异常单_面板厂.py',
-        faulttype: '/API/异常处置系统/故障类型_新建异常单_面板厂.py'
-      },
-      equipmentform: {
-        link: '否',
-        time: '',
-        group: '',
-        eqgroups: '',
-        eqnum: '',
-        bigunit: '',
-        smallunit: '',
-        faulttype: '',
-        desc: '',
-        pinming: ''
-      },
-      eqgroup: [],
-      eqnum: [],
-      bigunit: [],
-      smallunit: [],
-      faulttype: []
+      lotDate: []
     }
   },
   methods: {
     // 根据LOT号查询品名等
-    async queryLot () {
+    async queryLot() {
       this.loading = true
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/品名工程查询_异常单_面板厂.py',
+        "/api/API/异常处置系统/品名工程查询_异常单_面板厂.py",
         this.$qs.stringify({
           LOT: this.productform.lot
         })
       )
-      if (data.state === '') {
+      if (data.state === "") {
         this.lotDate = data.data
         this.loading = false
       } else {
         alert(data.state)
       }
     },
-    async queryname (group) {
+    async queryname(group) {
       this.options = []
-      if (this.productform.group === '') {
+      if (this.productform.group === "") {
         this.$notify({
-          title: '提示',
-          message: '请选择处置组',
-          type: 'warning',
-          duration: '1500'
+          title: "提示",
+          message: "请选择处置组",
+          type: "warning",
+          duration: "1500"
         })
         return
       }
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/异常名称查询_异常单_面板厂.py',
+        "/api/API/异常处置系统/异常名称查询_异常单_面板厂.py",
         this.$qs.stringify({
           分类: group,
           处置组: this.productform.group
         })
       )
-      if (data.state === '') {
-        data.data.split(',').forEach(ele => {
+      if (data.state === "") {
+        data.data.split(",").forEach(ele => {
           this.options.push({
             value: ele,
             lable: ele
@@ -544,85 +419,8 @@ export default {
         alert(data.state)
       }
     },
-
-    async queryeqgroup (api, ...value) {
-      this.eqgroup = []
-      const { data } = await this.$http.post(
-        `${api}`,
-        this.$qs.stringify({ 处置组: value[0] })
-      )
-      data.data.split(',').forEach(ele => {
-        this.eqgroup.push({
-          value: ele,
-          lable: ele
-        })
-      })
-    },
-    async queryeqnum (api, ...value) {
-      this.eqnum = []
-      const { data } = await this.$http.post(
-        `${api}`,
-        this.$qs.stringify({ 设备群: value[0] })
-      )
-      console.log(data.data)
-      data.data.split(',').forEach(ele => {
-        this.eqnum.push({
-          value: ele,
-          lable: ele
-        })
-      })
-    },
-    async querybigunit (api, ...value) {
-      this.bigunit = []
-      const { data } = await this.$http.post(
-        `${api}`,
-        this.$qs.stringify({ 设备群: value[0], 号机: value[1] })
-      )
-      data.data.split(',').forEach(ele => {
-        this.bigunit.push({
-          value: ele,
-          lable: ele
-        })
-      })
-    },
-    async querysmallunit (api, ...value) {
-      this.smallunit = []
-      const { data } = await this.$http.post(
-        `${api}`,
-        this.$qs.stringify({
-          设备群: value[0],
-          号机: value[1],
-          大单元: value[2]
-        })
-      )
-      data.data.split(',').forEach(ele => {
-        this.smallunit.push({
-          value: ele,
-          lable: ele
-        })
-      })
-    },
-    async queryfaulttype (api, ...value) {
-      this.faulttype = []
-      const { data } = await this.$http.post(
-        `${api}`,
-        this.$qs.stringify({
-          设备群: value[0],
-          号机: value[1],
-          大单元: value[2],
-          小单元: value[3]
-        })
-      )
-      data.data.split(',').forEach(ele => {
-        this.faulttype.push({
-          value: ele,
-          lable: ele
-        })
-      })
-    },
-
     // 添加LOT异常详细信息
-    add (data) {
+    add(data) {
       this.lotallmessage.push({
         LOT: this.productform.lot,
         SHEET: this.productform.sheet,
@@ -635,71 +433,60 @@ export default {
       })
     },
     // 删除添加的信息
-    deleteRow (index, rows) {
+    deleteRow(index, rows) {
       rows.splice(index, 1)
     },
     // 初始异常时间
-    formatTime () {
+    formatTime() {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, '0')
+      const month = (date.getMonth() + 1).toString().padStart(2, "0")
       const day = date
         .getDate()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       this.productform.time = `${year}-${month}-${day} ${hour}:${(minute - 5)
         .toString()
-        .padStart(2, '0')}:${second}`
-      this.equipmentform.time = `${year}-${month}-${day} ${hour}:${minute}:${second}`
+        .padStart(2, "0")}:${second}`
     },
-    changeupload () {
-      if (this.equipmentform.link == '是') {
+    changeupload() {
+      if (this.equipmentform.link == "是") {
         this.$notify({
-          title: '提示',
-          message: '请填写相关制品异常单~',
-          type: 'warning',
-          duration: '',
+          title: "提示",
+          message: "请填写相关制品异常单~",
+          type: "warning",
+          duration: "",
           offset: 50
         })
       }
     },
     // 异常单信息上传
-    async upload () {
+    async upload() {
       this.uploadbtn = true
-      let typeoftic = ''
-      if (this.equipmentform.link == '是') {
-        typeoftic = '制品异常,设备异常'
-      } else if (this.productform.group != '') {
-        typeoftic = '制品异常'
-        this.equipmentform.link = ''
-        this.equipmentform.time = ''
-      } else if (this.equipmentform.group != '') {
-        typeoftic = '设备异常'
-      }
       let place = []
       for (let [key, value] of Object.entries(this.picture)) {
-        if (typeof value === 'boolean') {
+        if (typeof value === "boolean") {
           place.push(Number(value))
         } else {
           place.push(value)
         }
       }
       let params = {
-        工号: 'C00000',
+        工号: "C00000",
         制品_异常时间: this.productform.time,
-        制品_异常类型: typeoftic,
+        制品_异常类型: "制品异常",
         制品_处置组: this.productform.group,
         制品_异常程度: this.productform.type,
         制品_制品分类: this.productform.classify,
@@ -751,36 +538,27 @@ export default {
         位4: place[3],
         位5: place[4],
         位6: place[5],
-        设备_涉及制品: this.equipmentform.link,
-        设备_故障时间: this.equipmentform.time,
-        设备_处置组: this.equipmentform.group,
-        设备_设备群: this.equipmentform.eqgroup,
-        设备_号机: this.equipmentform.eqnum,
-        设备_大单元: this.equipmentform.bigunit,
-        设备_小单元: this.equipmentform.smallunit,
-        设备_故障类型: this.equipmentform.faulttype,
-        设备_故障现象: this.equipmentform.desc,
-        设备_品名: this.equipmentform.pinming
+        设备_涉及制品: "否"
       }
       const { data } = await this.$http.post(
-        '/API/异常处置系统/新建_异常单_面板厂.py',
+        "/api/API/异常处置系统/新建_异常单_面板厂.py",
         this.$qs.stringify(params)
       )
-      if (data.state == '插入成功') {
+      if (data.state == "插入成功") {
         this.uploadbtn = false
         this.$notify({
-          title: '提示',
-          message: '创建成功~',
-          type: 'success',
-          duration: '2000'
+          title: "提示",
+          message: "创建成功~",
+          type: "success",
+          duration: "2000"
         })
-        this.$router.push({ name: 'home' })
+        this.$router.push('/home')
       } else {
         alert(data.state)
       }
     }
   },
-  created () {
+  created() {
     this.formatTime()
   }
 }
@@ -792,11 +570,11 @@ export default {
   margin-top: 2px;
 }
 .upload {
-  margin-top: 15px;
+  margin-top: 13px;
   margin-left: 10%;
   width: 70%;
-  height: 45px;
-  font-size: 20px;
+  height: 40px;
+  font-size: 19px;
 }
 .elform {
   width: 50%;
@@ -845,7 +623,7 @@ export default {
 }
 .labletext {
   float: left;
-  line-height: 40px;
+  line-height: 30px;
   margin-left: 10px;
 }
 .inputselect {
@@ -879,6 +657,7 @@ export default {
 }
 .selectitem >>> .el-textarea {
   width: 221px !important;
+  height: 60px !important;
 }
 .v-enter,
 .v-leave-to {

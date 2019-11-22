@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
+import inputFilter from './utils/index'
 import './assets/style/index.less'
 
 import ElementUI from 'element-ui'
@@ -29,7 +29,7 @@ Vue.prototype.$http = axios
 Vue.use(ElementUI, {
   locale
 })
-
+Vue.use(inputFilter)
 Vue.config.productionTip = false
 
 new Vue({

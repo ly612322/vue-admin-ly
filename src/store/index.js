@@ -7,7 +7,7 @@ Vue.use(Vuex)
   state: {
     username: window.top.SS_UID,
     collapse: false,
-    refresh: true,
+    refresh: '',
     tagslist: [],
     activename: '制品单'
   },

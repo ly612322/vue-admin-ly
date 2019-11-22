@@ -8,8 +8,8 @@
       @click="collapse"
     ></i>
     <!-- 退出下拉菜单 -->
-    <i class="el-icon-refresh refresh" @click="refreshMain"></i>
-    <fullscreen v-model="isFullscreen" class="fullscr" />
+    <i class="refresh" :class="refreshIcon" @click="refreshMain"></i>
+    <!-- <fullscreen v-model="isFullscreen" class="fullscr" /> -->
     <el-dropdown class="user" placement="bottom" @command="logout">
       <i class="el-icon-user-solid"></i>
       <el-dropdown-menu slot="dropdown">
@@ -37,8 +37,8 @@ export default {
     return {
       levelList: null,
       listicon: false,
-      refresh: this.$store.state.refresh,
-      isFullscreen: false
+      isFullscreen: false,
+      refreshIcon:'el-icon-refresh'
     }
   },
   components: { fullscreen },
@@ -69,13 +69,20 @@ export default {
       this.levelList = matched
     },
     refreshMain() {
-      this.refresh = false
-      // 在组件移除后，重新渲染组件
-      // this.$nextTick可实现在DOM 状态更新后，执行传入的方法。
-      this.$nextTick(() => {
-        this.refresh = true
-      })
+      this.refreshIcon = 'el-icon-loading'
+      let rotate = setTimeout(() => {
+        this.refreshIcon = 'el-icon-refresh'
+      }, 1000);
+      this.$store.state.refresh = new Date().getTime()
     }
+    // refreshMain() {
+    //   this.refresh = false
+    //   // 在组件移除后，重新渲染组件
+    //   // 可实现在DOM 状态更新后，执行传入的方法。
+    //   this.$nextTick(() => {
+    //     this.refresh = true
+    //   })
+    // }
   },
   created() {
     this.getBreadcrumb()
@@ -111,10 +118,10 @@ export default {
   font-weight: 550;
   margin-right: 10px;
 }
-.fullscr{
+.fullscr {
   float: right;
   line-height: 51px;
   margin-right: 15px;
-  font-size: 23px
+  font-size: 23px;
 }
 </style>

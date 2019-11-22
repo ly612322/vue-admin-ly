@@ -2,11 +2,12 @@
   <div>
     <template>
       <el-table
-        :data="confirmdata"
+        :data="confirmdata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
-        style="width: 100%"
+        style="width: 100%;white-space:nowrap"
         max-height="650"
         highlight-current-row
+        :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
         <el-table-column prop="编号" label="编号" width="250" align="center" sortable></el-table-column>
         <el-table-column prop="指示" label="指示" width="400" align="center"></el-table-column>
@@ -35,92 +36,117 @@
         </el-table-column>
         <el-table-column label="操作" width="220" align="center">
           <template slot-scope="scope">
-              <el-button @click="handleClick(scope.$index, scope.row)" type="primary" size="small">查看</el-button>
+            <el-button @click="handleClick(scope.$index, scope.row)" type="primary" size="small">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
     </template>
+    <div class="pagination">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 20, 40]"
+        :page-size="pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="confirmdata.length"
+      ></el-pagination>
+    </div>
     <transition name="dialog">
-        <el-dialog
-      title="制品指示确认"
-      :visible.sync="proconfirm"
-      v-if="proconfirm"
-      width="70%"
-      top="2%"
-      destroy-on-close
-      center
-    >
-      <con :id="ticNumber"></con>
-    </el-dialog>
+      <el-dialog
+        title="制品指示确认"
+        :visible.sync="proconfirm"
+        v-if="proconfirm"
+        width="70%"
+        top="2%"
+        destroy-on-close
+        center
+      >
+        <con :id="ticNumber"></con>
+      </el-dialog>
     </transition>
   </div>
 </template>
 <script>
-import con from './alertconfirm'
+import con from "./alertconfirm"
 export default {
-  name: 'confirm',
-  data () {
+  name: "confirm",
+  data() {
     return {
       ticNumber: null,
       proconfirm: false,
       confirmdata: [
         {
-          编号: '制品异常-面板厂-2019-19847',
-          指示: '成膜区域超规格',
-          指示人员: '周亦睿',
-          确认组: 'PVD',
-          结果: 'S6.2..3.13成膜区域超规格'
+          编号: "制品异常-面板厂-2019-19847",
+          指示: "成膜区域超规格",
+          指示人员: "周亦睿",
+          确认组: "PVD",
+          结果: "S6.2..3.13成膜区域超规格"
         },
         {
-          编号: '制品异常-面板厂-2019-19847',
-          指示: '成膜区域超规格',
-          指示人员: '周亦睿',
-          确认组: 'CVD',
-          结果: 'S6.2..3.13成膜区域超规格'
+          编号: "制品异常-面板厂-2019-19847",
+          指示: "成膜区域超规格",
+          指示人员: "周亦睿",
+          确认组: "CVD",
+          结果: "S6.2..3.13成膜区域超规格"
         }
-      ]
+      ],
+      currentPage: 1, // 初始页
+      pagesize: 10 //    每页的数据
     }
   },
   components: {
     con
   },
   methods: {
-    handleClick (index, row) {
+    handleClick(index, row) {
       this.proconfirm = true
       this.ticNumber = row.编号
     },
     // 页面筛选函数
-    filterHandler (value, row, column) {
-      const property = column['property']
+    filterHandler(value, row, column) {
+      const property = column["property"]
       return row[property] === value
     },
-    async getList () {
+    async getList() {
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/查询_制品指示确认.py'
+        "/api/API/异常处置系统/查询_制品指示确认.py"
       )
       // 把数据挂载到 data上
-      if (data.state === '') {
+      if (data.state === "") {
         this.confirmdata = data.data
         this.$message({
-          message: '加载成功~',
-          type: 'success',
-          duration: '1200'
+          message: "加载成功~",
+          type: "success",
+          duration: "1200"
         })
       } else {
         this.$notify({
-          title: '错误！',
+          title: "错误！",
           message: data.state,
-          type: 'error'
+          type: "error"
         })
       }
+    },
+        // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function(size) {
+      this.pagesize = size
+    },
+    handleCurrentChange: function(currentPage) {
+      this.currentPage = currentPage
     }
   },
-  created () {
+  created() {
     this.getList()
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+.pagination {
+  background: #fff;
+  position: fixed;
+  bottom: 3px;
+  width: 100%;
+}
 </style>

@@ -64,7 +64,7 @@
         </el-table-column>
       </el-table>
     </template>
-    <div class="block">
+    <div class="pagination">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -119,22 +119,10 @@ export default {
           异常: '成膜区域超规格',
           处置: 'CVD',
           现象: 'S6.2..3.13成膜区域超规格'
-        },
-        {
-          编号: '设备异常-面板厂-2019-19847',
-          创建: '周亦睿',
-          日期: '2019-09-20',
-          设备: 'MMO004',
-          号机: '2',
-          Main: '19914051',
-          Sub: '扫描Sensor',
-          处置: 'PVD',
-          异常: '成膜区域超规格',
-          现象: 'S6.2..3.13成膜区域超规格3.13成膜区域超规格,3.13成膜区域超规格'
         }
       ],
       currentPage: 1, // 初始页
-      pagesize: 9 //    每页的数据
+      pagesize: 10 //    每页的数据
     }
   },
   components: {
@@ -220,5 +208,11 @@ export default {
 <style scoped>
 .el-button {
   margin-left: 5px;
+}
+.pagination {
+  background: #fff;
+  position: fixed;
+  bottom: 3px;
+  width: 100%;
 }
 </style>
