@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "elmain"
+  name: 'elmain'
 
 }
 </script>

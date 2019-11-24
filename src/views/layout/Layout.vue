@@ -21,9 +21,9 @@ import navbar from './components/navbar'
 import tabsbar from './components/tabsbar'
 import elmain from './components/main'
 export default {
-  data() {
+  data () {
     return {
-      showMain:''
+      showMain: ''
     }
   },
   components: {

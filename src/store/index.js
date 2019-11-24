@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
- const store = new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     username: window.top.SS_UID,
     collapse: false,
@@ -12,7 +12,7 @@ Vue.use(Vuex)
     activename: '制品单'
   },
   mutations: {
-    toCollapse(state) {
+    toCollapse (state) {
       state.collapse = !state.collapse
     }
   },

@@ -119,27 +119,27 @@
   </div>
 </template>
 <script>
-import deal from "./components/proalert/dealproduct"
-import change from "./components/proalert/changepro"
+import deal from './components/proalert/dealproduct'
+import change from './components/proalert/changepro'
 export default {
-  data() {
+  data () {
     return {
       table: false,
       dealproduct: false,
       changeproduct: false,
-      Lot: "",
+      Lot: '',
       ticNumber: null,
       productdata: [
         {
-          编号: "制品异常-面板厂-2019-19847",
-          创建: "周亦睿",
-          日期: "2019-09-20",
-          LOT: "19914051",
-          设备: "MMO004",
-          异常: "成膜区域超规格",
+          编号: '制品异常-面板厂-2019-19847',
+          创建: '周亦睿',
+          日期: '2019-09-20',
+          LOT: '19914051',
+          设备: 'MMO004',
+          异常: '成膜区域超规格',
           现象:
-            "S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格",
-          处置: "CVD"
+            'S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格',
+          处置: 'CVD'
         }
       ],
       LotData: [],
@@ -150,95 +150,95 @@ export default {
   components: { deal, change },
   methods: {
     // dialog开关
-    dealrouter(index, row) {
+    dealrouter (index, row) {
       this.ticNumber = row.编号
       this.dealproduct = true
     },
-    changerouter(index, row) {
+    changerouter (index, row) {
       this.ticNumber = row.编号
       this.changeproduct = true
     },
 
     // 制品数据
-    async getNewsList() {
+    async getNewsList () {
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/异常单_面板厂.py"
+        '/api/API/异常处置系统/异常单_面板厂.py'
       )
       // 把数据挂载到 data上
       const h = this.$createElement
-      if (data.state === "") {
+      if (data.state === '') {
         this.productdata = data.制品单
         this.$message({
-          title: "提示",
-          message: "加载成功",
-          type: "success",
-          duration: "1200"
+          title: '提示',
+          message: '加载成功',
+          type: 'success',
+          duration: '1200'
         })
       } else {
         const h = this.$createElement
         this.$message({
-          title: "错误！",
-          message: h("i", { style: "color: teal" }, data.state),
-          type: "error",
-          duration: "4000"
+          title: '错误！',
+          message: h('i', { style: 'color: teal' }, data.state),
+          type: 'error',
+          duration: '4000'
         })
       }
     },
     // 页面筛选函数
-    filterHandler(value, row, column) {
-      const property = column["property"]
+    filterHandler (value, row, column) {
+      const property = column['property']
       return row[property] === value
     },
 
-    async queryLot(lot) {
+    async queryLot (lot) {
       this.table = true
       this.Lot = lot
       const { data } = await this.$http.post(
-        "/API/异常处置系统/工程实绩_LOT履历.py",
+        '/API/异常处置系统/工程实绩_LOT履历.py',
         this.$qs.stringify({
           LOT_ID: lot,
-          工厂: ""
+          工厂: ''
         })
       )
-      if (data.state === "") {
+      if (data.state === '') {
         this.LotData = data.data
       } else {
         alert(data.state)
       }
     },
-    deleteRow(index, rows) {
-      this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+    deleteRow (index, rows) {
+      this.$confirm('此操作将删除该异常单, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           rows.splice(index, 1)
           this.$notify({
-            title: "提示",
-            message: "删除成功！",
-            type: "success",
-            duration: "1400"
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
+            duration: '1400'
           })
         })
         .catch(() => {
           this.$notify({
-            title: "提示",
-            message: "已取消删除",
-            type: "warning",
-            duration: "1400"
+            title: '提示',
+            message: '已取消删除',
+            type: 'warning',
+            duration: '1400'
           })
         })
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function(size) {
+    handleSizeChange: function (size) {
       this.pagesize = size
     },
-    handleCurrentChange: function(currentPage) {
+    handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     }
   },
-  created() {
+  created () {
     this.getNewsList()
   },
   computed: {

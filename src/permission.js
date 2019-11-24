@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
       //   })
       //   store.state.activename = to.meta.title
       //   console.log(store.state.activename);
-        next()
+      next()
       NProgress.done() // 关闭进度条
     }
   }

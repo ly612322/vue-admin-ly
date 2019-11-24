@@ -42,20 +42,20 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       activeClass: -1,
       tabIndex: 0,
-      activeMenu: "制品单",
+      activeMenu: '制品单',
       editableTabs: []
     }
   },
   methods: {
-    hendleTabg(title,index) {
+    hendleTabg (title, index) {
       this.$router.push(`/${title}`)
       this.activeClass = index
     },
-    removeTab(targetName) {
+    removeTab (targetName) {
       let tabs = this.editableTabs
       let activeName = this.activeMenu
       if (activeName === targetName) {
@@ -72,8 +72,8 @@ export default {
       this.$router.push(`/${activeName}`)
       this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
-    handleCommand(command) {
-      if (command === "other") {
+    handleCommand (command) {
+      if (command === 'other') {
         this.editableTabs = this.editableTabs.filter(
           tab => tab.name == this.activeMenu
         )
@@ -87,7 +87,7 @@ export default {
     // 路由监听：监听路由的变化，从而做出相应操作
     $route: {
       immediate: true, // 一旦监听到路由的变化立即执行
-      handler(to, from) {
+      handler (to, from) {
         // 给activeMenu重新赋值为当前组件的路由地址
         let flag = true
         this.editableTabs.forEach(ele => {
@@ -129,4 +129,3 @@ export default {
   padding: 2px;
 }
 </style>
-

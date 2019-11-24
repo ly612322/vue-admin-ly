@@ -127,30 +127,30 @@
 </template>
 <script>
 export default {
-  name: "newsheet",
-  data() {
+  name: 'newsheet',
+  data () {
     return {
       loading: false,
       uploadbtn: false,
       ticshow: false,
       api: {
-        eqgroup: "/api/API/异常处置系统/设备群_新建异常单_面板厂.py",
-        eqnum: "/api/API/异常处置系统/号机_新建异常单_面板厂.py",
-        bigunit: "/api/API/异常处置系统/大单元_新建异常单_面板厂.py",
-        smallunit: "/api/API/异常处置系统/小单元_新建异常单_面板厂.py",
-        faulttype: "/api/API/异常处置系统/故障类型_新建异常单_面板厂.py"
+        eqgroup: '/api/API/异常处置系统/设备群_新建异常单_面板厂.py',
+        eqnum: '/api/API/异常处置系统/号机_新建异常单_面板厂.py',
+        bigunit: '/api/API/异常处置系统/大单元_新建异常单_面板厂.py',
+        smallunit: '/api/API/异常处置系统/小单元_新建异常单_面板厂.py',
+        faulttype: '/api/API/异常处置系统/故障类型_新建异常单_面板厂.py'
       },
       equipmentform: {
-        link: "否",
-        time: "",
-        group: "",
-        eqgroups: "",
-        eqnum: "",
-        bigunit: "",
-        smallunit: "",
-        faulttype: "",
-        desc: "",
-        pinming: ""
+        link: '否',
+        time: '',
+        group: '',
+        eqgroups: '',
+        eqnum: '',
+        bigunit: '',
+        smallunit: '',
+        faulttype: '',
+        desc: '',
+        pinming: ''
       },
       eqgroup: [],
       eqnum: [],
@@ -160,47 +160,47 @@ export default {
     }
   },
   methods: {
-    async queryeqgroup(api, ...value) {
+    async queryeqgroup (api, ...value) {
       this.eqgroup = []
       const { data } = await this.$http.post(
         `${api}`,
         this.$qs.stringify({ 处置组: value[0] })
       )
-      data.data.split(",").forEach(ele => {
+      data.data.split(',').forEach(ele => {
         this.eqgroup.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async queryeqnum(api, ...value) {
+    async queryeqnum (api, ...value) {
       this.eqnum = []
       const { data } = await this.$http.post(
         `${api}`,
         this.$qs.stringify({ 设备群: value[0] })
       )
       console.log(data.data)
-      data.data.split(",").forEach(ele => {
+      data.data.split(',').forEach(ele => {
         this.eqnum.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async querybigunit(api, ...value) {
+    async querybigunit (api, ...value) {
       this.bigunit = []
       const { data } = await this.$http.post(
         `${api}`,
         this.$qs.stringify({ 设备群: value[0], 号机: value[1] })
       )
-      data.data.split(",").forEach(ele => {
+      data.data.split(',').forEach(ele => {
         this.bigunit.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async querysmallunit(api, ...value) {
+    async querysmallunit (api, ...value) {
       this.smallunit = []
       const { data } = await this.$http.post(
         `${api}`,
@@ -210,14 +210,14 @@ export default {
           大单元: value[2]
         })
       )
-      data.data.split(",").forEach(ele => {
+      data.data.split(',').forEach(ele => {
         this.smallunit.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async queryfaulttype(api, ...value) {
+    async queryfaulttype (api, ...value) {
       this.faulttype = []
       const { data } = await this.$http.post(
         `${api}`,
@@ -228,7 +228,7 @@ export default {
           小单元: value[3]
         })
       )
-      data.data.split(",").forEach(ele => {
+      data.data.split(',').forEach(ele => {
         this.faulttype.push({
           value: ele,
           lable: ele
@@ -236,46 +236,46 @@ export default {
       })
     },
     // 初始异常时间
-    formatTime() {
+    formatTime () {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, "0")
+      const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const day = date
         .getDate()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       this.equipmentform.time = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
-    changeupload() {
-      if (this.equipmentform.link == "是") {
+    changeupload () {
+      if (this.equipmentform.link == '是') {
         this.$notify({
-          title: "提示",
-          message: "请填写相关制品异常单~",
-          type: "warning",
-          duration: "",
+          title: '提示',
+          message: '请填写相关制品异常单~',
+          type: 'warning',
+          duration: '',
           offset: 50
         })
       }
     },
     // 异常单信息上传
-    async upload() {
+    async upload () {
       this.uploadbtn = true
       let params = {
-        工号: "C00000",
-        制品_异常类型: "设备异常",
-        设备_涉及制品: "否",
+        工号: 'C00000',
+        制品_异常类型: '设备异常',
+        设备_涉及制品: '否',
         设备_故障时间: this.equipmentform.time,
         设备_处置组: this.equipmentform.group,
         设备_设备群: this.equipmentform.eqgroup,
@@ -287,16 +287,16 @@ export default {
         设备_品名: this.equipmentform.pinming
       }
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/新建_异常单_面板厂.py",
+        '/api/API/异常处置系统/新建_异常单_面板厂.py',
         this.$qs.stringify(params)
       )
-      if (data.state == "插入成功") {
+      if (data.state == '插入成功') {
         this.uploadbtn = false
         this.$notify({
-          title: "提示",
-          message: "创建成功~",
-          type: "success",
-          duration: "2000"
+          title: '提示',
+          message: '创建成功~',
+          type: 'success',
+          duration: '2000'
         })
         this.$router.push('/设备单')
       } else {
@@ -304,7 +304,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.formatTime()
   }
 }

@@ -68,27 +68,27 @@
   </div>
 </template>
 <script>
-import con from "./alertconfirm"
+import con from './alertconfirm'
 export default {
-  name: "confirm",
-  data() {
+  name: 'confirm',
+  data () {
     return {
       ticNumber: null,
       proconfirm: false,
       confirmdata: [
         {
-          编号: "制品异常-面板厂-2019-19847",
-          指示: "成膜区域超规格",
-          指示人员: "周亦睿",
-          确认组: "PVD",
-          结果: "S6.2..3.13成膜区域超规格"
+          编号: '制品异常-面板厂-2019-19847',
+          指示: '成膜区域超规格',
+          指示人员: '周亦睿',
+          确认组: 'PVD',
+          结果: 'S6.2..3.13成膜区域超规格'
         },
         {
-          编号: "制品异常-面板厂-2019-19847",
-          指示: "成膜区域超规格",
-          指示人员: "周亦睿",
-          确认组: "CVD",
-          结果: "S6.2..3.13成膜区域超规格"
+          编号: '制品异常-面板厂-2019-19847',
+          指示: '成膜区域超规格',
+          指示人员: '周亦睿',
+          确认组: 'CVD',
+          结果: 'S6.2..3.13成膜区域超规格'
         }
       ],
       currentPage: 1, // 初始页
@@ -99,44 +99,44 @@ export default {
     con
   },
   methods: {
-    handleClick(index, row) {
+    handleClick (index, row) {
       this.proconfirm = true
       this.ticNumber = row.编号
     },
     // 页面筛选函数
-    filterHandler(value, row, column) {
-      const property = column["property"]
+    filterHandler (value, row, column) {
+      const property = column['property']
       return row[property] === value
     },
-    async getList() {
+    async getList () {
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/查询_制品指示确认.py"
+        '/api/API/异常处置系统/查询_制品指示确认.py'
       )
       // 把数据挂载到 data上
-      if (data.state === "") {
+      if (data.state === '') {
         this.confirmdata = data.data
         this.$message({
-          message: "加载成功~",
-          type: "success",
-          duration: "1200"
+          message: '加载成功~',
+          type: 'success',
+          duration: '1200'
         })
       } else {
         this.$notify({
-          title: "错误！",
+          title: '错误！',
           message: data.state,
-          type: "error"
+          type: 'error'
         })
       }
     },
-        // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function(size) {
+    // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function (size) {
       this.pagesize = size
     },
-    handleCurrentChange: function(currentPage) {
+    handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     }
   },
-  created() {
+  created () {
     this.getList()
   }
 }

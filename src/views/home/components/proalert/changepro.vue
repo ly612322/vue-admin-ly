@@ -499,7 +499,7 @@ export default {
       data.$on('ethis.$qsend', message => {
         Object.assign(params, message)
       })
-      await this.$http.post('/API/异常处置系统/LOT.py', this.$qs.stringify(params))
+      await this.$http.post('/api/API/异常处置系统/修改_制品单.py', this.$qs.stringify(params))
       if (data.state === '') {
         this.lotDate = data.data
       } else {

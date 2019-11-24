@@ -300,28 +300,28 @@
 </template>
 <script>
 export default {
-  name: "newsheet",
-  data() {
+  name: 'newsheet',
+  data () {
     return {
       loading: false,
       uploadbtn: false,
       ticshow: true,
       productform: {
-        time: "",
-        group: "",
-        lot: "",
-        sheet: "",
-        abnormalName: "",
-        panel: "",
-        remark: "",
-        discribe: "",
-        type: "轻微",
-        classify: "试做"
+        time: '',
+        group: '',
+        lot: '',
+        sheet: '',
+        abnormalName: '',
+        panel: '',
+        remark: '',
+        discribe: '',
+        type: '轻微',
+        classify: '试做'
       },
       btnname: {
-        tongyong: "通用",
-        array: "ARRAY",
-        cell: "CELL"
+        tongyong: '通用',
+        array: 'ARRAY',
+        cell: 'CELL'
       },
       lotDate: [],
       lotallmessage: [],
@@ -339,34 +339,34 @@ export default {
       rules: {
         time: [
           {
-            type: "date",
+            type: 'date',
             required: true,
-            message: "请选择异常发生时间",
-            trigger: "blur"
+            message: '请选择异常发生时间',
+            trigger: 'blur'
           }
         ],
-        group: [{ required: true, message: "请选择处置组", trigger: "change" }],
+        group: [{ required: true, message: '请选择处置组', trigger: 'change' }],
         type: [
           {
-            type: "string",
+            type: 'string',
             required: true,
-            message: "请至少选择一个异常类型"
+            message: '请至少选择一个异常类型'
           }
         ],
-        lot: [{ required: true, message: "请填写Lot" }],
+        lot: [{ required: true, message: '请填写Lot' }],
         classify: [
           {
             required: true,
-            message: "请至少选择一个制品分类",
-            trigger: "change"
+            message: '请至少选择一个制品分类',
+            trigger: 'change'
           }
         ],
-        sheet: [{ required: true, message: "请填写SHEET", trigger: "blur" }],
+        sheet: [{ required: true, message: '请填写SHEET', trigger: 'blur' }],
         discribe: [
-          { required: true, message: "请填写异常描述", trigger: "blur" }
+          { required: true, message: '请填写异常描述', trigger: 'blur' }
         ],
         abnormalName: [
-          { required: true, message: "请选择异常名称", trigger: "change" }
+          { required: true, message: '请选择异常名称', trigger: 'change' }
         ]
       },
       lotDate: []
@@ -374,41 +374,41 @@ export default {
   },
   methods: {
     // 根据LOT号查询品名等
-    async queryLot() {
+    async queryLot () {
       this.loading = true
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/品名工程查询_异常单_面板厂.py",
+        '/api/API/异常处置系统/品名工程查询_异常单_面板厂.py',
         this.$qs.stringify({
           LOT: this.productform.lot
         })
       )
-      if (data.state === "") {
+      if (data.state === '') {
         this.lotDate = data.data
         this.loading = false
       } else {
         alert(data.state)
       }
     },
-    async queryname(group) {
+    async queryname (group) {
       this.options = []
-      if (this.productform.group === "") {
+      if (this.productform.group === '') {
         this.$notify({
-          title: "提示",
-          message: "请选择处置组",
-          type: "warning",
-          duration: "1500"
+          title: '提示',
+          message: '请选择处置组',
+          type: 'warning',
+          duration: '1500'
         })
         return
       }
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/异常名称查询_异常单_面板厂.py",
+        '/api/API/异常处置系统/异常名称查询_异常单_面板厂.py',
         this.$qs.stringify({
           分类: group,
           处置组: this.productform.group
         })
       )
-      if (data.state === "") {
-        data.data.split(",").forEach(ele => {
+      if (data.state === '') {
+        data.data.split(',').forEach(ele => {
           this.options.push({
             value: ele,
             lable: ele
@@ -420,7 +420,7 @@ export default {
       }
     },
     // 添加LOT异常详细信息
-    add(data) {
+    add (data) {
       this.lotallmessage.push({
         LOT: this.productform.lot,
         SHEET: this.productform.sheet,
@@ -433,60 +433,60 @@ export default {
       })
     },
     // 删除添加的信息
-    deleteRow(index, rows) {
+    deleteRow (index, rows) {
       rows.splice(index, 1)
     },
     // 初始异常时间
-    formatTime() {
+    formatTime () {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, "0")
+      const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const day = date
         .getDate()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, "0")
+        .padStart(2, '0')
       this.productform.time = `${year}-${month}-${day} ${hour}:${(minute - 5)
         .toString()
-        .padStart(2, "0")}:${second}`
+        .padStart(2, '0')}:${second}`
     },
-    changeupload() {
-      if (this.equipmentform.link == "是") {
+    changeupload () {
+      if (this.equipmentform.link == '是') {
         this.$notify({
-          title: "提示",
-          message: "请填写相关制品异常单~",
-          type: "warning",
-          duration: "",
+          title: '提示',
+          message: '请填写相关制品异常单~',
+          type: 'warning',
+          duration: '',
           offset: 50
         })
       }
     },
     // 异常单信息上传
-    async upload() {
+    async upload () {
       this.uploadbtn = true
       let place = []
       for (let [key, value] of Object.entries(this.picture)) {
-        if (typeof value === "boolean") {
+        if (typeof value === 'boolean') {
           place.push(Number(value))
         } else {
           place.push(value)
         }
       }
       let params = {
-        工号: "C00000",
+        工号: 'C00000',
         制品_异常时间: this.productform.time,
-        制品_异常类型: "制品异常",
+        制品_异常类型: '制品异常',
         制品_处置组: this.productform.group,
         制品_异常程度: this.productform.type,
         制品_制品分类: this.productform.classify,
@@ -538,19 +538,19 @@ export default {
         位4: place[3],
         位5: place[4],
         位6: place[5],
-        设备_涉及制品: "否"
+        设备_涉及制品: '否'
       }
       const { data } = await this.$http.post(
-        "/api/API/异常处置系统/新建_异常单_面板厂.py",
+        '/api/API/异常处置系统/新建_异常单_面板厂.py',
         this.$qs.stringify(params)
       )
-      if (data.state == "插入成功") {
+      if (data.state == '插入成功') {
         this.uploadbtn = false
         this.$notify({
-          title: "提示",
-          message: "创建成功~",
-          type: "success",
-          duration: "2000"
+          title: '提示',
+          message: '创建成功~',
+          type: 'success',
+          duration: '2000'
         })
         this.$router.push('/home')
       } else {
@@ -558,7 +558,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.formatTime()
   }
 }
