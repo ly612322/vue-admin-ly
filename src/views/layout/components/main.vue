@@ -17,7 +17,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .el-main {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 87vh;
   padding: 12px;
 }

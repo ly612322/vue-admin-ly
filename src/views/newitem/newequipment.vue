@@ -134,11 +134,11 @@ export default {
       uploadbtn: false,
       ticshow: false,
       api: {
-        eqgroup: '/api/API/异常处置系统/设备群_新建异常单_面板厂.py',
-        eqnum: '/api/API/异常处置系统/号机_新建异常单_面板厂.py',
-        bigunit: '/api/API/异常处置系统/大单元_新建异常单_面板厂.py',
-        smallunit: '/api/API/异常处置系统/小单元_新建异常单_面板厂.py',
-        faulttype: '/api/API/异常处置系统/故障类型_新建异常单_面板厂.py'
+        eqgroup: '/API/异常处置系统/设备群_新建异常单_面板厂.py',
+        eqnum: '/API/异常处置系统/号机_新建异常单_面板厂.py',
+        bigunit: '/API/异常处置系统/大单元_新建异常单_面板厂.py',
+        smallunit: '/API/异常处置系统/小单元_新建异常单_面板厂.py',
+        faulttype: '/API/异常处置系统/故障类型_新建异常单_面板厂.py'
       },
       equipmentform: {
         link: '否',
@@ -287,7 +287,7 @@ export default {
         设备_品名: this.equipmentform.pinming
       }
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/新建_异常单_面板厂.py',
+        '/API/异常处置系统/新建_异常单_面板厂.py',
         this.$qs.stringify(params)
       )
       if (data.state == '插入成功') {

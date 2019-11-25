@@ -15,6 +15,7 @@
           ></i>
         </div>
         <h2 class="login-title color-main" style="color:#409EFF">异常处置系统</h2>
+        <!-- <h2 class="login-title color-main" style="color:#409EFF">ly</h2> -->
         <el-form-item prop="username">
           <el-input
             name="username"
@@ -43,71 +44,105 @@
       </el-form>
     </el-card>
     <img :src="loginCenter" class="login-center-layout" />
-    <el-dialog title="密码修改" :visible.sync="dialogVisible" width="30%" class="password" center >
-      <el-form :model="changeform" label-width="90px" >
-        <el-form-item label="用户名" >
+    <el-dialog title="密码修改" :visible.sync="dialogVisible" width="30%" class="password" center>
+      <el-form :model="changeform" label-width="90px">
+        <el-form-item label="用户名">
           <el-input v-model="changeform.name"></el-input>
         </el-form-item>
         <el-form-item label="原密码">
-          <el-input v-model="changeform.beforePassword"></el-input>
+          <el-input v-model="changeform.beforePassword" show-password></el-input>
         </el-form-item>
         <el-form-item label="新密码">
-          <el-input v-model="changeform.newPassword"></el-input>
+          <el-input v-model="changeform.newPassword" show-password></el-input>
         </el-form-item>
         <el-form-item label="确认新密码">
-          <el-input v-model="changeform.againnewPassword"></el-input>
+          <el-input v-model="changeform.againnewPassword" show-password></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="changePwd">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
-import loginCenter from '../../assets/images/login_center_bg.png'
+import md5 from "js-md5"
+import loginCenter from "../../assets/images/login_center_bg.png"
 export default {
-  data () {
+  data() {
     return {
       loginCenter,
       dialogVisible: false,
       loginForm: {
-        username: 'C00000',
-        password: '2'
+        username: "C00000",
+        password: "2"
       },
-      changeform: { // 密码修改表单
-        name: '',
-        beforePassword: '',
-        newPassword: '',
-        againnewPassword: ''
+      changeform: {
+        // 密码修改表单
+        name: "",
+        beforePassword: "",
+        newPassword: "",
+        againnewPassword: ""
       },
-      rules: { // 登陆表单验证
+      rules: {
+        // 登陆表单验证
         username: [
-          { required: true, message: '请输入登陆名', trigger: 'blur' },
-          { min: 3, max: 7, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: "请输入登陆名", trigger: "blur" },
+          { min: 3, max: 7, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     }
   },
   methods: {
-    handleLogin () {
+    handleLogin() {
       this.$refs.loginForm.validate(async valid => {
         // 表单预检验 校验成功valid为true
         if (!valid) return
-        const { data: res } = await this.$http.post(
-          '/login',
-          this.$qs.stringify(this.loginForm)
+        const { data } = await this.$http.post(
+          "/API/用户信息/登入.py",
+          this.$qs.stringify({
+            UID: this.loginForm.username,
+            PWD: md5(this.loginForm.password)
+          })
         )
-        if (res.meta.status !== 200) return this.$message.error('登陆失败')
-        this.$message.success('登陆成功')
-        window.sessionStorage.setItem('token', res.data.token) // 存储返回的token
-        this.$router.push('/home') // 跳转主页
+        if (data.state == "") {
+          this.$message.success("登陆成功")
+          this.$store.state.username = this.loginForm.username
+          // window.sessionStorage.setItem('token', res.data.token) // 存储返回的token
+          this.$router.push("/home") // 跳转主页
+        } else {
+          return this.$message.error(`${data.state}`)
+        }
       })
     },
-    resetForm () {
+    resetForm() {
       this.$refs.loginForm.resetFields() // 重置登陆表单信息
+    },
+    async changePwd() {
+      if (this.changeform.newPassword == this.changeform.beforePassword) {
+        this.$message.error("新旧密码相同,请重新输入新密码")
+        return
+      }
+      if (this.changeform.newPassword != this.changeform.againnewPassword) {
+        this.$message.error("新密码输入不一致")
+        return
+      }
+      const { data } = await this.$http.post(
+        "/API/用户信息/更新.py",
+        this.$qs.stringify({
+          UID: this.changeform.name,
+          PWD: md5(this.changeform.beforePassword),
+          PWD2: md5(this.changeform.againnewPassword)
+        })
+      )
+      if (data.state == "") {
+        this.$message.success("密码已修改")
+        this.dialogVisible = false
+      } else {
+        return this.$message.error(`${data.state}`)
+      }
     }
     // handleClose(done) {
     //   this.$confirm("确认关闭？")
@@ -150,8 +185,8 @@ export default {
   margin-top: 20%;
   transform: translate(-50%);
 }
-.el-dialog{
-  .el-input{
+.el-dialog {
+  .el-input {
     width: 85%;
   }
 }

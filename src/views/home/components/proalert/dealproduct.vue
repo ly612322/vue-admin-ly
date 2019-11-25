@@ -261,13 +261,13 @@
   </div>
 </template>
 <script>
-import inputFilter from '../../../../utils/index'
+import inputFilter from "../../../../utils/index"
 export default {
-  name: 'productprocess',
+  name: "productprocess",
   directives: {
     inputFilter
   },
-  data () {
+  data() {
     return {
       fullscreenLoading: false,
       visible: false,
@@ -276,22 +276,22 @@ export default {
       productdetails: [],
       lotData: [],
       dealstep: [],
-      causeequipment: '',
-      manager: '',
-      track: '',
-      reason: '',
-      newInstruct: '',
-      dealGroup: '',
+      causeequipment: "",
+      manager: "",
+      track: "",
+      reason: "",
+      newInstruct: "",
+      dealGroup: "",
       instructData: [],
       allInstruct: []
     }
   },
-  props: ['id'],
+  props: ["id"],
   methods: {
-    async querymessage () {
-      this.fullscreenLoading = false
+    async querymessage() {
+      this.fullscreenLoading = true
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/制品单关联.py',
+        "/API/异常处置系统/制品单关联.py",
         this.$qs.stringify({
           编号: this.id
         })
@@ -306,69 +306,68 @@ export default {
       this.dealstep = data.最新处置进度
       this.manager = Object.values(data.经理确认)[0]
       this.causeequipment = Object.values(data.制品异常详情)[9]
-      this.track = Object.values(data.制品异常详情)[10].replace('None', '')
-      this.reason = Object.values(data.制品异常详情)[11].replace('None', '')
-      let pictrue = document.getElementsByClassName('picture')
+      this.track = Object.values(data.制品异常详情)[10].replace("None", "")
+      this.reason = Object.values(data.制品异常详情)[11].replace("None", "")
+      let pictrue = document.getElementsByClassName("picture")
       for (var i = 0; i < 6; i++) {
         if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
-          pictrue[i].style.backgroundColor = 'red'
+          pictrue[i].style.backgroundColor = "red"
         }
       }
       this.fullscreenLoading = false
     },
-    addInstruct () {
-      if (this.newInstruct == '') {
+    addInstruct() {
+      if (this.newInstruct == "") {
         this.$notify({
-          title: '提示',
-          message: '请填写指示内容',
-          type: 'warning',
-          duration: '2000'
+          title: "提示",
+          message: "请填写指示内容",
+          type: "warning",
+          duration: "2000"
         })
         return
       }
       for (let i in this.instructData) {
         if (this.instructData[i].指示 == this.newInstruct) {
           this.$notify({
-            title: '提示',
-            message: '请勿添加相同指示',
-            type: 'warning',
-            duration: '2000'
+            title: "提示",
+            message: "请勿添加相同指示",
+            type: "warning",
+            duration: "2000"
           })
           return
         }
       }
-
       this.instructData.push({
         指示: this.newInstruct,
         确认组: this.dealGroup
       })
     },
-    deleteRow (index, rows) {
+    deleteRow(index, rows) {
       rows.splice(index, 1)
     },
-    async submitInstruct () {
+    async submitInstruct() {
       if (this.instructData.length === 0) {
         this.$notify({
-          title: '提示',
-          message: '请添加指示内容',
-          type: 'warning',
-          duration: '2000'
+          title: "提示",
+          message: "请添加指示内容",
+          type: "warning",
+          duration: "2000"
         })
         return
       }
-      if (this.reason === '') {
+      if (this.reason === "") {
         this.$notify({
-          title: '提示',
-          message: '请填写原因',
-          type: 'warning',
-          duration: '2000'
+          title: "提示",
+          message: "请填写原因",
+          type: "warning",
+          duration: "2000"
         })
         return
       }
       this.submitloading = true
       let params = {
-        编号: this.$route.params.id,
-        工号: 'C00000',
+        编号: this.id,
+        工号: this.$store.state.username,
         指示: this.instructData
           .map(ele => {
             return ele.指示
@@ -384,52 +383,52 @@ export default {
         原因: this.reason
       }
 
-      let { data } = await this.$http.post(
-        '/api/API/异常处置系统/制品指示_异常单_面板厂.py',
+      const { data: state } = await this.$http.post(
+        "/API/异常处置系统/制品指示_异常单_面板厂.py",
         this.$qs.stringify(params)
       )
-      if (data.state == '提交成功') {
+      console.log(state.state)
+
+      if (state.state == "插入成功") {
         const h = this.$createElement
         this.submitloading = false
         this.$alert(
-          h('span', { style: 'font-size: 18px' }, '指示成功'),
-          '提示',
+          h("span", { style: "font-size: 18px" }, "指示成功"),
+          "提示",
           {
-            confirmButtonText: '确定',
+            confirmButtonText: "确定",
             showClose: false,
-            type: 'success',
-            callback: action => {
-              this.$router.push({ name: 'home' })
-            }
+            type: "success",
+            callback: action => {}
           }
         )
       }
     },
-    async endInstruct () {
+    async endInstruct() {
       if (this.dealstep.length === 0) {
         this.$notify({
-          title: '提示',
-          message: '未进行处置，无法完结',
-          type: 'warning',
-          duration: '2000'
+          title: "提示",
+          message: "未进行处置，无法完结",
+          type: "warning",
+          duration: "2000"
         })
         return
       }
       for (var i = 0; i < this.dealstep.length; i++) {
-        if (this.dealstep[i][Object.keys(this.dealstep[i])[3]] == '进行') {
+        if (this.dealstep[i][Object.keys(this.dealstep[i])[3]] == "进行") {
           this.$notify({
-            title: '提示',
-            message: '还有未完结的指示内容',
-            type: 'warning',
-            duration: '2000'
+            title: "提示",
+            message: "还有未完结的指示内容",
+            type: "warning",
+            duration: "2000"
           })
           return
         }
       }
       this.endloading = true
       let params = {
-        编号: this.$route.params.id,
-        工号: 'C00000',
+        编号: this.id,
+        工号: this.$store.state.username,
         指示: this.instructData
           .map(ele => {
             return ele.指示
@@ -444,22 +443,26 @@ export default {
         正向追踪单: this.track,
         原因: this.reason
       }
-      let { data } = await this.$http.post(
-        '/API/api',
+      let { state } = await this.$http.post(
+        "/API/异常处置系统/制品完结_异常单_面板厂.py",
         this.$qs.stringify(params)
       )
-      if (data.state == '提交成功') {
+      console.log(state)
+      if (state == "插入成功") {
         const h = this.$createElement
         this.submitloading = false
         this.$alert(
-          h('span', { style: 'font-size: 18px' }, '制品单已完结'),
-          '提示',
+          h("span", { style: "font-size: 18px" }, "制品单已完结"),
+          "提示",
           {
-            confirmButtonText: '确定',
+            confirmButtonText: "确定",
             showClose: false,
-            type: 'success',
+            type: "success",
             callback: action => {
-              this.$router.push('/home')
+               if(action === 'confirm'){
+              this.$emit('close')
+              this.$store.state.refresh = new Date().getTime()
+               }
             }
           }
         )
@@ -467,7 +470,7 @@ export default {
     }
   },
   computed: {},
-  created () {
+  created() {
     this.querymessage()
   }
 }

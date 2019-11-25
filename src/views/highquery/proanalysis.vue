@@ -94,7 +94,12 @@ export default {
         handleGroup:""
       }
     }
-  }
+  },
+  methods: {
+    async submit() {
+      const {data} = this.$http.post('')
+    }
+  },
 }
 </script>
 <style lang="less" scoped>

@@ -1,11 +1,12 @@
 <template>
   <div>
     <template>
+      <!-- :data="confirmdata.slice((currentPage-1)*pagesize,currentPage*pagesize)" 分页 -->
       <el-table
-        :data="confirmdata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        :data="confirmdata"
         border
         style="width: 100%;white-space:nowrap"
-        max-height="650"
+        max-height="600"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -41,7 +42,7 @@
         </el-table-column>
       </el-table>
     </template>
-    <div class="pagination">
+    <!-- <div class="pagination">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -51,7 +52,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="confirmdata.length"
       ></el-pagination>
-    </div>
+    </div>-->
     <transition name="dialog">
       <el-dialog
         title="制品指示确认"
@@ -62,33 +63,26 @@
         destroy-on-close
         center
       >
-        <con :id="ticNumber"></con>
+        <con :id="ticNumber" :close="close"></con>
       </el-dialog>
     </transition>
   </div>
 </template>
 <script>
-import con from './alertconfirm'
+import con from "./alertconfirm"
 export default {
-  name: 'confirm',
-  data () {
+  name: "confirm",
+  data() {
     return {
       ticNumber: null,
       proconfirm: false,
       confirmdata: [
         {
-          编号: '制品异常-面板厂-2019-19847',
-          指示: '成膜区域超规格',
-          指示人员: '周亦睿',
-          确认组: 'PVD',
-          结果: 'S6.2..3.13成膜区域超规格'
-        },
-        {
-          编号: '制品异常-面板厂-2019-19847',
-          指示: '成膜区域超规格',
-          指示人员: '周亦睿',
-          确认组: 'CVD',
-          结果: 'S6.2..3.13成膜区域超规格'
+          编号: "制品异常-面板厂-2019-19847",
+          指示: "成膜区域超规格",
+          指示人员: "周亦睿",
+          确认组: "PVD",
+          结果: "S6.2..3.13成膜区域超规格"
         }
       ],
       currentPage: 1, // 初始页
@@ -99,44 +93,63 @@ export default {
     con
   },
   methods: {
-    handleClick (index, row) {
-      this.proconfirm = true
-      this.ticNumber = row.编号
+    async handleClick(index, row) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_异常单_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          处置组: row.确认组
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message({
+          message: "无权限",
+          type: "warning",
+          duration: "1200"
+        })
+        return
+      } else {
+        this.proconfirm = true
+        this.ticNumber = row.编号
+      }
+    },
+    close() {
+      this.proconfirm = false
     },
     // 页面筛选函数
-    filterHandler (value, row, column) {
-      const property = column['property']
+    filterHandler(value, row, column) {
+      const property = column["property"]
       return row[property] === value
     },
-    async getList () {
+    async getList() {
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/查询_制品指示确认.py'
+        "/API/异常处置系统/查询_制品指示确认.py"
       )
       // 把数据挂载到 data上
-      if (data.state === '') {
+      if (data.state === "") {
         this.confirmdata = data.data
         this.$message({
-          message: '加载成功~',
-          type: 'success',
-          duration: '1200'
+          message: "加载成功~",
+          type: "success",
+          duration: "1200"
         })
       } else {
         this.$notify({
-          title: '错误！',
+          title: "错误！",
           message: data.state,
-          type: 'error'
+          type: "error"
         })
       }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange: function(size) {
       this.pagesize = size
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage
     }
   },
-  created () {
+  created() {
     this.getList()
   }
 }

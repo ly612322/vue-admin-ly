@@ -132,7 +132,7 @@
         </el-input>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="success">通过</el-button>
+        <el-button type="success" >通过</el-button>
       </el-col>
       <el-col :span="1" :offset="1">
         <el-button type="danger">驳回</el-button>

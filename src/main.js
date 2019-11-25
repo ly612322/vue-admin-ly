@@ -12,17 +12,23 @@ import axios from 'axios'
 import common from './utils/common'
 import qs from 'qs'
 import './permission'
-import './mock'
+// import './mock'
 
 // 配置请求根路径
 // axios.defaults.baseURL = 'http://10.1.10.1234'
 // 使用拦截器 在请求头中加入token
+// axios.interceptors.request.use(config => {
+//   config.headers.Authorization = window.sessionStorage.getItem('token')
+//   // 最后必须return config
+//   return config
+// })
 
-axios.interceptors.request.use(config => {
-  config.headers.Authorization = window.sessionStorage.getItem('token')
-  // 最后必须return config
-  return config
-})
+if (process.env.NODE_ENV == 'development') {//开发环境
+  axios.defaults.baseURL = '/api';
+} else if (process.env.NODE_ENV == 'production') {//生产环境
+  axios.defaults.baseURL = 'http://10.1.10.211';
+}
+
 Vue.prototype.common = common // 公共方法
 Vue.prototype.$qs = qs
 Vue.prototype.$http = axios

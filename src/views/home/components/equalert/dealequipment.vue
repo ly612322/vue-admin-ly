@@ -218,9 +218,9 @@ export default {
   props: ['id'],
   methods: {
     async queryMessage () {
-      this.fullscreenLoading = false
+      this.fullscreenLoading = true
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/设备立上_设备单处置_异常单.py',
+        '/API/异常处置系统/设备立上_设备单处置_异常单.py',
         this.$qs.stringify({
           编号: this.id
         })

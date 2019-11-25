@@ -51,7 +51,122 @@
 export default {
   data () {
     return {
-      menulist: [],
+      menulist: [{
+      'id': 101,
+      'title': '首页',
+      'path': 'home',
+      'children': [
+        {
+          'id': 110,
+          'title': '预开票',
+          'path': '预开票',
+          'children': []
+        },
+        {
+          'id': 111,
+          'title': '制品单',
+          'path': '制品单',
+          'children': []
+        },
+        {
+          'id': 112,
+          'title': '设备单',
+          'path': '设备单',
+          'children': []
+        }
+      ]
+    },
+    {
+      'id': 102,
+      'title': '新建',
+      'path': '新建',
+      'children': [{
+        'id': 103,
+        'title': '新建制品单',
+        'path': '新建制品单',
+        'children': []
+      },
+      {
+        'id': 104,
+        'title': '新建设备单',
+        'path': '新建设备单',
+        'children': []
+      },
+      {
+        'id': 105,
+        'title': '新建关联单',
+        'path': '新建关联单',
+        'children': []
+      }
+      ]
+    },
+    {
+      'id': 106,
+      'title': '制品指示确认',
+      'path': '制品指示确认',
+      'children': []
+    },
+    {
+      'id': 107,
+      'title': '异常单查询',
+      'path': '异常单查询',
+      'children': []
+    },
+    {
+      'id': 108,
+      'title': '高级查询',
+      'path': 'highquery',
+      'children': [{
+        'id': 109,
+        'title': '制品异常分析',
+        'path': '制品异常分析',
+        'children': []
+      },
+      {
+        'id': 122,
+        'title': '设备异常分析',
+        'path': '设备异常分析',
+        'children': []
+      },
+      {
+        'id': 123,
+        'title': '票据关联',
+        'path': '票据关联',
+        'children': []
+      },
+      {
+        'id': 124,
+        'title': '品名查LOT',
+        'path': '品名查LOT',
+        'children': []
+      },
+      {
+        'id': 125,
+        'title': 'LOT查异常',
+        'path': 'LOT查异常',
+        'children': []
+      },
+      {
+        'id': 126,
+        'title': '开票数统计',
+        'path': '开票数统计',
+        'children': []
+      },
+      {
+        'id': 127,
+        'title': '故障时间统计',
+        'path': '故障时间统计',
+        'children': []
+      },
+      {
+        'id': 128,
+        'title': '异常名称查票据',
+        'path': '异常名称查票据',
+        'children': []
+      }
+
+      ]
+    }],
       iconlist: {
         '101': 'el-icon-s-home',
         '102': 'el-icon-edit-outline',
@@ -62,20 +177,19 @@ export default {
     }
   },
   methods: {
-    async getMenuList () {
-      const { data: res } = await this.$http.get('/menulist')
-      if (res.mate.status !== 200) {
-        this.$message.error('获取失败')
-      } else {
-        this.menulist = res.data
-      }
-    },
+    // async getMenuList () {
+    //   const { data: res } = await this.$http.get('/menulist')
+    //   if (res.mate.status !== 200) {
+    //     this.$message.error('获取失败')
+    //   } else {
+    //     this.menulist = res.data
+    //   }
+    // },
     collapse () {
       this.$store.commit('toCollapse')
     }
   },
   created () {
-    this.getMenuList()
   }
 }
 </script>
@@ -84,10 +198,12 @@ export default {
 .el-menu-vertica:not(.el-menu--collapse) {
   width: 200px;
   height: 100vh;
+  overflow: hidden;
 }
 .el-menu-vertica {
   width: 60px;
-  height: 100vh;
+  height: 110vh;
+  overflow: hidden;
 }
 
 h3 {

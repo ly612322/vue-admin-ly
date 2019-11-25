@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    username: window.top.SS_UID,
+    username:'', //  
     collapse: false,
     refresh: '',
     tagslist: [],

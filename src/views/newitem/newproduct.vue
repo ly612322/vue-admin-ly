@@ -377,7 +377,7 @@ export default {
     async queryLot () {
       this.loading = true
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/品名工程查询_异常单_面板厂.py',
+        '/API/异常处置系统/品名工程查询_异常单_面板厂.py',
         this.$qs.stringify({
           LOT: this.productform.lot
         })
@@ -401,7 +401,7 @@ export default {
         return
       }
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/异常名称查询_异常单_面板厂.py',
+        '/API/异常处置系统/异常名称查询_异常单_面板厂.py',
         this.$qs.stringify({
           分类: group,
           处置组: this.productform.group
@@ -541,7 +541,7 @@ export default {
         设备_涉及制品: '否'
       }
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/新建_异常单_面板厂.py',
+        '/API/异常处置系统/新建_异常单_面板厂.py',
         this.$qs.stringify(params)
       )
       if (data.state == '插入成功') {

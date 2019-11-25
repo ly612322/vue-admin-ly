@@ -496,11 +496,11 @@ export default {
       },
       lotDate: [],
       api: {
-        eqgroup: '/api/API/异常处置系统/设备群_新建异常单_面板厂.py',
-        eqnum: '/api/API/异常处置系统/号机_新建异常单_面板厂.py',
-        bigunit: '/api/API/异常处置系统/大单元_新建异常单_面板厂.py',
-        smallunit: '/api/API/异常处置系统/小单元_新建异常单_面板厂.py',
-        faulttype: '/api/API/异常处置系统/故障类型_新建异常单_面板厂.py'
+        eqgroup: '/API/异常处置系统/设备群_新建异常单_面板厂.py',
+        eqnum: '/API/异常处置系统/号机_新建异常单_面板厂.py',
+        bigunit: '/API/异常处置系统/大单元_新建异常单_面板厂.py',
+        smallunit: '/API/异常处置系统/小单元_新建异常单_面板厂.py',
+        faulttype: '/API/异常处置系统/故障类型_新建异常单_面板厂.py'
       },
       equipmentform: {
         time: '',
@@ -525,7 +525,7 @@ export default {
     async queryLot () {
       this.loading = true
       const { data } = await axios.post(
-        '/api/API/异常处置系统/品名工程查询_异常单_面板厂.py',
+        '/API/异常处置系统/品名工程查询_异常单_面板厂.py',
         qs.stringify({
           LOT: this.productform.lot
         })
@@ -549,7 +549,7 @@ export default {
         return
       }
       const { data } = await axios.post(
-        '/api/API/异常处置系统/异常名称查询_异常单_面板厂.py',
+        '/API/异常处置系统/异常名称查询_异常单_面板厂.py',
         qs.stringify({
           分类: group,
           处置组: this.productform.group
@@ -767,7 +767,7 @@ export default {
         设备_品名: this.equipmentform.pinming
       }
       const { data } = await axios.post(
-        '/api/API/异常处置系统/新建_异常单_面板厂.py',
+        '/API/异常处置系统/新建_异常单_面板厂.py',
         qs.stringify(params)
       )
       if (data.state == '插入成功') {

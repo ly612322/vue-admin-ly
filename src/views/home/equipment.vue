@@ -1,11 +1,12 @@
 <template>
   <div>
     <template>
+      <!-- :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" 分页 -->
       <el-table
-        :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        :data="tableData"
         border
         style="width: 100%"
-        max-height="800"
+        max-height="605"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -64,7 +65,7 @@
         </el-table-column>
       </el-table>
     </template>
-    <div class="pagination">
+    <!-- <div class="pagination">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -74,7 +75,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.length"
       ></el-pagination>
-    </div>
+    </div>-->
     <el-dialog
       title="设备单处置"
       :visible.sync="dealequipment"
@@ -99,26 +100,26 @@
   </div>
 </template>
 <script>
-import deal from './components/equalert/dealequipment'
-import change from './components/equalert/changeequip'
+import deal from "./components/equalert/dealequipment"
+import change from "./components/equalert/changeequip"
 export default {
-  data () {
+  data() {
     return {
       dealequipment: false,
       changeequipment: false,
       ticNumber: null,
       tableData: [
         {
-          编号: '设备异常-面板厂-2019-19847',
-          创建: '周亦睿',
-          日期: '2019-09-20',
-          设备: 'MMO004',
-          号机: '1',
-          Main: '19914051',
-          Sub: 'HSD1',
-          异常: '成膜区域超规格',
-          处置: 'CVD',
-          现象: 'S6.2..3.13成膜区域超规格'
+          编号: "设备异常-面板厂-2019-19847",
+          创建: "周亦睿",
+          日期: "2019-09-20",
+          设备: "MMO004",
+          号机: "1",
+          Main: "19914051",
+          Sub: "HSD1",
+          异常: "成膜区域超规格",
+          处置: "CVD",
+          现象: "S6.2..3.13成膜区域超规格"
         }
       ],
       currentPage: 1, // 初始页
@@ -130,76 +131,76 @@ export default {
     change
   },
   methods: {
-    dealrouter (index, row) {
+    dealrouter(index, row) {
       this.dealequipment = true
       this.ticNumber = row.编号
     },
-    changerouter (index, row) {
+    changerouter(index, row) {
       this.changeequipment = true
       this.ticNumber = row.编号
     },
-    async getNewsList () {
+    async getNewsList() {
       const { data } = await this.$http.post(
-        '/api/API/异常处置系统/异常单_面板厂.py'
+        "/API/异常处置系统/异常单_面板厂.py"
       )
       // 把数据挂载到 data上
       const h = this.$createElement
-      if (data.state === '') {
+      if (data.state === "") {
         this.tableData = data.设备单
         this.$message({
-          title: '提示',
-          message: '加载成功',
-          type: 'success',
-          duration: '1200'
+          title: "提示",
+          message: "加载成功",
+          type: "success",
+          duration: "1200"
         })
       } else {
         const h = this.$createElement
         this.$message({
-          title: '错误！',
-          message: h('i', { style: 'color: teal' }, data.state),
-          type: 'error',
-          duration: '4000'
+          title: "错误！",
+          message: h("i", { style: "color: teal" }, data.state),
+          type: "error",
+          duration: "4000"
         })
       }
     },
     // 页面筛选函数
-    filterHandler (value, row, column) {
-      const property = column['property']
+    filterHandler(value, row, column) {
+      const property = column["property"]
       return row[property] === value
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange(size) {
       this.pagesize = size
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange(currentPage) {
       this.currentPage = currentPage
     },
-    deleteRow (index, rows) {
-      this.$message('此操作将删除该异常单, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    deleteRow(index, rows) {
+      this.$message("此操作将删除该异常单, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
         .then(() => {
           rows.splice(index, 1)
           this.$message({
-            title: '提示',
-            message: '删除成功！',
-            type: 'success',
-            duration: '1400'
+            title: "提示",
+            message: "删除成功！",
+            type: "success",
+            duration: "1400"
           })
         })
         .catch(() => {
           this.$message({
-            title: '提示',
-            message: '已取消删除',
-            type: 'warning',
-            duration: '1400'
+            title: "提示",
+            message: "已取消删除",
+            type: "warning",
+            duration: "1400"
           })
         })
     }
   },
-  created () {
+  created() {
     this.getNewsList()
   }
 }
