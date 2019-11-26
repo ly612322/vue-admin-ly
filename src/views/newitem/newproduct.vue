@@ -659,13 +659,5 @@ export default {
   width: 221px !important;
   height: 60px !important;
 }
-.v-enter,
-.v-leave-to {
-  transform: translateY(80px);
-  opacity: 0;
-}
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.4s ease;
-}
+
 </style>

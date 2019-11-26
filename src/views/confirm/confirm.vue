@@ -6,7 +6,7 @@
         :data="confirmdata"
         border
         style="width: 100%;white-space:nowrap"
-        max-height="600"
+        max-height="1000"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >

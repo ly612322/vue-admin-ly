@@ -6,7 +6,7 @@
         :data="tableData"
         border
         style="width: 100%"
-        max-height="605"
+        max-height="1000"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -76,27 +76,31 @@
         :total="tableData.length"
       ></el-pagination>
     </div>-->
-    <el-dialog
-      title="设备单处置"
-      :visible.sync="dealequipment"
-      v-if="dealequipment"
-      width="85%"
-      top="3%"
-      destroy-on-close
-      center
-    >
-      <deal :id="ticNumber"></deal>
-    </el-dialog>
-    <el-dialog
-      title="设备单修改"
-      :visible.sync="changeequipment"
-      width="50%"
-      top="3%"
-      center
-      destroy-on-close
-    >
-      <change></change>
-    </el-dialog>
+    <transition name="dialog">
+      <el-dialog
+        title="设备单处置"
+        :visible.sync="dealequipment"
+        v-if="dealequipment"
+        width="85%"
+        top="3%"
+        destroy-on-close
+        center
+      >
+        <deal :id="ticNumber"></deal>
+      </el-dialog>
+    </transition>
+    <transition name="dialog">
+      <el-dialog
+        title="设备单修改"
+        :visible.sync="changeequipment"
+        width="50%"
+        top="3%"
+        center
+        destroy-on-close
+      >
+        <change></change>
+      </el-dialog>
+    </transition>
   </div>
 </template>
 <script>
@@ -209,11 +213,5 @@ export default {
 <style scoped>
 .el-button {
   margin-left: 5px;
-}
-.pagination {
-  background: #fff;
-  position: fixed;
-  bottom: 3px;
-  width: 100%;
 }
 </style>

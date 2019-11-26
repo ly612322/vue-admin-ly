@@ -6,7 +6,7 @@
         border
         :data="productdata"
         style="width: 100%;white-space:nowrap"
-        max-height="605"
+        max-height="1000"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -101,7 +101,7 @@
         destroy-on-close
         center
       >
-        <deal :id="ticNumber" @close="close"></deal>
+        <deal :id="ticNumber"></deal>
       </el-dialog>
     </transition>
     <transition name="dialog">
@@ -151,13 +151,27 @@ export default {
   components: { deal, change },
   methods: {
     // dialog开关
+    //处置
     dealrouter(index, row) {
       this.ticNumber = row.编号
       this.dealproduct = true
     },
-    changerouter(index, row) {
-      this.ticNumber = row.编号
-      this.changeproduct = true
+    //修改 权限判断
+    async changerouter(index, row) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_制品_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: row.编号
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.ticNumber = row.编号
+        this.changeproduct = true
+      }
     },
 
     // 制品数据
@@ -249,21 +263,99 @@ export default {
   }
 }
 </script>
-<style>
-.el-table__header tr,
-.el-table__header th {
-  padding: 0;
+<style  scoped>
+.leftbtn {
+  float: left;
+  margin-top: 2px;
+}
+.upload {
+  margin-top: 13px;
+  margin-left: 10%;
+  width: 70%;
   height: 40px;
+  font-size: 19px;
 }
-.el-table__body tr,
-.el-table__body td {
+.elform {
+  width: 50%;
+  float: left;
+}
+.el-input,
+.el-select {
+  float: left;
+  width: 95%;
+}
+.input-lot {
+  width: 320px;
+}
+.el-date-editor {
+  width: 220px;
+}
+.el-radio-group {
+  float: left;
+  padding-top: 6px;
+}
+.longinput {
+  width: 98%;
+}
+.box-card {
+  width: 73%;
+  margin: 2px;
+  float: left;
+  height: 700px;
+}
+
+.box-card1 >>> .el-card__body {
+  padding: 0 !important;
+  border: 0;
+}
+.box-lot {
+  height: 380px;
+}
+.box-card2 {
+  text-align: center;
+  width: 25.5%;
   padding: 0;
-  height: 54px;
+  float: left;
+  margin-left: 0.5%;
+  margin-top: 2px;
+  height: 700px;
 }
-.pagination {
-  background: #fff;
-  position: fixed;
-  bottom: 3px;
+.labletext {
+  float: left;
+  line-height: 30px;
+  margin-left: 10px;
+}
+.inputselect {
+  margin: 10px 0 0 0;
   width: 100%;
+}
+.picdisplay {
+  margin-top: 10%;
+}
+.picture {
+  display: inline-block;
+  width: 14%;
+  height: 105px;
+  margin-left: 5%;
+  background-color: #cfff45;
+  border: 1px solid rgba(170, 170, 170, 0.87);
+  border-radius: 2px;
+  box-shadow: 4px 4px 5px #cccccc;
+}
+.red {
+  background-color: red;
+}
+.green {
+  background-color: #87ff50;
+}
+.selectitem >>> .el-select {
+  width: 221px !important;
+}
+.selectitem >>> .el-input {
+  width: 221px !important;
+}
+.selectitem >>> .el-textarea {
+  width: 221px !important;
+  height: 60px !important;
 }
 </style>

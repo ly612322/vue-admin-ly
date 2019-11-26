@@ -18,7 +18,13 @@ router.beforeEach((to, from, next) => {
     //   next()
     //   NProgress.done() // 关闭进度条
     // }
-    next()
-    NProgress.done()
+    const tokenStr = store.state.username // 获取工号
+    if (tokenStr == '') { // 没有token则跳转登陆页
+      next('/login')
+      NProgress.done()
+    } else { // 如果有 则放行
+      next()
+      NProgress.done() // 关闭进度条
+    }
   }
 })

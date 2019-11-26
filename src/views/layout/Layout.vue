@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside style="width:auto">
+      <el-aside style=" width: auto;">
         <sidebar ></sidebar>
       </el-aside>
       <el-container>
@@ -45,5 +45,8 @@ export default {
 }
 .el-container{
   height: 100vh;
+}
+.el-aside{
+  overflow: hidden;
 }
 </style>

@@ -387,36 +387,4 @@ body .el-table th.gutter {
   font-size: 15px;
   padding: 9px;
 }
-.v-enter,
-.v-leave-to {
-  transform: translateY(80px);
-  opacity: 0;
-}
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.4s ease;
-}
-</style>
-
-<style>
-.el-table__header tr,
-.el-table__header th {
-  padding: 0;
-  height: 40px;
-}
-
-.el-table__body tr,
-.el-table__body td {
-  padding: 0;
-  height: 54px;
-}
-.el-input__inner {
-  height: 30px;
-}
-.pagination {
-  background: #fff;
-  position: fixed;
-  bottom: 3px;
-  width: 100%;
-}
 </style>

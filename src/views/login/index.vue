@@ -75,8 +75,8 @@ export default {
       loginCenter,
       dialogVisible: false,
       loginForm: {
-        username: "C00000",
-        password: "2"
+        username: "",
+        password: ""
       },
       changeform: {
         // 密码修改表单

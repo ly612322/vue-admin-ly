@@ -197,7 +197,7 @@
               <el-input
                 placeholder="请填写原因"
                 v-model="reason"
-                maxlength="50"
+                maxlength="100"
                 show-word-limit
                 v-input-filter
               ></el-input>
@@ -387,8 +387,6 @@ export default {
         "/API/异常处置系统/制品指示_异常单_面板厂.py",
         this.$qs.stringify(params)
       )
-      console.log(state.state)
-
       if (state.state == "插入成功") {
         const h = this.$createElement
         this.submitloading = false
@@ -399,7 +397,12 @@ export default {
             confirmButtonText: "确定",
             showClose: false,
             type: "success",
-            callback: action => {}
+            callback: action => {
+              if (action === "confirm") {
+                this.$emit("close")
+                this.$store.state.refresh = new Date().getTime()
+              }
+            }
           }
         )
       }
@@ -459,10 +462,8 @@ export default {
             showClose: false,
             type: "success",
             callback: action => {
-               if(action === 'confirm'){
-              this.$emit('close')
+              this.$emit("close")
               this.$store.state.refresh = new Date().getTime()
-               }
             }
           }
         )
