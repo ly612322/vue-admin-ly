@@ -251,35 +251,34 @@
             <div style="margin-left: 70%">1300</div>
             <div
               class="picture"
-              :class="{red: picture.位1,green: !picture.位1}"
+              :style="{backgroundColor:!picture.位1?'#87ff50':'red'}"
               @click="picture.位1=!picture.位1"
             ></div>
             <div
               class="picture"
-              :class="{red: picture.位2,green: !picture.位2}"
+              :style="{backgroundColor:!picture.位2?'#87ff50':'red'}"
               @click="picture.位2=!picture.位2"
             ></div>
             <div
               class="picture"
-              :class="{red: picture.位3,green: !picture.位3}"
+              :style="{backgroundColor:!picture.位3?'#87ff50':'red'}"
               @click="picture.位3=!picture.位3"
             ></div>
             <br />
             <div
               class="picture"
-              :class="{red: picture.位4,green: !picture.位4}"
+              :style="{backgroundColor:!picture.位4?'#87ff50':'red'}"
               @click="picture.位4=!picture.位4"
               style="margin-left:5%"
             ></div>
-
             <div
               class="picture"
-              :class="{red: picture.位5,green: !picture.位5}"
+              :style="{backgroundColor:!picture.位5?'#87ff50':'red'}"
               @click="picture.位5=!picture.位5"
             ></div>
             <div
               class="picture"
-              :class="{red: picture.位6,green: !picture.位6}"
+              :style="{backgroundColor:!picture.位6?'#87ff50':'red'}"
               @click="picture.位6=!picture.位6"
             ></div>
             <div style="width:90%">
@@ -325,12 +324,12 @@ export default {
       loading: false,
       isshow: true,
       picture: {
-        位1:0,
-        位2:0,
-        位3:0,
-        位4:0,
-        位5:0,
-        位6:0
+        位1: 0,
+        位2: 0,
+        位3: 0,
+        位4: 0,
+        位5: 0,
+        位6: 0
       },
       options: [],
       rules: {
@@ -379,8 +378,8 @@ export default {
           编号: this.id
         })
       )
-      console.log(data);
-      
+      console.log(data)
+
       this.lotallmessage = data.LOT信息
       this.productform.abnormalName = data.制品异常详情.异常名称
       this.productform.discribe = data.制品异常详情.异常描述
@@ -389,7 +388,7 @@ export default {
       this.productform.classify = data.制品异常详情.制品分类
       this.productform.group = data.制品异常详情.处置组
       let pictrue = document.getElementsByClassName("picture")
-      for (var i = 0; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
           pictrue[i].style.backgroundColor = "red"
         }
@@ -473,17 +472,19 @@ export default {
     // 异常单信息上传
     async upload() {
       this.uploadbtn = true
-      let place = []
-      for (let [key, value] of Object.entries(this.picture)) {
-        if (typeof value === "boolean") {
-          place.push(Number(value))
+      for (var x = 0; x < 6; x++) {
+        if (
+          document.getElementsByClassName("picture")[x].style
+            .backgroundColor == "red"
+        ) {
+          this.picture[x] = "1"
         } else {
-          place.push(value)
+          this.picture[x] = "0"
         }
       }
       let params = {
         工号: this.$store.state.username,
-        编号:this.id,
+        编号: this.id,
         制品_异常时间: this.productform.time,
         制品_异常类型: "制品异常",
         制品_处置组: this.productform.group,
@@ -531,12 +532,12 @@ export default {
             return ele.备注
           })
           .join(),
-        位1: place[0],
-        位2: place[1],
-        位3: place[2],
-        位4: place[3],
-        位5: place[4],
-        位6: place[5],
+        位1: this.picture[0],
+        位2: this.picture[1],
+        位3: this.picture[2],
+        位4: this.picture[3],
+        位5: this.picture[4],
+        位6: this.picture[5]
       }
       const { data: state } = await this.$http.post(
         "/API/异常处置系统/修改_制品单.py",
@@ -560,7 +561,7 @@ export default {
             }
           }
         )
-      }else {
+      } else {
         alert(data.state)
       }
     }
@@ -645,16 +646,10 @@ export default {
   width: 14%;
   height: 105px;
   margin-left: 5%;
-  background-color: #cfff45;
+  background-color: #87ff50;
   border: 1px solid rgba(170, 170, 170, 0.87);
   border-radius: 2px;
   box-shadow: 4px 4px 5px #cccccc;
-}
-.red {
-  background-color: red;
-}
-.green {
-  background-color: #87ff50;
 }
 .selectitem >>> .el-select {
   width: 221px !important;

@@ -311,88 +311,11 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.leftbtn {
-  float: left;
-  margin-top: 2px;
-}
 .upload {
   width: 220px;
   height: 45px;
   font-size: 20px;
   margin-left: 105px;
-}
-.elform {
-  width: 50%;
-  float: left;
-}
-.el-input,
-.el-select {
-  float: left;
-  width: 95%;
-}
-.input-lot {
-  width: 320px;
-}
-.el-date-editor {
-  width: 220px;
-}
-.el-radio-group {
-  float: left;
-  padding-top: 6px;
-}
-.longinput {
-  width: 98%;
-}
-.box-card {
-  width: 73%;
-  margin: 2px;
-  float: left;
-  height: 700px;
-}
-
-.box-card1 >>> .el-card__body {
-  padding: 0 !important;
-  border: 0;
-}
-.box-lot {
-  height: 380px;
-}
-.box-card2 {
-  text-align: center;
-  width: 25.5%;
-  padding: 0;
-  float: left;
-  margin-left: 0.5%;
-  margin-top: 2px;
-  height: 700px;
-}
-.labletext {
-  float: left;
-  line-height: 40px;
-  margin-left: 10px;
-}
-.inputselect {
-  margin: 10px 0 0 0;
-  width: 100%;
-}
-.picdisplay {
-  margin-top: 10%;
-}
-.picture {
-  display: inline-block;
-  width: 14%;
-  height: 105px;
-  margin-left: 5%;
-  background-color: #cfff45;
-  border: 1px solid rgba(170, 170, 170, 0.87);
-  border-radius: 2px;
-  box-shadow: 4px 4px 5px #cccccc;
-}
-.red {
-  background-color: red;
-}
-.green {
-  background-color: #87ff50;
 }
 .selectitem >>> .el-select {
   width: 221px !important;
@@ -403,13 +326,5 @@ export default {
 .selectitem >>> .el-textarea {
   width: 221px !important;
 }
-.v-enter,
-.v-leave-to {
-  transform: translateY(80px);
-  opacity: 0;
-}
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.4s ease;
-}
+
 </style>

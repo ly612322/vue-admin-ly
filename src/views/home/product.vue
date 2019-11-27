@@ -49,7 +49,7 @@
             >修改</el-button>
             <el-button
               type="danger"
-              @click.native.prevent="deleteRow(scope.$index, productdata)"
+              @click.native.prevent="deleteRow(scope.$index, scope.row)"
               size="small"
               style="margin-left:5px"
             >删除</el-button>
@@ -101,7 +101,7 @@
         destroy-on-close
         center
       >
-        <deal :id="ticNumber"></deal>
+        <deal :id="ticNumber" :group='dealGroup'></deal>
       </el-dialog>
     </transition>
     <transition name="dialog">
@@ -130,6 +130,7 @@ export default {
       changeproduct: false,
       Lot: "",
       ticNumber: null,
+      dealGroup:'',
       productdata: [
         {
           编号: "制品异常-面板厂-2019-19847",
@@ -154,6 +155,7 @@ export default {
     //处置
     dealrouter(index, row) {
       this.ticNumber = row.编号
+      this.dealGroup = row.处置
       this.dealproduct = true
     },
     //修改 权限判断
@@ -223,14 +225,26 @@ export default {
         alert(data.state)
       }
     },
-    deleteRow(index, rows) {
-      this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
+    async deleteRow(index, row) {
+      const {data} = await this.$http.post('/API/异常处置系统/权限_制品_面板厂.py',      
+      this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: row.编号
+        }))        
+        if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+       this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          rows.splice(index, 1)
+          this.$http.post('/API/异常处置系统/删除_异常单_制品.py',      
+          this.$qs.stringify({
+          编号: row.编号
+        }))
           this.$notify({
             title: "提示",
             message: "删除成功！",
@@ -238,14 +252,7 @@ export default {
             duration: "1400"
           })
         })
-        .catch(() => {
-          this.$notify({
-            title: "提示",
-            message: "已取消删除",
-            type: "warning",
-            duration: "1400"
-          })
-        })
+      }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {

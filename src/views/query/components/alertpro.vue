@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.lock="fullscreenLoading" element-loading-text="加载中...">
     <table class="table table-bordered" style="margin-bottom:10px;">
       <tr>
         <td>工号</td>
@@ -122,7 +122,7 @@
     </el-row>
     <el-row>
       <el-col :span="7">
-        <el-input v-model="manremarkd" placeholder="暂无" disabled>
+        <el-input v-model="manremarked" placeholder="暂无" disabled>
           <template slot="prepend">经理已备注内容</template>
         </el-input>
       </el-col>
@@ -132,38 +132,114 @@
         </el-input>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="success" >通过</el-button>
+        <el-button type="success" @click="manconfirm('通过')">通过</el-button>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="danger">驳回</el-button>
+        <el-button type="danger" @click="manconfirm('驳回')">驳回</el-button>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="7">
-        <el-input v-model="manremarkd" placeholder="暂无" disabled>
+        <el-input v-model="pqcremarked" placeholder="暂无" disabled>
           <template slot="prepend">PQC已备注内容</template>
         </el-input>
       </el-col>
       <el-col :span="9" :offset="1">
-        <el-input v-model="manremark" placeholder="请填写备注">
+        <el-input v-model="pqcremark" placeholder="请填写备注">
           <template slot="prepend">PQC备注</template>PQC
         </el-input>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="success">通过</el-button>
+        <el-button type="success" @click="pqcconfirm('通过')">通过</el-button>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="danger">驳回</el-button>
+        <el-button type="danger" @click="pqcconfirm('驳回')">驳回</el-button>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
-      details: {}
+      fullscreenLoading: false,
+      details: {},
+      lotData: [],
+      dealstep: [],
+      manremarked: "",
+      manremark: "",
+      pqcremarked: "",
+      pqcremark: ""
     }
+  },
+  props: ["id", "group"],
+  methods: {
+    async querymessage() {
+      this.fullscreenLoading = true
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/制品单关联.py",
+        this.$qs.stringify({
+          编号: this.id
+        })
+      )
+      this.lotData = data.LOT信息
+      this.dealstep = data.最新处置进度
+      this.details = data.制品异常详情
+      for (var i = 0; i < 12; i++) {
+        document.getElementById(i).innerHTML = Object.values(this.details)[i]
+      }
+      let pictrue = document.getElementsByClassName("picture")
+      for (let i = 0; i < 6; i++) {
+        if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
+          pictrue[i].style.backgroundColor = "red"
+        }
+      }
+      this.manremarked = Object.values(data.经理确认)[0]
+      this.pqcremarked = Object.values(data.PQC确认)[0]
+      this.fullscreenLoading = false
+    },
+    async manconfirm(state) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/经理_制品确认_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: this.id,
+          备注: this.manremark,
+          状态: state,
+          处置组: this.group
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.$message.success("操作成功")        
+        this.$emit("proclose")
+      }
+    },
+    async pqcconfirm(state) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/PQC_制品确认_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: this.id,
+          备注: this.pqcremark,
+          状态: state,
+          处置组: this.group
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.$message.success("操作成功")
+        this.$emit("proclose")
+        
+      }
+    }
+  },
+  created() {
+    this.querymessage()
   }
 }
 </script>

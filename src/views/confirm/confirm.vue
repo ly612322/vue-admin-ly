@@ -16,7 +16,7 @@
         <el-table-column
           prop="确认组"
           label="确认组"
-          width="120"
+          width="100"
           align="center"
           sortable
           :filters="[{ text: 'PVD', value: 'PVD' }, { text: 'CVD', value: 'CVD' },{text:'TEST',value:'TEST'}
@@ -35,7 +35,9 @@
             <div>{{ scope.row.结果.replace('None','') }}</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="220" align="center">
+                <el-table-column prop="确认人" label="确认人" width="100" align="center" sortable></el-table-column>
+
+        <el-table-column label="操作" width="100" align="center">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.$index, scope.row)" type="primary" size="small">查看</el-button>
           </template>
@@ -63,7 +65,7 @@
         destroy-on-close
         center
       >
-        <con :id="ticNumber" :close="close"></con>
+        <con :id="ticNumber" :instruct="instruct"></con>
       </el-dialog>
     </transition>
   </div>
@@ -75,6 +77,7 @@ export default {
   data() {
     return {
       ticNumber: null,
+      instruct:'',
       proconfirm: false,
       confirmdata: [
         {
@@ -111,6 +114,7 @@ export default {
       } else {
         this.proconfirm = true
         this.ticNumber = row.编号
+        this.instruct = row.指示
       }
     },
     close() {

@@ -86,7 +86,7 @@
         destroy-on-close
         center
       >
-        <deal :id="ticNumber"></deal>
+        <deal :id="ticNumber" :group=group></deal>
       </el-dialog>
     </transition>
     <transition name="dialog">
@@ -112,6 +112,7 @@ export default {
       dealequipment: false,
       changeequipment: false,
       ticNumber: null,
+      group:'',
       tableData: [
         {
           编号: "设备异常-面板厂-2019-19847",
@@ -138,6 +139,7 @@ export default {
     dealrouter(index, row) {
       this.dealequipment = true
       this.ticNumber = row.编号
+      this.group = row.处置
     },
     changerouter(index, row) {
       this.changeequipment = true
@@ -166,6 +168,10 @@ export default {
           duration: "4000"
         })
       }
+    },
+    close() {
+      this.dealequipment = false
+
     },
     // 页面筛选函数
     filterHandler(value, row, column) {

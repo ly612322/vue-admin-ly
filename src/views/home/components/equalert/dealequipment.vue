@@ -56,7 +56,13 @@
           label="下限"
           :formatter="this.common.removeNone"
         ></el-table-column>
-        <el-table-column align="center" prop="模式" width="120" label="模式"></el-table-column>
+        <el-table-column
+          align="center"
+          prop="确认模式"
+          width="120"
+          label="确认模式"
+          :formatter="this.common.removeNone"
+        ></el-table-column>
         <el-table-column align="center" prop="确认" width="120" label="确认">
           <template slot-scope="scope">
             <el-checkbox v-model="scope.row.确认" :checked="scope.row.确认 == '是'?true:false"></el-checkbox>
@@ -138,10 +144,8 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="水平展开" prop="type">
-            <el-radio-group v-model="equipmentform.水平展开">
-              <el-radio label="展开"></el-radio>
-              <el-radio label="不展开"></el-radio>
-            </el-radio-group>
+            <el-radio label="0" v-model="equipmentform.水平展开">不展开</el-radio>
+            <el-radio label="1" v-model="equipmentform.水平展开">展开</el-radio>
           </el-form-item>
         </el-col>
       </el-row>
@@ -193,116 +197,173 @@
   </div>
 </template>
 <script>
-import inputFilter from '../../../../utils/index.js'
+import inputFilter from "../../../../utils/index.js"
 export default {
-  name: 'equipmentprocess',
-  data () {
+  name: "equipmentprocess",
+  data() {
     return {
       fullscreenLoading: false,
       equipmentform: {
-        原因: '',
-        处置完成时间: '',
-        处置方法: '',
-        量产时间: '',
-        处置结果: '',
-        水平展开: '不展开',
-        更换备件: '',
-        水平展开_备注: '',
-        设备_状态: '进行'
+        原因: "",
+        处置完成时间: "",
+        处置方法: "",
+        量产时间: "",
+        处置结果: "",
+        水平展开: "0",
+        更换备件: "",
+        水平展开_备注: "",
+        设备_状态: "进行"
       },
       rules: [],
       details: [],
-      equipmentItem: []
+      equipmentItem: [],
+      jurisdiction: ""
     }
   },
-  props: ['id'],
+  props: ["id", "group"],
   methods: {
-    async queryMessage () {
+    async queryMessage() {
       this.fullscreenLoading = true
       const { data } = await this.$http.post(
-        '/API/异常处置系统/设备立上_设备单处置_异常单.py',
+        "/API/异常处置系统/设备立上_设备单处置_异常单.py",
         this.$qs.stringify({
           编号: this.id
         })
       )
       this.details = data.设备异常详情
+      console.log(this.details)
       this.equipmentItem = data.设备立上
+      this.equipmentform.原因 = this.details.原因.replace("None", "")
+      this.equipmentform.处置方法 = this.details.处置方法.replace("None", "")
+      this.equipmentform.处置结果 = this.details.处置结果.replace("None", "")
+      this.equipmentform.更换备件 = this.details.更换备件.replace("None", "")
       this.fullscreenLoading = false
     },
     // 初始异常时间
-    formatTime () {
+    formatTime() {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, '0')
+      const month = (date.getMonth() + 1).toString().padStart(2, "0")
       const day = date
         .getDate()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       this.equipmentform.处置完成时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
       this.equipmentform.量产时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
-    async submitForm () {
+    async submitForm() {
+      if (this.jurisdiction == "无权限") {
+        this.$message.error("无权限")
+        return
+      }
       let params = {
-        确认人: 'C00000',
-        编号: this.$route.params.id,
+        确认人: this.$store.state.username,
+        编号: this.equipmentItem
+          .map(ele => {
+            return ele.编号
+          })
+          .join(","),
+        项目: this.equipmentItem
+          .map(ele => {
+            return ele.确认项
+          })
+          .join(","),
         上限: this.equipmentItem
           .map(ele => {
-            return ele.上限.replace('None', '')
+            return ele.上限.replace("None", "")
           })
-          .join(','),
+          .join(","),
         下限: this.equipmentItem
           .map(ele => {
-            return ele.下限.replace('None', '')
+            return ele.下限.replace("None", "")
           })
-          .join(','),
+          .join(","),
         模式: this.equipmentItem
           .map(ele => {
-            return ele.模式
+            return ele.确认模式.replace("None", "")
           })
-          .join(','),
+          .join(","),
         确认: this.equipmentItem
           .map(ele => {
-            return ele.确认 == true ? (ele.确认 = '是') : (ele.确认 = '否')
+            return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否")
           })
-          .join(','),
+          .join(","),
         状态: this.equipmentItem
           .map(ele => {
             return ele.状态
           })
-          .join(','),
+          .join(","),
         结果: this.equipmentItem
           .map(ele => {
             return ele.结果
           })
-          .join(','),
+          .join(","),
         备注: this.equipmentItem
           .map(ele => {
             return ele.备注
           })
-          .join(',')
+          .join(",")
       }
       params = Object.assign(params, this.equipmentform)
-      console.log(params)
+      const { data: state } = await this.$http.post(
+        "/API/异常处置系统/设备处置_异常单_面板厂.py",
+        this.$qs.stringify(params)
+      )
+      if (state.state == "插入成功") {
+        const h = this.$createElement
+        this.submitloading = false
+        this.$alert(
+          h("span", { style: "font-size: 18px" }, "指示成功"),
+          "提示",
+          {
+            confirmButtonText: "确定",
+            showClose: false,
+            type: "success",
+            callback: action => {
+              if (action === "confirm") {
+                this.$emit("close")
+                this.$store.state.refresh = new Date().getTime()
+              }
+            }
+          }
+        )
+      }
     },
-    goBack () {
+    goBack() {
       this.$router.go(-1)
+    },
+    async Jurisdiction() {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_异常单_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          处置组: this.group
+        })
+      )
+      console.log(data.state)
+      if (data.state == "无权限") {
+        this.jurisdiction = "无权限"
+      } else {
+        this.jurisdiction = "有权限"
+      }
     }
   },
-  created () {
+  created() {
     this.queryMessage()
     this.formatTime()
+    this.Jurisdiction()
   }
 }
 </script>
@@ -314,7 +375,7 @@ export default {
   background-color: transparent;
   border-spacing: 0;
   border-collapse: collapse;
-  text-align: center
+  text-align: center;
 }
 .table-bordered {
   border: 1px solid #ddd;

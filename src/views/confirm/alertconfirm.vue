@@ -102,7 +102,7 @@ export default {
       details: []
     }
   },
-  props: ["id","close"],
+  props: ["id", "instruct"],
   methods: {
     async queryMessage() {
       this.fullscreenLoading = true
@@ -128,7 +128,13 @@ export default {
       }
       const { data } = await this.$http.post(
         "/API/异常处置系统/确认_制品指示确认.py",
-        this.$qs.stringify(this.confirmform)
+        this.$qs.stringify({
+          状态: this.confirmform.select,
+          结果: this.confirmform.result,
+          确认人: this.$store.state.username, 
+          编号: this.id,
+          指示: this.instruct
+        })
       )
       if (data.state == "插入成功") {
         this.$message({
@@ -136,7 +142,8 @@ export default {
           type: "success",
           duration: "1200"
         })
-        this.props.close()
+        this.$emit("close")
+        this.$store.state.refresh = new Date().getTime()
       }
     }
   },

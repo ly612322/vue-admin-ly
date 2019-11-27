@@ -283,10 +283,11 @@ export default {
       newInstruct: "",
       dealGroup: "",
       instructData: [],
-      allInstruct: []
+      allInstruct: [],
+      jurisdiction: ""
     }
   },
-  props: ["id"],
+  props: ["id", "group"],
   methods: {
     async querymessage() {
       this.fullscreenLoading = true
@@ -296,6 +297,8 @@ export default {
           编号: this.id
         })
       )
+      console.log(data)
+
       let details = data.制品异常详情
       let list = {}
       for (let i = 2; i < 8; i++) {
@@ -346,6 +349,10 @@ export default {
       rows.splice(index, 1)
     },
     async submitInstruct() {
+      if (this.jurisdiction == "无权限") {
+        this.$message.error("无权限")
+        return
+      }
       if (this.instructData.length === 0) {
         this.$notify({
           title: "提示",
@@ -408,6 +415,10 @@ export default {
       }
     },
     async endInstruct() {
+      if (this.jurisdiction == "无权限") {
+        this.$message.error("无权限")
+        return
+      }
       if (this.dealstep.length === 0) {
         this.$notify({
           title: "提示",
@@ -450,29 +461,31 @@ export default {
         "/API/异常处置系统/制品完结_异常单_面板厂.py",
         this.$qs.stringify(params)
       )
-      console.log(state)
-      if (state == "插入成功") {
-        const h = this.$createElement
-        this.submitloading = false
-        this.$alert(
-          h("span", { style: "font-size: 18px" }, "制品单已完结"),
-          "提示",
-          {
-            confirmButtonText: "确定",
-            showClose: false,
-            type: "success",
-            callback: action => {
-              this.$emit("close")
-              this.$store.state.refresh = new Date().getTime()
-            }
-          }
-        )
+      this.endloading = false
+      this.$message.success("操作成功")
+      this.$emit("close")
+      this.$store.state.refresh = new Date().getTime()
+    },
+    async Jurisdiction() {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_异常单_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          处置组: this.group
+        })
+      )
+      console.log(data.state)
+      if (data.state == "无权限") {
+        this.jurisdiction = "无权限"
+      } else {
+        this.jurisdiction = "有权限"
       }
     }
   },
   computed: {},
   created() {
     this.querymessage()
+    this.Jurisdiction()
   }
 }
 </script>

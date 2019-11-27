@@ -15,7 +15,7 @@
             <el-date-picker
               v-model="queryform.结束日期"
               type="date"
-              value-format="yyyy-MM-dd "
+              value-format="yyyy-MM-dd"
               placeholder="选择日期时间"
             ></el-date-picker>
           </el-form-item>
@@ -99,7 +99,7 @@
             border
             v-if="tableShow"
             key="protable"
-            :data="protableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            :data="protableData"
             style="width: 100%;white-space:nowrap"
             max-height="650"
             highlight-current-row
@@ -142,16 +142,17 @@
             ></el-table-column>
             <el-table-column prop="操作" label="操作" width="80" align="center">
               <template slot-scope="scope">
-                <el-button size="mini" type="primary" plain @click="productEdit(scope.row[0])">查看</el-button>
+                <el-button size="mini" type="primary" plain @click="productEdit(scope.row)">查看</el-button>
               </template>
             </el-table-column>
           </el-table>
+          <!-- :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" -->
 
           <el-table
             border
             v-else
             key="eqtable"
-            :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            :data="equtableData"
             style="width: 100%;white-space:nowrap"
             max-height="650"
             highlight-current-row
@@ -187,7 +188,7 @@
             </el-table-column>
           </el-table>
         </transition>
-        <div class="pagination" v-if="tableShow">
+        <!-- <div class="pagination" v-if="tableShow">
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -208,12 +209,20 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="equtableData.length"
           ></el-pagination>
-        </div>
+        </div>-->
       </el-col>
     </el-row>
 
-    <el-dialog title="制品处置详情" :visible.sync="querypro" width="85%" top="3%" destroy-on-close center>
-      <querypro></querypro>
+    <el-dialog
+      title="制品处置详情"
+      :visible.sync="querypro"
+      v-if="querypro"
+      width="85%"
+      top="3%"
+      destroy-on-close
+      center
+    >
+      <querypro :id="ticNumber" :group="group" @proclose='proclose'></querypro>
     </el-dialog>
     <el-dialog
       title="设备处置详情"
@@ -223,65 +232,66 @@
       destroy-on-close
       center
     >
-      <queryequip></queryequip>
+      <queryequip :id="ticNumber"></queryequip>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import querypro from './components/alertpro'
-import queryequip from './components/alertequip'
+import querypro from "./components/alertpro"
+import queryequip from "./components/alertequip"
 export default {
-  data () {
+  data() {
     return {
       tableShow: true,
       querypro: false,
       queryequip: false,
-      type: '制品异常单',
+      ticNumber: null,
+      type: "制品异常单",
       protableData: [
         {
-          编号: '制品异常-面板厂-2019-23492',
-          状态: '进行',
-          创建: '王兴',
-          创建时间: '2019-11-12 05:00:22',
-          制品: '试做',
-          程度: '轻微',
-          异常: '圈状mura、横线不良',
-          现象: '导航中检出圈状mura、横线不良',
-          处置: '前工程',
-          经理: 'None',
-          PQC: 'None'
+          编号: "制品异常-面板厂-2019-23492",
+          状态: "进行",
+          创建: "王兴",
+          创建时间: "2019-11-12 05:00:22",
+          制品: "试做",
+          程度: "轻微",
+          异常: "圈状mura、横线不良",
+          现象: "导航中检出圈状mura、横线不良",
+          处置: "前工程",
+          经理: "None",
+          PQC: "None"
         }
       ],
       equtableData: [
         {
-          编号: '设备异常-面板厂-2019-7383',
-          状态: '完成',
-          创建: '刘志强',
-          创建时间: '2019-11-12 03:05:10',
-          设备: 'ODL',
-          号机: '3',
-          Main: 'EQ3',
-          Sub: 'Alignment stage',
-          现象: '画像异常',
-          处置: '中工程',
-          经理: 'None',
-          PQC: 'None'
+          编号: "设备异常-面板厂-2019-7383",
+          状态: "完成",
+          创建: "刘志强",
+          创建时间: "2019-11-12 03:05:10",
+          设备: "ODL",
+          号机: "3",
+          Main: "EQ3",
+          Sub: "Alignment stage",
+          现象: "画像异常",
+          处置: "中工程",
+          经理: "None",
+          PQC: "None"
         }
       ],
       queryform: {
-        开始日期: '',
-        结束日期: '',
-        异常程度: '',
-        开票组: '',
-        处置组: '',
-        确认组: '',
-        异常名称: ''
+        开始日期: "",
+        结束日期: "",
+        异常程度: "",
+        开票组: "",
+        处置组: "",
+        确认组: "",
+        异常名称: ""
       },
       状态: [],
       api: {
-        product: '/API/异常处置系统/制品单查询.py',
-        equipment: '/API/异常处置系统/设备单查询.py'
+        product: "/API/异常处置系统/制品单查询.py",
+        equipment: "/API/异常处置系统/设备单查询.py"
       },
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
@@ -293,23 +303,23 @@ export default {
   },
   methods: {
     // 初始异常时间
-    formatTime () {
+    formatTime() {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, '0')
+      const month = (date.getMonth() + 1).toString().padStart(2, "0")
       const day = date
         .getDate()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       this.queryform.开始日期 = `${year}-${month}-${(day - 1)
         .toString()
-        .padStart(2, '0')}`
+        .padStart(2, "0")}`
       this.queryform.结束日期 = `${year}-${month}-${day} `
     },
-    async query () {
+    async query() {
       let formstate = this.状态.join()
-      let api = ''
-      this.type == '制品异常单'
+      let api = ""
+      this.type == "制品异常单"
         ? (api = this.api.product)
         : (api = this.api.equipment)
       this.queryform.状态 = formstate
@@ -317,34 +327,42 @@ export default {
         `${api}`,
         this.$qs.stringify(this.queryform)
       )
-      if (data.state == '') {
-        this.type == '制品异常单'
+      if (data.state == "") {
+        this.type == "制品异常单"
           ? (this.protableData = data.data)
           : (this.equtableData = data.data)
       } else {
         this.$notify({
-          title: '错误！',
+          title: "错误！",
           message: `${data.state}`,
-          type: 'error',
-          duration: '4000'
+          type: "error",
+          duration: "4000"
         })
       }
     },
-    productEdit () {
+    productEdit(num) {
+      this.ticNumber = num.编号
+      this.group = num.处置
       this.querypro = true
     },
-    equipmentEdit () {
+    proclose() {
+      this.querypro = false
+    },
+    equclose() {
+      this.queryequip = false
+    },
+    equipmentEdit() {
       this.queryequip = true
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange: function(size) {
       this.pagesize = size
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage
     }
   },
-  created () {
+  created() {
     this.formatTime()
   }
 }

@@ -11,7 +11,7 @@
     <i class="refresh" :class="refreshIcon" @click="refreshMain"></i>
     <!-- <fullscreen v-model="isFullscreen" class="fullscr" /> -->
     <el-dropdown class="user" placement="bottom" @command="logout">
-      <i class="el-icon-user-solid"></i>
+      <i class="el-icon-user-solid">{{this.$store.state.username}}</i>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>退出</el-dropdown-item>
       </el-dropdown-menu>
@@ -108,7 +108,7 @@ export default {
 .user {
   float: right;
   margin: 10px 10px;
-  font-size: 23px;
+  font-size: 20px;
 }
 .refresh {
   float: left;
