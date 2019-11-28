@@ -101,7 +101,7 @@
         destroy-on-close
         center
       >
-        <deal :id="ticNumber" :group='dealGroup'></deal>
+        <deal :id="ticNumber" :group="dealGroup"></deal>
       </el-dialog>
     </transition>
     <transition name="dialog">
@@ -130,20 +130,8 @@ export default {
       changeproduct: false,
       Lot: "",
       ticNumber: null,
-      dealGroup:'',
-      productdata: [
-        {
-          编号: "制品异常-面板厂-2019-19847",
-          创建: "周亦睿",
-          日期: "2019-09-20",
-          LOT: "19914051",
-          设备: "MMO004",
-          异常: "成膜区域超规格",
-          现象:
-            "S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格,S6.2..3.13成膜区域超规格",
-          处置: "CVD"
-        }
-      ],
+      dealGroup: "",
+      productdata: [],
       LotData: [],
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
@@ -226,25 +214,28 @@ export default {
       }
     },
     async deleteRow(index, row) {
-      const {data} = await this.$http.post('/API/异常处置系统/权限_制品_面板厂.py',      
-      this.$qs.stringify({
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_制品_面板厂.py",
+        this.$qs.stringify({
           工号: this.$store.state.username,
           编号: row.编号
-        }))        
-        if (data.state == "无权限") {
+        })
+      )
+      if (data.state == "无权限") {
         this.$message.error("无权限")
         return
       } else {
-       this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$http.post('/API/异常处置系统/删除_异常单_制品.py',      
-          this.$qs.stringify({
-          编号: row.编号
-        }))
+        this.$confirm("此操作将删除该异常单, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          this.$http.post(
+            "/API/异常处置系统/删除_异常单_制品.py",
+            this.$qs.stringify({
+              编号: row.编号
+            })
+          )
           this.$notify({
             title: "提示",
             message: "删除成功！",

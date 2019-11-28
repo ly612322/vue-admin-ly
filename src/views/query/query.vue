@@ -156,6 +156,7 @@
             style="width: 100%;white-space:nowrap"
             max-height="650"
             highlight-current-row
+            :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
           >
             <el-table-column prop="编号" label="编号" align="center" width="135" sortable></el-table-column>
             <el-table-column prop="状态" label="状态" align="center" width="70"></el-table-column>
@@ -183,7 +184,7 @@
             ></el-table-column>
             <el-table-column prop="操作" label="操作" width="80" align="center">
               <template slot-scope="scope">
-                <el-button size="mini" type="primary" plain @click="equipmentEdit(scope.row[0])">查看</el-button>
+                <el-button size="mini" type="primary" plain @click="equipmentEdit(scope.row)">查看</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -212,28 +213,32 @@
         </div>-->
       </el-col>
     </el-row>
-
-    <el-dialog
-      title="制品处置详情"
-      :visible.sync="querypro"
-      v-if="querypro"
-      width="85%"
-      top="3%"
-      destroy-on-close
-      center
-    >
-      <querypro :id="ticNumber" :group="group" @proclose='proclose'></querypro>
-    </el-dialog>
-    <el-dialog
-      title="设备处置详情"
-      :visible.sync="queryequip"
-      width="85%"
-      top="3%"
-      destroy-on-close
-      center
-    >
-      <queryequip :id="ticNumber"></queryequip>
-    </el-dialog>
+         <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" >
+      <el-dialog
+        title="制品处置详情"
+        :visible.sync="querypro"
+        v-if="querypro"
+        width="85%"
+        top="3%"
+        destroy-on-close
+        center
+      >
+        <querypro :id="ticNumber" :group="group" @proclose="proclose"></querypro>
+      </el-dialog>
+    </transition>
+    <transition name="item">
+      <el-dialog
+        title="设备处置详情"
+        :visible.sync="queryequip"
+        v-if="queryequip"
+        width="85%"
+        top="3%"
+        destroy-on-close
+        center
+      >
+        <queryequip :id="ticNumber" :group="group" @equclose="equclose" @eququery="query"></queryequip>
+      </el-dialog>
+    </transition>
   </div>
 </template>
 
@@ -248,37 +253,8 @@ export default {
       queryequip: false,
       ticNumber: null,
       type: "制品异常单",
-      protableData: [
-        {
-          编号: "制品异常-面板厂-2019-23492",
-          状态: "进行",
-          创建: "王兴",
-          创建时间: "2019-11-12 05:00:22",
-          制品: "试做",
-          程度: "轻微",
-          异常: "圈状mura、横线不良",
-          现象: "导航中检出圈状mura、横线不良",
-          处置: "前工程",
-          经理: "None",
-          PQC: "None"
-        }
-      ],
-      equtableData: [
-        {
-          编号: "设备异常-面板厂-2019-7383",
-          状态: "完成",
-          创建: "刘志强",
-          创建时间: "2019-11-12 03:05:10",
-          设备: "ODL",
-          号机: "3",
-          Main: "EQ3",
-          Sub: "Alignment stage",
-          现象: "画像异常",
-          处置: "中工程",
-          经理: "None",
-          PQC: "None"
-        }
-      ],
+      protableData: [],
+      equtableData: [],
       queryform: {
         开始日期: "",
         结束日期: "",
@@ -345,14 +321,16 @@ export default {
       this.group = num.处置
       this.querypro = true
     },
+    equipmentEdit(num) {
+      this.ticNumber = num.编号
+      this.group = num.处置
+      this.queryequip = true
+    },
     proclose() {
       this.querypro = false
     },
     equclose() {
       this.queryequip = false
-    },
-    equipmentEdit() {
-      this.queryequip = true
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {

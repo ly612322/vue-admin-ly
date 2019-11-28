@@ -1,74 +1,74 @@
 <template>
-  <div>
+  <div v-loading.lock="fullscreenLoading" element-loading-text="加载中...">
     <table class="table table-bordered" style="margin-bottom:10px;">
       <tr>
         <td>工号</td>
-        <td id="12"></td>
+        <td>{{details.工号}}</td>
         <td>编号</td>
-        <td id="13"></td>
+        <td>{{details.编号}}</td>
       </tr>
       <tr>
         <td>故障时间</td>
-        <td id="14"></td>
+        <td>{{details.故障时间}}</td>
         <td>状态</td>
-        <td id="15"></td>
+        <td>{{details.状态}}</td>
       </tr>
       <tr>
         <td>处置组</td>
-        <td id="16"></td>
+        <td>{{details.处置组}}</td>
         <td>设备群</td>
-        <td id="17"></td>
+        <td>{{details.设备群}}</td>
       </tr>
       <tr>
         <td>号机</td>
-        <td id="18"></td>
+        <td>{{details.号机}}</td>
         <td>大单元</td>
-        <td id="19"></td>
+        <td>{{details.大单元}}</td>
       </tr>
       <tr>
         <td>小单元</td>
-        <td id="20"></td>
+        <td>{{details.小单元}}</td>
         <td>品名</td>
-        <td id="21"></td>
+        <td>{{details.品名}}</td>
       </tr>
       <tr>
         <td>故障类型</td>
-        <td colspan="3" id="22"></td>
+        <td colspan="3">{{details.故障类型}}</td>
       </tr>
       <tr>
         <td>故障现象</td>
-        <td colspan="3" id="23"></td>
+        <td colspan="3">{{details.故障现象}}</td>
       </tr>
       <tr>
         <td>原因</td>
-        <td colspan="3" id="24"></td>
+        <td colspan="3">{{details.原因}}</td>
       </tr>
       <tr>
         <td>处置方法</td>
-        <td colspan="3" id="25"></td>
+        <td colspan="3">{{details.处置方法}}</td>
       </tr>
       <tr>
         <td>处置结果</td>
-        <td colspan="3" id="26"></td>
+        <td colspan="3">{{details.处置结果}}</td>
       </tr>
       <tr>
         <td>更换备件</td>
-        <td colspan="3" id="27"></td>
+        <td colspan="3">{{details.更换备件}}</td>
       </tr>
       <tr>
         <td>处置完成时间</td>
-        <td id="28"></td>
+        <td>{{details.处置完成时间}}</td>
         <td>量产时间</td>
-        <td id="29"></td>
+        <td>{{details.量产时间}}</td>
       </tr>
       <tr>
         <td>水平展开</td>
-        <td id="30"></td>
+        <td>{{details.水平展开}}</td>
         <td>最后处置人员</td>
-        <td id="31"></td>
+        <td>{{details.最后处置人员}}</td>
       </tr>
     </table>
-        <el-card class="box-card el-card__head el-card-body" shadow="never">
+    <el-card class="box-card el-card__head el-card-body" shadow="never">
       <div slot="header" class="clearfix">
         <span>设备处置记录</span>
       </div>
@@ -89,39 +89,20 @@
           label="下限"
           :formatter="this.common.removeNone"
         ></el-table-column>
-        <el-table-column align="center" prop="模式" width="120" label="模式"></el-table-column>
+        <el-table-column align="center" prop="确认模式" width="120" label="确认模式"></el-table-column>
         <el-table-column align="center" prop="确认" width="120" label="确认">
           <template slot-scope="scope">
-            <el-checkbox
-
-              v-model="scope.row.确认"
-              :checked="scope.row.确认 == '是'?true:false"
-            ></el-checkbox>
+            <el-checkbox v-model="scope.row.确认" checked></el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="状态" width="120" label="状态">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.状态">
-              <el-option label="进行" value="进行"></el-option>
-              <el-option label="完结" value="完结"></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="结果" label="结果">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.结果"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="备注" label="备注">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.备注"></el-input>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" prop="状态" width="120" label="状态"></el-table-column>
+        <el-table-column align="center" prop="结果" label="结果"></el-table-column>
+        <el-table-column align="center" prop="备注" label="备注"></el-table-column>
       </el-table>
     </el-card>
-     <el-row>
+    <el-row>
       <el-col :span="7">
-        <el-input v-model="manremarkd" placeholder="暂无" disabled>
+        <el-input v-model="manremarked" placeholder="暂无" disabled>
           <template slot="prepend">经理已备注内容</template>
         </el-input>
       </el-col>
@@ -131,28 +112,28 @@
         </el-input>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="success">通过</el-button>
+        <el-button type="success" @click="manconfirm('通过')">通过</el-button>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="danger">驳回</el-button>
+        <el-button type="danger" @click="manconfirm('驳回')">驳回</el-button>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="7">
-        <el-input v-model="manremarkd" placeholder="暂无" disabled>
+        <el-input v-model="pqcremarked" placeholder="暂无" disabled>
           <template slot="prepend">PQC已备注内容</template>
         </el-input>
       </el-col>
       <el-col :span="9" :offset="1">
-        <el-input v-model="manremark" placeholder="请填写备注">
+        <el-input v-model="pqcremark" placeholder="请填写备注">
           <template slot="prepend">PQC备注</template>PQC
         </el-input>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="success">通过</el-button>
+        <el-button type="success" @click="pqcconfirm('通过')">通过</el-button>
       </el-col>
       <el-col :span="1" :offset="1">
-        <el-button type="danger">驳回</el-button>
+        <el-button type="danger" @click="pqcconfirm('驳回')">驳回</el-button>
       </el-col>
     </el-row>
   </div>
@@ -161,8 +142,74 @@
 export default {
   data() {
     return {
-      
+      fullscreenLoading: false,
+      details: [],
+      equipmentItem: [],
+      manremarked: "",
+      manremark: "",
+      pqcremarked: "",
+      pqcremark: ""
     }
+  },
+  props: ["id", "group", "eququery"],
+  methods: {
+    async queryMessage() {
+      this.fullscreenLoading = true
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/设备单关联.py",
+        this.$qs.stringify({
+          编号: this.id
+        })
+      )
+      this.details = data.设备异常详情
+      this.equipmentItem = data.设备处置记录
+      this.manremarked = Object.values(data.经理确认)[0]
+      this.pqcremarked = Object.values(data.PQC确认)[0]
+      this.fullscreenLoading = false
+    },
+    async manconfirm(state) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/经理_设备确认_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: this.id,
+          备注: this.manremark,
+          状态: state,
+          处置组: this.group
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.$message.success("操作成功")
+        this.$emit("equclose")
+        this.$emit("eququery")
+      }
+    },
+    async pqcconfirm(state) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/PQC_设备确认_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: this.id,
+          备注: this.pqcremark,
+          状态: state,
+          处置组: this.group
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.$message.success("操作成功")
+        this.$emit("equclose")
+        this.$emit("eququery")
+      }
+    }
+  },
+  created() {
+    this.queryMessage()
   }
 }
 </script>

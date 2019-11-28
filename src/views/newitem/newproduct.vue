@@ -11,6 +11,8 @@
             :rules="rules"
             size="small "
             label-position="left"
+            status-icon
+            :show-message='false'
           >
             <el-form-item label="异常发生时间">
               <el-date-picker
@@ -579,6 +581,7 @@ export default {
 .elform {
   width: 50%;
   float: left;
+  font-size: 13px;
 }
 .el-input,
 .el-select {
@@ -599,6 +602,7 @@ export default {
   width: 98%;
 }
 .box-card {
+  font-size: 14px;
   width: 73%;
   margin: 2px;
   float: left;
@@ -608,9 +612,10 @@ export default {
 .box-card1 >>> .el-card__body {
   padding: 0 !important;
   border: 0;
+  
 }
 .box-lot {
-  height: 380px;
+  height: 325px
 }
 .box-card2 {
   text-align: center;
@@ -632,6 +637,9 @@ export default {
 }
 .picdisplay {
   margin-top: 10%;
+}
+.el-form-item{
+  margin-bottom: 10px
 }
 .picture {
   display: inline-block;

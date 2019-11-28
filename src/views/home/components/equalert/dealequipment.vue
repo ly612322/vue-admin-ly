@@ -72,7 +72,7 @@
           <template slot-scope="scope">
             <el-select v-model="scope.row.状态">
               <el-option label="进行" value="进行"></el-option>
-              <el-option label="完结" value="完结"></el-option>
+              <el-option label="完成" value="完成"></el-option>
             </el-select>
           </template>
         </el-table-column>
@@ -170,14 +170,14 @@
         <el-col :span="6">
           <el-form-item label="状态" prop="状态">
             <el-select v-model="equipmentform.设备_状态" placeholder="状态">
-              <el-option label="完结" value="完结"></el-option>
+              <el-option label="完成" value="完成"></el-option>
               <el-option label="进行" value="进行"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item prop="经理备注" label="经理备注">
-            <el-input placeholder="经理备注" disabled></el-input>
+          <el-form-item prop="经理备注" label="经理备注" >
+            <el-input placeholder="经理备注" disabled v-model="manager"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4" :offset="1">
@@ -217,7 +217,8 @@ export default {
       rules: [],
       details: [],
       equipmentItem: [],
-      jurisdiction: ""
+      jurisdiction: "",
+      manager:""
     }
   },
   props: ["id", "group"],
@@ -231,13 +232,22 @@ export default {
         })
       )
       this.details = data.设备异常详情
-      console.log(this.details)
       this.equipmentItem = data.设备立上
       this.equipmentform.原因 = this.details.原因.replace("None", "")
       this.equipmentform.处置方法 = this.details.处置方法.replace("None", "")
       this.equipmentform.处置结果 = this.details.处置结果.replace("None", "")
       this.equipmentform.更换备件 = this.details.更换备件.replace("None", "")
+      // this.manager = Object.values(data.经理确认)[0]
       this.fullscreenLoading = false
+    },
+    async queryMan() {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/设备单关联.py",
+        this.$qs.stringify({
+          编号: this.id
+        })
+      )
+      this.manager = Object.values(data.经理确认)[0]
     },
     // 初始异常时间
     formatTime() {
@@ -362,6 +372,7 @@ export default {
   },
   created() {
     this.queryMessage()
+    this.queryMan()
     this.formatTime()
     this.Jurisdiction()
   }

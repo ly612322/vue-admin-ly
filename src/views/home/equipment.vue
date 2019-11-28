@@ -86,7 +86,7 @@
         destroy-on-close
         center
       >
-        <deal :id="ticNumber" :group=group></deal>
+        <deal :id="ticNumber" :group="group"></deal>
       </el-dialog>
     </transition>
     <transition name="dialog">
@@ -98,7 +98,7 @@
         center
         destroy-on-close
       >
-        <change></change>
+        <change :id="ticNumber" :group="group"></change>
       </el-dialog>
     </transition>
   </div>
@@ -112,21 +112,8 @@ export default {
       dealequipment: false,
       changeequipment: false,
       ticNumber: null,
-      group:'',
-      tableData: [
-        {
-          编号: "设备异常-面板厂-2019-19847",
-          创建: "周亦睿",
-          日期: "2019-09-20",
-          设备: "MMO004",
-          号机: "1",
-          Main: "19914051",
-          Sub: "HSD1",
-          异常: "成膜区域超规格",
-          处置: "CVD",
-          现象: "S6.2..3.13成膜区域超规格"
-        }
-      ],
+      group: "",
+      tableData: [],
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
     }
@@ -141,9 +128,22 @@ export default {
       this.ticNumber = row.编号
       this.group = row.处置
     },
-    changerouter(index, row) {
-      this.changeequipment = true
-      this.ticNumber = row.编号
+    //修改 权限判断
+    async changerouter(index, row) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_设备_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: row.编号
+        })
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.changeequipment = true
+        this.ticNumber = row.编号
+      }
     },
     async getNewsList() {
       const { data } = await this.$http.post(
@@ -171,7 +171,6 @@ export default {
     },
     close() {
       this.dealequipment = false
-
     },
     // 页面筛选函数
     filterHandler(value, row, column) {

@@ -12,6 +12,9 @@ import axios from 'axios'
 import common from './utils/common'
 import qs from 'qs'
 import './permission'
+	
+import animate from 'animate.css'
+Vue.use(animate)
 // import './mock'
 
 // 配置请求根路径

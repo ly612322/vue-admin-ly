@@ -20,7 +20,7 @@ export default {
   overflow-y: auto;
   height: 87vh;
   padding: 12px;
-  font-size: 12px
+  font-size: 13px
 }
 
 </style>
