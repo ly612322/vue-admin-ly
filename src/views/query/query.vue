@@ -213,7 +213,8 @@
         </div>-->
       </el-col>
     </el-row>
-         <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" >
+         <!-- <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" > -->
+         <transition name="custom-classes-transition" enter-active-class="animated zoomInDown" leave-active-class="animated zoomOutDown" >
       <el-dialog
         title="制品处置详情"
         :visible.sync="querypro"
@@ -226,7 +227,7 @@
         <querypro :id="ticNumber" :group="group" @proclose="proclose"></querypro>
       </el-dialog>
     </transition>
-    <transition name="item">
+         <transition name="custom-classes-transition" enter-active-class="animated rollIn" leave-active-class="animated rollOut" >
       <el-dialog
         title="设备处置详情"
         :visible.sync="queryequip"

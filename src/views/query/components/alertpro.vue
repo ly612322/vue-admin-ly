@@ -104,7 +104,7 @@
             <span>不良位置</span>
           </div>
           <div class="picdisplay">
-            <div style="margin-left: 82%">1300</div>
+            <div style="margin-left: 80%">1300</div>
             <div class="picture"></div>
             <div class="picture"></div>
             <div class="picture"></div>
@@ -188,10 +188,15 @@ export default {
       for (var i = 0; i < 12; i++) {
         document.getElementById(i).innerHTML = Object.values(this.details)[i]
       }
-      let pictrue = document.getElementsByClassName("picture")
-      for (let i = 0; i < 6; i++) {
-        if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
-          pictrue[i].style.backgroundColor = "red"
+      console.log(data.不良位置.length)
+      if (data.不良位置.length == 0) {
+        console.log("不良位置为空")
+      } else {
+        let pictrue = document.getElementsByClassName("picture")
+        for (let i = 0; i < 6; i++) {
+          if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
+            pictrue[i].style.backgroundColor = "red"
+          }
         }
       }
       this.manremarked = Object.values(data.经理确认)[0]
@@ -213,7 +218,7 @@ export default {
         this.$message.error("无权限")
         return
       } else {
-        this.$message.success("操作成功")        
+        this.$message.success("操作成功")
         this.$emit("proclose")
       }
     },
@@ -234,7 +239,6 @@ export default {
       } else {
         this.$message.success("操作成功")
         this.$emit("proclose")
-        
       }
     }
   },

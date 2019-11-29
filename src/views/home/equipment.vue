@@ -5,6 +5,7 @@
       <el-table
         :data="tableData"
         border
+        v-loading="loading"
         style="width: 100%"
         max-height="1000"
         highlight-current-row
@@ -57,7 +58,7 @@
             >修改</el-button>
             <el-button
               type="danger"
-              @click.native.prevent="deleteRow(scope.$index, tableData)"
+              @click.native.prevent="deleteRow(scope.$index, scope.row)"
               size="small"
               style="margin-left:5px"
             >删除</el-button>
@@ -109,6 +110,7 @@ import change from "./components/equalert/changeequip"
 export default {
   data() {
     return {
+      loading:false,
       dealequipment: false,
       changeequipment: false,
       ticNumber: null,
@@ -146,6 +148,7 @@ export default {
       }
     },
     async getNewsList() {
+      this.loading = true
       const { data } = await this.$http.post(
         "/API/异常处置系统/异常单_面板厂.py"
       )
@@ -168,6 +171,7 @@ export default {
           duration: "4000"
         })
       }
+      this.loading = false
     },
     close() {
       this.dealequipment = false
@@ -185,19 +189,29 @@ export default {
       this.currentPage = currentPage
     },
     deleteRow(index, rows) {
-      this.$message("此操作将删除该异常单, 是否继续?", "提示", {
+      this.$alert("此操作将删除该异常单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          rows.splice(index, 1)
-          this.$message({
-            title: "提示",
-            message: "删除成功！",
-            type: "success",
-            duration: "1400"
-          })
+          this.$http
+            .post(
+              "/API/异常处置系统/删除_异常单_设备.py",
+              this.$qs.stringify({
+                编号: rows.编号
+              })
+            )
+            .then((res) => {
+              console.log(res)
+              this.tableData.splice(index, 1)
+              this.$message({
+                title: "提示",
+                message: "删除成功！",
+                type: "success",
+                duration: "1400"
+              })
+            })
         })
         .catch(() => {
           this.$message({

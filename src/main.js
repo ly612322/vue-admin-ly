@@ -12,9 +12,22 @@ import axios from 'axios'
 import common from './utils/common'
 import qs from 'qs'
 import './permission'
+
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/toolbox'
+import 'echarts/lib/component/markPoint'
+import 'echarts/lib/component/legend'
+// import 'echarts/lib/component/dataZoom'
+// import 'echarts/lib/component/polar'
+// import 'echarts/lib/component/legend'
+import 'echarts/lib/component/title.js'
 	
 import animate from 'animate.css'
 Vue.use(animate)
+Vue.component('chart', ECharts)
+
 // import './mock'
 
 // 配置请求根路径

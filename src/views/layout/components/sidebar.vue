@@ -9,7 +9,7 @@
       router
       unique-opened
       :collapse="this.$store.state.collapse"
-      :collapse-transition="true"
+      :collapse-transition="false"
       :default-active="this.$route.path"
     >
       <template>
@@ -198,12 +198,10 @@ export default {
 .el-menu-vertica:not(.el-menu--collapse) {
   width: 200px;
   height: 100vh;
-  overflow: hidden;
 }
 .el-menu-vertica {
   width: 60px;
   height: 110vh;
-  overflow: hidden;
 }
 
 h3 {

@@ -4,6 +4,7 @@
       <!-- :data="productdata.slice((currentPage-1)*pagesize,currentPage*pagesize)" 分页 -->
       <el-table
         border
+        v-loading="loading"
         :data="productdata"
         style="width: 100%;white-space:nowrap"
         max-height="1000"
@@ -91,7 +92,12 @@
         <el-table-column property="作业Memo" label="作业Memo"></el-table-column>
       </el-table>
     </el-drawer>
-    <transition name="dialog">
+    <!-- <transition name="custom-classes-transition" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight" > -->
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animated zoomInDown"
+      leave-active-class="animated zoomOutDown"
+    >
       <el-dialog
         title="制品单处置"
         :visible.sync="dealproduct"
@@ -104,7 +110,7 @@
         <deal :id="ticNumber" :group="dealGroup"></deal>
       </el-dialog>
     </transition>
-    <transition name="dialog">
+         <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" >
       <el-dialog
         title="制品单修改"
         :visible.sync="changeproduct"
@@ -125,6 +131,7 @@ import change from "./components/proalert/changepro"
 export default {
   data() {
     return {
+      loading: false,
       table: false,
       dealproduct: false,
       changeproduct: false,
@@ -166,6 +173,7 @@ export default {
 
     // 制品数据
     async getNewsList() {
+      this.loading = true
       const { data } = await this.$http.post(
         "/API/异常处置系统/异常单_面板厂.py"
       )
@@ -188,6 +196,7 @@ export default {
           duration: "4000"
         })
       }
+      this.loading = false
     },
     // 页面筛选函数
     filterHandler(value, row, column) {
@@ -236,6 +245,7 @@ export default {
               编号: row.编号
             })
           )
+          this.productdata.splice(index, 1)
           this.$notify({
             title: "提示",
             message: "删除成功！",

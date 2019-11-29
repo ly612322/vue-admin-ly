@@ -441,6 +441,7 @@ export default {
     // 初始异常时间
     formatTime () {
       const date = new Date()
+      date.setTime(date.getTime() - 300000);
       const year = date.getFullYear()
       const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const day = date
@@ -459,7 +460,7 @@ export default {
         .getSeconds()
         .toString()
         .padStart(2, '0')
-      this.productform.time = `${year}-${month}-${day} ${hour}:${(minute - 5)
+      this.productform.time = `${year}-${month}-${day} ${hour}:${(minute)
         .toString()
         .padStart(2, '0')}:${second}`
     },
