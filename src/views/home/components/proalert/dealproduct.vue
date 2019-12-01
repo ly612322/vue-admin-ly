@@ -193,7 +193,7 @@
             <el-form-item label="经理备注" class="longinput">
               <el-input placeholder="经理备注" v-model="manager" disabled></el-input>
             </el-form-item>
-            <el-form-item label="原因" class="longinput">
+            <el-form-item label="原因" class="longinput" prop="原因">
               <el-input
                 placeholder="请填写原因"
                 v-model="reason"
@@ -298,7 +298,6 @@ export default {
         })
       )
       console.log(data)
-
       let details = data.制品异常详情
       let list = {}
       for (let i = 2; i < 8; i++) {
@@ -311,13 +310,18 @@ export default {
       this.causeequipment = Object.values(data.制品异常详情)[9]
       this.track = Object.values(data.制品异常详情)[10].replace("None", "")
       this.reason = Object.values(data.制品异常详情)[11].replace("None", "")
-      let pictrue = document.getElementsByClassName("picture")
-      for (var i = 0; i < 6; i++) {
-        if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
-          pictrue[i].style.backgroundColor = "red"
+      if (data.不良位置.length == 0) {
+        console.log("不良位置为空")
+        this.fullscreenLoading = false
+      } else {
+        let pictrue = document.getElementsByClassName("picture")
+        for (var i = 0; i < 6; i++) {
+          if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
+            pictrue[i].style.backgroundColor = "red"
+          }
         }
+        this.fullscreenLoading = false
       }
-      this.fullscreenLoading = false
     },
     addInstruct() {
       if (this.newInstruct == "") {
@@ -407,7 +411,7 @@ export default {
             callback: action => {
               if (action === "confirm") {
                 this.$emit("close")
-                this.$store.state.refresh = new Date().getTime()
+                // this.$store.state.refresh = new Date().getTime()
               }
             }
           }

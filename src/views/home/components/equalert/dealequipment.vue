@@ -91,11 +91,25 @@
     <el-divider>
       <i class="el-icon-edit">处置中</i>
     </el-divider>
-    <el-form :model="equipmentform" label-width="106px" class="elform" label-position="right">
+    <el-form
+      :model="equipmentform"
+      ref="equipmentform"
+      label-width="106px"
+      class="elform"
+      label-position="right"
+      :rules="rules"
+    >
       <el-row type="flex" justify="start" :gutter="10">
         <el-col :span="15">
           <el-form-item label="原因" prop="原因">
-            <el-input placeholder="请输入原因" v-model="equipmentform.原因" maxlength="50" show-word-limit></el-input>
+            <el-input
+              name="原因"
+              v-input-filter
+              placeholder="请输入原因"
+              v-model="equipmentform.原因"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="5">
@@ -113,6 +127,7 @@
         <el-col :span="15">
           <el-form-item label="处置方法" prop="处置方法">
             <el-input
+              v-input-filter
               placeholder="请输入处置方法"
               v-model="equipmentform.处置方法"
               maxlength="50"
@@ -135,6 +150,7 @@
         <el-col :span="15">
           <el-form-item label="处置结果" prop="处置结果">
             <el-input
+              v-input-filter
               placeholder="请输入处置结果"
               v-model="equipmentform.处置结果"
               maxlength="50"
@@ -153,6 +169,7 @@
         <el-col :span="15">
           <el-form-item label="更换备件" prop="更换备件">
             <el-input
+              v-input-filter
               placeholder="请输入更换备件"
               v-model="equipmentform.更换备件"
               maxlength="50"
@@ -162,7 +179,12 @@
         </el-col>
         <el-col :span="7">
           <el-form-item prop="水平展开_备注" label="展开备注">
-            <el-input placeholder="请输入备注" v-model="equipmentform.水平展开_备注" maxlength="50"></el-input>
+            <el-input
+              v-input-filter
+              placeholder="请输入备注"
+              v-model="equipmentform.水平展开_备注"
+              maxlength="50"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -176,7 +198,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="9">
-          <el-form-item prop="经理备注" label="经理备注" >
+          <el-form-item prop="经理备注" label="经理备注">
             <el-input placeholder="经理备注" disabled v-model="manager"></el-input>
           </el-form-item>
         </el-col>
@@ -214,11 +236,22 @@ export default {
         水平展开_备注: "",
         设备_状态: "进行"
       },
-      rules: [],
+      rules: {
+        原因: [{ required: true, message: "请填写原因", trigger: "blur" }],
+        处置方法: [
+          { required: true, message: "请填写处置方法", trigger: "blur" }
+        ],
+        处置结果: [
+          { required: true, message: "请填写处置结果", trigger: "blur" }
+        ],
+        更换备件: [
+          { required: true, message: "请填写更换备件", trigger: "blur" }
+        ]
+      },
       details: [],
       equipmentItem: [],
       jurisdiction: "",
-      manager:""
+      manager: ""
     }
   },
   props: ["id", "group"],
@@ -273,83 +306,93 @@ export default {
       this.equipmentform.处置完成时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
       this.equipmentform.量产时间 = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
-    async submitForm() {
+    submitForm() {
       if (this.jurisdiction == "无权限") {
         this.$message.error("无权限")
         return
       }
-      let params = {
-        确认人: this.$store.state.username,
-        编号: this.equipmentItem
-          .map(ele => {
-            return ele.编号
-          })
-          .join(","),
-        项目: this.equipmentItem
-          .map(ele => {
-            return ele.确认项
-          })
-          .join(","),
-        上限: this.equipmentItem
-          .map(ele => {
-            return ele.上限.replace("None", "")
-          })
-          .join(","),
-        下限: this.equipmentItem
-          .map(ele => {
-            return ele.下限.replace("None", "")
-          })
-          .join(","),
-        模式: this.equipmentItem
-          .map(ele => {
-            return ele.确认模式.replace("None", "")
-          })
-          .join(","),
-        确认: this.equipmentItem
-          .map(ele => {
-            return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否")
-          })
-          .join(","),
-        状态: this.equipmentItem
-          .map(ele => {
-            return ele.状态
-          })
-          .join(","),
-        结果: this.equipmentItem
-          .map(ele => {
-            return ele.结果
-          })
-          .join(","),
-        备注: this.equipmentItem
-          .map(ele => {
-            return ele.备注
-          })
-          .join(",")
+      const falg = this.equipmentItem.filter(ele => ele.状态 == "进行")
+      if (falg.length != 0) {
+        this.$message.warning("还有未完结的确认项目")
       }
-      params = Object.assign(params, this.equipmentform)
-      const { data: state } = await this.$http.post(
-        "/API/异常处置系统/设备处置_异常单_面板厂.py",
-        this.$qs.stringify(params)
-      )
-      if (state.state == "插入成功") {
-        const h = this.$createElement
-        this.submitloading = false
-        this.$alert(
-          h("span", { style: "font-size: 18px" }, "指示成功"),
-          "提示",
-          {
-            confirmButtonText: "确定",
-            showClose: false,
-            type: "success",
-            callback: action => {
-              if (action === "confirm") {
-                this.$emit("close")
-                this.$store.state.refresh = new Date().getTime()
+      this.$refs.equipmentform.validate(async valid => {
+        if (!valid) {
+          return
+        }
+
+        let params = {
+          确认人: this.$store.state.username,
+          编号: this.equipmentItem
+            .map(ele => {
+              return ele.编号
+            })
+            .join(","),
+          项目: this.equipmentItem
+            .map(ele => {
+              return ele.确认项
+            })
+            .join(","),
+          上限: this.equipmentItem
+            .map(ele => {
+              return ele.上限.replace("None", "")
+            })
+            .join(","),
+          下限: this.equipmentItem
+            .map(ele => {
+              return ele.下限.replace("None", "")
+            })
+            .join(","),
+          模式: this.equipmentItem
+            .map(ele => {
+              return ele.确认模式.replace("None", "")
+            })
+            .join(","),
+          确认: this.equipmentItem
+            .map(ele => {
+              return ele.确认 == true ? (ele.确认 = "是") : (ele.确认 = "否")
+            })
+            .join(","),
+          状态: this.equipmentItem
+            .map(ele => {
+              return ele.状态
+            })
+            .join(","),
+          结果: this.equipmentItem
+            .map(ele => {
+              return ele.结果
+            })
+            .join(","),
+          备注: this.equipmentItem
+            .map(ele => {
+              return ele.备注
+            })
+            .join(",")
+        }
+        params = Object.assign(params, this.equipmentform)
+        const { data: state } = await this.$http.post(
+          "/API/异常处置系统/设备处置_异常单_面板厂.py",
+          this.$qs.stringify(params)
+        )
+        if (state.state == "插入成功") {
+          const h = this.$createElement
+          this.submitloading = false
+          this.$alert(
+            h("span", { style: "font-size: 18px" }, "指示成功"),
+            "提示",
+            {
+              confirmButtonText: "确定",
+              showClose: false,
+              type: "success",
+              callback: action => {
+                if (action === "confirm") {
+                  this.$emit("close")
+                  // this.$store.state.refresh = new Date().getTime()
+                }
               }
             }
-          }
-        )
-      }
+          )
+        }
+      })
     },
     goBack() {
       this.$router.go(-1)

@@ -77,7 +77,11 @@
         :total="tableData.length"
       ></el-pagination>
     </div>-->
-    <transition name="dialog">
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animated rollIn"
+      leave-active-class="animated rollOut"
+    >
       <el-dialog
         title="设备单处置"
         :visible.sync="dealequipment"
@@ -90,7 +94,11 @@
         <deal :id="ticNumber" :group="group"></deal>
       </el-dialog>
     </transition>
-    <transition name="dialog">
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animated rollIn"
+      leave-active-class="animated rollOut"
+    >
       <el-dialog
         title="设备单修改"
         :visible.sync="changeequipment"
@@ -110,7 +118,7 @@ import change from "./components/equalert/changeequip"
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       dealequipment: false,
       changeequipment: false,
       ticNumber: null,
@@ -202,7 +210,7 @@ export default {
                 编号: rows.编号
               })
             )
-            .then((res) => {
+            .then(res => {
               console.log(res)
               this.tableData.splice(index, 1)
               this.$message({

@@ -288,10 +288,8 @@ export default {
         .getDate()
         .toString()
         .padStart(2, "0")
-      this.queryform.开始日期 = `${year}-${month}-${(day - 1)
-        .toString()
-        .padStart(2, "0")}`
       this.queryform.结束日期 = `${year}-${month}-${day} `
+      this.queryform.开始日期 = `${year}-${month}-${day}`
     },
     async query() {
       let formstate = this.状态.join()

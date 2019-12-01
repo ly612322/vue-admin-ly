@@ -387,11 +387,17 @@ export default {
       this.productform.type = data.制品异常详情.异常程度
       this.productform.classify = data.制品异常详情.制品分类
       this.productform.group = data.制品异常详情.处置组
-      let pictrue = document.getElementsByClassName("picture")
-      for (let i = 0; i < 6; i++) {
-        if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
-          pictrue[i].style.backgroundColor = "red"
+      if (data.不良位置.length == 0) {
+        console.log("不良位置为空")
+        this.fullscreenLoading = false
+      } else {
+        let pictrue = document.getElementsByClassName("picture")
+        for (let i = 0; i < 6; i++) {
+          if (data.不良位置[0][Object.keys(data.不良位置[0])[i]] == 1) {
+            pictrue[i].style.backgroundColor = "red"
+          }
         }
+        this.fullscreenLoading = false
       }
     },
 
@@ -474,8 +480,8 @@ export default {
       this.uploadbtn = true
       for (var x = 0; x < 6; x++) {
         if (
-          document.getElementsByClassName("picture")[x].style
-            .backgroundColor == "red"
+          document.getElementsByClassName("picture")[x].style.backgroundColor ==
+          "red"
         ) {
           this.picture[x] = "1"
         } else {

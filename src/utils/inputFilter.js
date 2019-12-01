@@ -9,6 +9,7 @@ const addListener = function (el, type, fn) { // 事件监听
 
 const specialFilter = function (el) {
   addListener(el, 'keyup', () => {
+    // eslint-disable-next-line no-useless-escape
     el.value = el.value.replace(/\\+|\~+|\!+|\@+|¥+|\￥+|\^+|\&+|\*+|\(+|\)+|\'+|(\")+|\$+|`+|\“+|\”+|\‘+|\’+|\n+|\t/g, '')
       .replace('None', '') // 特殊字符
   })

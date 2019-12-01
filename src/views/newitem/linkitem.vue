@@ -422,31 +422,31 @@
   </div>
 </template>
 <script>
-import qs from 'qs'
-import axios from 'axios'
+import qs from "qs"
+import axios from "axios"
 export default {
-  name: 'newsheet',
-  data () {
+  name: "newsheet",
+  data() {
     return {
       loading: false,
       uploadbtn: false,
       ticshow: true,
       productform: {
-        time: '',
-        group: '',
-        lot: '',
-        sheet: '',
-        abnormalName: '',
-        panel: '',
-        remark: '',
-        discribe: '',
-        type: '轻微',
-        classify: '试做'
+        time: "",
+        group: "",
+        lot: "",
+        sheet: "",
+        abnormalName: "",
+        panel: "",
+        remark: "",
+        discribe: "",
+        type: "轻微",
+        classify: "试做"
       },
       btnname: {
-        tongyong: '通用',
-        array: 'ARRAY',
-        cell: 'CELL'
+        tongyong: "通用",
+        array: "ARRAY",
+        cell: "CELL"
       },
       lotDate: [],
       lotallmessage: [],
@@ -464,54 +464,54 @@ export default {
       rules: {
         time: [
           {
-            type: 'date',
+            type: "date",
             required: true,
-            message: '请选择异常发生时间',
-            trigger: 'blur'
+            message: "请选择异常发生时间",
+            trigger: "blur"
           }
         ],
-        group: [{ required: true, message: '请选择处置组', trigger: 'change' }],
+        group: [{ required: true, message: "请选择处置组", trigger: "change" }],
         type: [
           {
-            type: 'string',
+            type: "string",
             required: true,
-            message: '请至少选择一个异常类型'
+            message: "请至少选择一个异常类型"
           }
         ],
-        lot: [{ required: true, message: '请填写Lot' }],
+        lot: [{ required: true, message: "请填写Lot" }],
         classify: [
           {
             required: true,
-            message: '请至少选择一个制品分类',
-            trigger: 'change'
+            message: "请至少选择一个制品分类",
+            trigger: "change"
           }
         ],
-        sheet: [{ required: true, message: '请填写SHEET', trigger: 'blur' }],
+        sheet: [{ required: true, message: "请填写SHEET", trigger: "blur" }],
         discribe: [
-          { required: true, message: '请填写异常描述', trigger: 'blur' }
+          { required: true, message: "请填写异常描述", trigger: "blur" }
         ],
         abnormalName: [
-          { required: true, message: '请选择异常名称', trigger: 'change' }
+          { required: true, message: "请选择异常名称", trigger: "change" }
         ]
       },
       lotDate: [],
       api: {
-        eqgroup: '/API/异常处置系统/设备群_新建异常单_面板厂.py',
-        eqnum: '/API/异常处置系统/号机_新建异常单_面板厂.py',
-        bigunit: '/API/异常处置系统/大单元_新建异常单_面板厂.py',
-        smallunit: '/API/异常处置系统/小单元_新建异常单_面板厂.py',
-        faulttype: '/API/异常处置系统/故障类型_新建异常单_面板厂.py'
+        eqgroup: "/API/异常处置系统/设备群_新建异常单_面板厂.py",
+        eqnum: "/API/异常处置系统/号机_新建异常单_面板厂.py",
+        bigunit: "/API/异常处置系统/大单元_新建异常单_面板厂.py",
+        smallunit: "/API/异常处置系统/小单元_新建异常单_面板厂.py",
+        faulttype: "/API/异常处置系统/故障类型_新建异常单_面板厂.py"
       },
       equipmentform: {
-        time: '',
-        group: '',
-        eqgroups: '',
-        eqnum: '',
-        bigunit: '',
-        smallunit: '',
-        faulttype: '',
-        desc: '',
-        pinming: ''
+        time: "",
+        group: "",
+        eqgroups: "",
+        eqnum: "",
+        bigunit: "",
+        smallunit: "",
+        faulttype: "",
+        desc: "",
+        pinming: ""
       },
       eqgroup: [],
       eqnum: [],
@@ -522,41 +522,41 @@ export default {
   },
   methods: {
     // 根据LOT号查询品名等
-    async queryLot () {
+    async queryLot() {
       this.loading = true
       const { data } = await axios.post(
-        '/API/异常处置系统/品名工程查询_异常单_面板厂.py',
+        "/API/异常处置系统/品名工程查询_异常单_面板厂.py",
         qs.stringify({
           LOT: this.productform.lot
         })
       )
-      if (data.state === '') {
+      if (data.state === "") {
         this.lotDate = data.data
         this.loading = false
       } else {
         alert(data.state)
       }
     },
-    async queryname (group) {
+    async queryname(group) {
       this.options = []
-      if (this.productform.group === '') {
+      if (this.productform.group === "") {
         this.$notify({
-          title: '提示',
-          message: '请选择处置组',
-          type: 'warning',
-          duration: '1500'
+          title: "提示",
+          message: "请选择处置组",
+          type: "warning",
+          duration: "1500"
         })
         return
       }
       const { data } = await axios.post(
-        '/API/异常处置系统/异常名称查询_异常单_面板厂.py',
+        "/API/异常处置系统/异常名称查询_异常单_面板厂.py",
         qs.stringify({
           分类: group,
           处置组: this.productform.group
         })
       )
-      if (data.state === '') {
-        data.data.split(',').forEach(ele => {
+      if (data.state === "") {
+        data.data.split(",").forEach(ele => {
           this.options.push({
             value: ele,
             lable: ele
@@ -568,60 +568,60 @@ export default {
       }
     },
 
-    async queryeqgroup (api, ...value) {
+    async queryeqgroup(api, ...value) {
       this.eqgroup = []
       const { data } = await axios.post(
         `${api}`,
         qs.stringify({ 处置组: value[0] })
       )
-      data.data.split(',').forEach(ele => {
+      data.data.split(",").forEach(ele => {
         this.eqgroup.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async queryeqnum (api, ...value) {
+    async queryeqnum(api, ...value) {
       this.eqnum = []
       const { data } = await axios.post(
         `${api}`,
         qs.stringify({ 设备群: value[0] })
       )
       console.log(data.data)
-      data.data.split(',').forEach(ele => {
+      data.data.split(",").forEach(ele => {
         this.eqnum.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async querybigunit (api, ...value) {
+    async querybigunit(api, ...value) {
       this.bigunit = []
       const { data } = await axios.post(
         `${api}`,
         qs.stringify({ 设备群: value[0], 号机: value[1] })
       )
-      data.data.split(',').forEach(ele => {
+      data.data.split(",").forEach(ele => {
         this.bigunit.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async querysmallunit (api, ...value) {
+    async querysmallunit(api, ...value) {
       this.smallunit = []
       const { data } = await axios.post(
         `${api}`,
         qs.stringify({ 设备群: value[0], 号机: value[1], 大单元: value[2] })
       )
-      data.data.split(',').forEach(ele => {
+      data.data.split(",").forEach(ele => {
         this.smallunit.push({
           value: ele,
           lable: ele
         })
       })
     },
-    async queryfaulttype (api, ...value) {
+    async queryfaulttype(api, ...value) {
       this.faulttype = []
       const { data } = await axios.post(
         `${api}`,
@@ -632,7 +632,7 @@ export default {
           小单元: value[3]
         })
       )
-      data.data.split(',').forEach(ele => {
+      data.data.split(",").forEach(ele => {
         this.faulttype.push({
           value: ele,
           lable: ele
@@ -641,7 +641,7 @@ export default {
     },
 
     // 添加LOT异常详细信息
-    add (data) {
+    add(data) {
       this.lotallmessage.push({
         LOT: this.productform.lot,
         SHEET: this.productform.sheet,
@@ -654,61 +654,64 @@ export default {
       })
     },
     // 删除添加的信息
-    deleteRow (index, rows) {
+    deleteRow(index, rows) {
       rows.splice(index, 1)
     },
     // 初始异常时间
-    formatTime () {
+    formatTime() {
       const date = new Date()
       const year = date.getFullYear()
-      const month = (date.getMonth() + 1).toString().padStart(2, '0')
+      const month = (date.getMonth() + 1).toString().padStart(2, "0")
       const day = date
         .getDate()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const hour = date
         .getHours()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const minute = date
         .getMinutes()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       const second = date
         .getSeconds()
         .toString()
-        .padStart(2, '0')
+        .padStart(2, "0")
       this.productform.time = `${year}-${month}-${day} ${hour}:${minute -
         5}:${second}`
       this.equipmentform.time = `${year}-${month}-${day} ${hour}:${minute}:${second}`
     },
     // 异常单信息上传
-    async upload () {
-      if (this.equipmentform.group == '') {
+    async upload() {
+      if (this.equipmentform.group == "") {
         this.$message({
-          message: '请完善相关设备异常单',
-          type: 'warning'
+          message: "请完善相关设备异常单",
+          type: "warning"
         })
         return
       }
       this.uploadbtn = true
       let place = []
       for (let [key, value] of Object.entries(this.picture)) {
-        if (typeof value === 'boolean') {
+        if (typeof value === "boolean") {
           place.push(Number(value))
         } else {
           place.push(value)
         }
       }
       let params = {
-        工号: 'C00000',
+        工号: "C00000",
         制品_异常时间: this.productform.time,
-        制品_异常类型: '制品异常,设备异常',
+        制品_异常类型: "制品异常,设备异常",
         制品_处置组: this.productform.group,
         制品_异常程度: this.productform.type,
         制品_制品分类: this.productform.classify,
         制品_异常名称: this.productform.abnormalName,
-        制品_异常描述: this.productform.discribe,
+        制品_异常描述: this.productform.discribe.replace(
+          /\\+|\~+|\!+|\@+|¥+|\￥+|\^+|\&+|\*+|\(+|\)+|\'+|(\")+|\$+|`+|\“+|\”+|\‘+|\’+|\n+|\t/g,
+          ""
+        ),
         制品_LOT: this.lotallmessage
           .map(ele => {
             return ele.LOT
@@ -755,7 +758,7 @@ export default {
         位4: place[3],
         位5: place[4],
         位6: place[5],
-        设备_涉及制品: '是',
+        设备_涉及制品: "是",
         设备_故障时间: this.equipmentform.time,
         设备_处置组: this.equipmentform.group,
         设备_设备群: this.equipmentform.eqgroup,
@@ -763,28 +766,31 @@ export default {
         设备_大单元: this.equipmentform.bigunit,
         设备_小单元: this.equipmentform.smallunit,
         设备_故障类型: this.equipmentform.faulttype,
-        设备_故障现象: this.equipmentform.desc,
+        设备_故障现象: this.equipmentform.desc.replace(
+          /\\+|\~+|\!+|\@+|¥+|\￥+|\^+|\&+|\*+|\(+|\)+|\'+|(\")+|\$+|`+|\“+|\”+|\‘+|\’+|\n+|\t/g,
+          ""
+        ),
         设备_品名: this.equipmentform.pinming
       }
       const { data } = await axios.post(
-        '/API/异常处置系统/新建_异常单_面板厂.py',
+        "/API/异常处置系统/新建_异常单_面板厂.py",
         qs.stringify(params)
       )
-      if (data.state == '插入成功') {
+      if (data.state == "插入成功") {
         this.uploadbtn = false
         this.$notify({
-          title: '提示',
-          message: '创建成功~',
-          type: 'success',
-          duration: '2000'
+          title: "提示",
+          message: "创建成功~",
+          type: "success",
+          duration: "2000"
         })
-        this.$router.push('/home')
+        this.$router.push("/home")
       } else {
         alert(data.state)
       }
     }
   },
-  created () {
+  created() {
     this.formatTime()
   }
 }

@@ -110,7 +110,7 @@
         <deal :id="ticNumber" :group="dealGroup"></deal>
       </el-dialog>
     </transition>
-         <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" >
+         <transition name="custom-classes-transition" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight" >
       <el-dialog
         title="制品单修改"
         :visible.sync="changeproduct"

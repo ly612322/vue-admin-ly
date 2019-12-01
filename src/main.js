@@ -23,7 +23,6 @@ import 'echarts/lib/component/legend'
 // import 'echarts/lib/component/polar'
 // import 'echarts/lib/component/legend'
 import 'echarts/lib/component/title.js'
-	
 import animate from 'animate.css'
 Vue.use(animate)
 Vue.component('chart', ECharts)
@@ -39,10 +38,10 @@ Vue.component('chart', ECharts)
 //   return config
 // })
 
-if (process.env.NODE_ENV == 'development') {//开发环境
-  axios.defaults.baseURL = '/api';
-} else if (process.env.NODE_ENV == 'production') {//生产环境
-  axios.defaults.baseURL = 'http://10.1.10.211';
+if (process.env.NODE_ENV === 'development') { // 开发环境
+  axios.defaults.baseURL = '/api'
+} else if (process.env.NODE_ENV === 'production') { // 生产环境
+  axios.defaults.baseURL = 'http://10.1.10.211'
 }
 
 Vue.prototype.common = common // 公共方法
