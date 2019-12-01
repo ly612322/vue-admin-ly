@@ -1,4 +1,11 @@
-# vue-admin-ly
+# 异常处置系统 Vue重构
+
+vue
+vue-router
+vuex
+axios
+elementui
+vue-echarts
 
 ## Project setup
 ```
