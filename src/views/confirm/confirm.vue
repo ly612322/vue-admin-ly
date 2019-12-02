@@ -6,7 +6,7 @@
         :data="confirmdata"
         border
         style="width: 100%;white-space:nowrap"
-        max-height="1000"
+        height="680"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -79,15 +79,7 @@ export default {
       ticNumber: null,
       instruct:'',
       proconfirm: false,
-      confirmdata: [
-        {
-          编号: "制品异常-面板厂-2019-19847",
-          指示: "成膜区域超规格",
-          指示人员: "周亦睿",
-          确认组: "PVD",
-          结果: "S6.2..3.13成膜区域超规格"
-        }
-      ],
+      confirmdata: [],
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
     }

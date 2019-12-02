@@ -5,14 +5,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    username:'', //  
+    username: '', //  
     collapse: false,
+    tabsbar: true,
     refresh: '',
     tagslist: [],
     activename: '制品单'
   },
   mutations: {
-    toCollapse (state) {
+    toCollapse(state) {
       state.collapse = !state.collapse
     }
   },

@@ -87,61 +87,63 @@
         </el-col>
       </el-form>
     </el-row>
-    <el-tabs type="border-card" v-model="activeName">
-      <el-tab-pane label="明细" name="明细">
-        <tables :tableData="tabledata"></tables>
-      </el-tab-pane>
-      <el-tab-pane name="异常名称" label="异常名称">
-        <charts :chartoption="option" name="异常名称" :tabledata="tabledata"></charts>
-      </el-tab-pane>
-      <el-tab-pane name="起因设备" label="起因设备">
-        <charts :chartoption="option" name="起因设备" :tabledata="tabledata"></charts>
-      </el-tab-pane>
-      <el-tab-pane name="LOT" label="LOT">
-        <charts :chartoption="option" name="LOT" :tabledata="tabledata"></charts>
-      </el-tab-pane>
-      <el-tab-pane name="品名" label="品名">
-        <charts :chartoption="option" name="品名" :tabledata="tabledata"></charts>
-      </el-tab-pane>
-      <el-tab-pane name="设备" label="设备">
-        <charts :chartoption="option" name="设备" :tabledata="tabledata"></charts>
-      </el-tab-pane>
-      <el-tab-pane name="工程" label="工程">
-        <charts :chartoption="option" name="工程" :tabledata="tabledata"></charts>
-      </el-tab-pane>
-      <el-tab-pane label="位置">
-        <el-row>
-          <el-col :span="10">
-            <el-card class="box-card el-card__head box-card-right" shadow="never">
-              <div slot="header" class="clearfix">
-                <span>不良位置</span>
-              </div>
-              <div class="picdisplay">
-                <div style="margin-left: 66%">1300</div>
-                <div class="picture"></div>
-                <div class="picture"></div>
-                <div class="picture"></div>
-                <br />
-                <div class="picture" style="margin-left:7%"></div>
-                <div class="picture"></div>
-                <div class="picture"></div>
-                <div style="width:71%">
-                  <span style="float:left">1100</span>
-                  <span style="float:right">OF</span>
+    <transition name="item" mode="out-in">
+      <el-tabs type="border-card" v-model="activeName" v-loading.lock="loading">
+        <el-tab-pane label="明细" name="明细">
+          <tables :tableData="tabledata"></tables>
+        </el-tab-pane>
+        <el-tab-pane name="异常名称" label="异常名称">
+          <charts :chartoption="option" name="异常名称" :tabledata="tabledata"></charts>
+        </el-tab-pane>
+        <el-tab-pane name="起因设备" label="起因设备">
+          <charts :chartoption="option" name="起因设备" :tabledata="tabledata"></charts>
+        </el-tab-pane>
+        <el-tab-pane name="LOT" label="LOT">
+          <charts :chartoption="option" name="LOT" :tabledata="tabledata"></charts>
+        </el-tab-pane>
+        <el-tab-pane name="品名" label="品名">
+          <charts :chartoption="option" name="品名" :tabledata="tabledata"></charts>
+        </el-tab-pane>
+        <el-tab-pane name="设备" label="设备">
+          <charts :chartoption="option" name="设备" :tabledata="tabledata"></charts>
+        </el-tab-pane>
+        <el-tab-pane name="工程" label="工程">
+          <charts :chartoption="option" name="工程" :tabledata="tabledata"></charts>
+        </el-tab-pane>
+        <el-tab-pane label="位置">
+          <el-row>
+            <el-col :span="10">
+              <el-card class="box-card el-card__head box-card-right" shadow="never">
+                <div slot="header" class="clearfix">
+                  <span>不良位置</span>
                 </div>
-              </div>
-            </el-card>
-          </el-col>
-          <el-col :span="12" :offset="2">
-            <el-table :data="position" height="450" border>
-              <el-table-column prop="位置" label="位置"></el-table-column>
-              <el-table-column prop="数量" label="数量"></el-table-column>
-              <el-table-column prop="占比" label="占比"></el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-      </el-tab-pane>
-    </el-tabs>
+                <div class="picdisplay">
+                  <div style="margin-left: 66%">1300</div>
+                  <div class="picture"></div>
+                  <div class="picture"></div>
+                  <div class="picture"></div>
+                  <br />
+                  <div class="picture" style="margin-left:7%"></div>
+                  <div class="picture"></div>
+                  <div class="picture"></div>
+                  <div style="width:71%">
+                    <span style="float:left">1100</span>
+                    <span style="float:right">OF</span>
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+            <el-col :span="12" :offset="2">
+              <el-table :data="position" height="450" border>
+                <el-table-column prop="位置" label="位置"></el-table-column>
+                <el-table-column prop="数量" label="数量"></el-table-column>
+                <el-table-column prop="占比" label="占比"></el-table-column>
+              </el-table>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+      </el-tabs>
+    </transition>
   </div>
 </template>
 <script>
@@ -150,6 +152,7 @@ import charts from "./components/charts"
 export default {
   data() {
     return {
+      loading: false,
       data: {},
       activeName: "明细",
       option: {},
@@ -180,6 +183,7 @@ export default {
       }
     },
     async onsubmit() {
+      this.loading = true
       this.$http
         .post(
           "/API/异常处置系统/制品异常分析_高级查询_面板厂.py",
@@ -189,6 +193,7 @@ export default {
           this.data = res.data
           this.tabledata = this.data.明细
           this.position = this.data.位置
+          this.loading = false
         })
     },
     selectItem(data, name) {

@@ -53,6 +53,7 @@
         <el-col :span="16">
           <el-form-item label="本次确认结果" prop="本次确认结果">
             <el-input
+              v-input-filter
               placeholder="请输入结果"
               v-model="confirmform.result"
               maxlength="50"
@@ -131,7 +132,7 @@ export default {
         this.$qs.stringify({
           状态: this.confirmform.select,
           结果: this.confirmform.result,
-          确认人: this.$store.state.username, 
+          确认人: this.$store.state.username,
           编号: this.id,
           指示: this.instruct
         })

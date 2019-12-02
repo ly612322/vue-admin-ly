@@ -297,7 +297,6 @@ export default {
           编号: this.id
         })
       )
-      console.log(data)
       let details = data.制品异常详情
       let list = {}
       for (let i = 2; i < 8; i++) {
@@ -310,6 +309,8 @@ export default {
       this.causeequipment = Object.values(data.制品异常详情)[9]
       this.track = Object.values(data.制品异常详情)[10].replace("None", "")
       this.reason = Object.values(data.制品异常详情)[11].replace("None", "")
+      console.log(data.不良位置.length);
+            
       if (data.不良位置.length == 0) {
         console.log("不良位置为空")
         this.fullscreenLoading = false
@@ -322,6 +323,7 @@ export default {
         }
         this.fullscreenLoading = false
       }
+        this.fullscreenLoading = false
     },
     addInstruct() {
       if (this.newInstruct == "") {

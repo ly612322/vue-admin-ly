@@ -7,7 +7,7 @@
         border
         v-loading="loading"
         style="width: 100%"
-        max-height="1000"
+        height="680"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -77,11 +77,12 @@
         :total="tableData.length"
       ></el-pagination>
     </div>-->
-    <transition
+    <!-- <transition
       name="custom-classes-transition"
       enter-active-class="animated rollIn"
       leave-active-class="animated rollOut"
-    >
+    >-->
+    <transition name="dialog">
       <el-dialog
         title="设备单处置"
         :visible.sync="dealequipment"
@@ -94,11 +95,12 @@
         <deal :id="ticNumber" :group="group"></deal>
       </el-dialog>
     </transition>
-    <transition
+    <!-- <transition
       name="custom-classes-transition"
       enter-active-class="animated rollIn"
       leave-active-class="animated rollOut"
-    >
+    >-->
+    <transition name="dialog">
       <el-dialog
         title="设备单修改"
         :visible.sync="changeequipment"

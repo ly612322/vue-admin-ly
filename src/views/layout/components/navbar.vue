@@ -6,14 +6,16 @@
       :class="[listicon ?'el-icon-s-unfold':'el-icon-s-fold']"
       class="navbar-img"
       @click="collapse"
+      id="collapseButton"
     ></i>
     <!-- 退出下拉菜单 -->
-    <i class="refresh" :class="refreshIcon" @click="refreshMain"></i>
     <!-- <fullscreen v-model="isFullscreen" class="fullscr" /> -->
+    <i class="refresh" :class="refreshIcon" @click="refreshMain"></i>
     <el-dropdown class="user" placement="bottom" @command="logout">
       <i class="el-icon-user-solid">{{this.$store.state.username}}</i>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>退出</el-dropdown-item>
+        <el-dropdown-item command='close'>{{this.$store.state.tabsbar == false ? '开启标签栏':'关闭标签栏'}}</el-dropdown-item>
+        <el-dropdown-item command='change'>切换账号</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 面包屑导航 -->
@@ -49,10 +51,15 @@ export default {
     }
   },
   methods: {
-    logout () {
-      // 退出清空token 跳转登录页
-      window.sessionStorage.clear()
-      this.$router.push('/login')
+    logout (command) {
+      if(command == 'change'){
+        // 退出清空token 跳转登录页
+        window.sessionStorage.clear()
+        this.$router.push('/login')
+      }
+      if(command == 'close'){
+       this.$store.state.tabsbar = !this.$store.state.tabsbar
+      }
     },
     collapse () {
       this.listicon = !this.listicon

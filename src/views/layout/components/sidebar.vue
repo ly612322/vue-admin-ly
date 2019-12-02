@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <el-scrollbar>
     <el-menu
       class="el-menu-vertica"

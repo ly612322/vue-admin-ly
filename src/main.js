@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import inputFilter from './utils/index'
+import driver from './utils/driver'
 import './assets/style/index.less'
 
 import ElementUI from 'element-ui'
@@ -12,6 +13,8 @@ import axios from 'axios'
 import common from './utils/common'
 import qs from 'qs'
 import './permission'
+// import Driver from 'driver.js';
+import 'driver.js/dist/driver.min.css';
 
 import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
@@ -25,6 +28,7 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/title.js'
 import animate from 'animate.css'
 Vue.use(animate)
+// Vue.use(Driver)
 Vue.component('chart', ECharts)
 
 // import './mock'
@@ -51,6 +55,7 @@ Vue.use(ElementUI, {
   locale
 })
 Vue.use(inputFilter)
+Vue.use(driver)
 Vue.config.productionTip = false
 
 new Vue({

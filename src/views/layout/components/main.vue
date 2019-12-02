@@ -18,9 +18,10 @@ export default {
 .el-main {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 87vh;
+  height: 90vh;
   padding: 12px;
   font-size: 13px
 }
+
 
 </style>

@@ -54,7 +54,7 @@
         </el-col>
       </el-form>
     </el-row>
-    <el-tabs type="border-card" v-model="activeName">
+    <el-tabs type="border-card" v-model="activeName" v-loading.lock="loading">
       <el-tab-pane label="明细" name="明细">
         <tables :tableData="tabledata"></tables>
       </el-tab-pane>
@@ -80,6 +80,7 @@ import charts from "./components/charts"
 export default {
   data() {
     return {
+      loading: false,
       data: {},
       activeName: "明细",
       option: {},
@@ -108,6 +109,7 @@ export default {
       }
     },
     async onsubmit() {
+      this.loading = true
       this.$http
         .post(
           "/API/异常处置系统/设备异常分析_高级查询_面板厂.py",
@@ -116,6 +118,7 @@ export default {
         .then(res => {
           this.data = res.data
           this.tabledata = this.data.明细
+          this.loading = false
         })
     },
     selectItem(data, name) {

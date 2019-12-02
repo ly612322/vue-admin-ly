@@ -94,14 +94,14 @@
         </el-form>
       </el-col>
       <el-col :span="21">
-        <transition mode="out-in">
+        <transition name="item" mode="out-in">
           <el-table
             border
             v-if="tableShow"
             key="protable"
             :data="protableData"
             style="width: 100%;white-space:nowrap"
-            max-height="650"
+            height="620"
             highlight-current-row
             :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
           >
@@ -154,7 +154,7 @@
             key="eqtable"
             :data="equtableData"
             style="width: 100%;white-space:nowrap"
-            max-height="650"
+            height="680"
             highlight-current-row
             :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
           >

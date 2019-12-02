@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-bread">
+  <div class="layout-bread" v-show='this.$store.state.tabsbar'>
     <!-- <div class="btn-con left-btn">
       <i class="el-icon-arrow-left"></i>
     </div>

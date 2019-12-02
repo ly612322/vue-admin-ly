@@ -314,6 +314,7 @@ export default {
       const falg = this.equipmentItem.filter(ele => ele.状态 == "进行")
       if (falg.length != 0) {
         this.$message.warning("还有未完结的确认项目")
+        return
       }
       this.$refs.equipmentform.validate(async valid => {
         if (!valid) {

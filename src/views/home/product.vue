@@ -7,7 +7,7 @@
         v-loading="loading"
         :data="productdata"
         style="width: 100%;white-space:nowrap"
-        max-height="1000"
+        height="680"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -23,7 +23,7 @@
         <el-table-column prop="异常" label="异常" width="150" align="center"></el-table-column>
         <el-table-column prop="现象" label="现象" align="center" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column
-          prop="处置"
+          prop="处置" 
           label="处置"
           width="100"
           align="center"
@@ -52,7 +52,7 @@
               type="danger"
               @click.native.prevent="deleteRow(scope.$index, scope.row)"
               size="small"
-              style="margin-left:5px"
+              style="margin-left:5px" 
             >删除</el-button>
           </template>
         </el-table-column>
@@ -69,7 +69,7 @@
         ></el-pagination>
       </div>-->
     </template>
-    <el-drawer :visible.sync="table" direction="ttb" size="60%" title="LOT履历">
+    <el-drawer :visible.sync="table" direction="btt" size="80%" title="LOT履历">
       <h3 style="margin:0">LOT:{{Lot}}</h3>
       <el-table :data="LotData" border style="width:100%;overflow:auto" max-height="620">
         <el-table-column property="品名" label="品名"></el-table-column>
@@ -98,6 +98,7 @@
       enter-active-class="animated zoomInDown"
       leave-active-class="animated zoomOutDown"
     >
+    <!-- <transition name="dialog"> -->
       <el-dialog
         title="制品单处置"
         :visible.sync="dealproduct"
@@ -110,7 +111,8 @@
         <deal :id="ticNumber" :group="dealGroup"></deal>
       </el-dialog>
     </transition>
-         <transition name="custom-classes-transition" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight" >
+    <transition name="custom-classes-transition" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight" >
+    <!-- <transition name="dialog"> -->
       <el-dialog
         title="制品单修改"
         :visible.sync="changeproduct"
@@ -206,8 +208,8 @@ export default {
     close() {
       this.dealproduct = false
     },
+    // Lot履历查询
     async queryLot(lot) {
-      this.table = true
       this.Lot = lot
       const { data } = await this.$http.post(
         "/API/异常处置系统/工程实绩_LOT履历.py",
@@ -217,6 +219,7 @@ export default {
         })
       )
       if (data.state === "") {
+      this.table = true
         this.LotData = data.data
       } else {
         alert(data.state)

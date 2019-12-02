@@ -41,29 +41,29 @@
       </tr>
       <tr>
         <td>原因</td>
-        <td colspan="3">{{details.原因}}</td>
+        <td colspan="3">{{details.原因.replace('None','')}}</td>
       </tr>
       <tr>
         <td>处置方法</td>
-        <td colspan="3">{{details.处置方法}}</td>
+        <td colspan="3">{{details.处置方法.replace('None','')}}</td>
       </tr>
       <tr>
         <td>处置结果</td>
-        <td colspan="3">{{details.处置结果}}</td>
+        <td colspan="3">{{details.处置结果.replace('None','')}}</td>
       </tr>
       <tr>
         <td>更换备件</td>
-        <td colspan="3">{{details.更换备件}}</td>
+        <td colspan="3">{{details.更换备件.replace('None','')}}</td>
       </tr>
       <tr>
         <td>处置完成时间</td>
-        <td>{{details.处置完成时间}}</td>
+        <td>{{details.处置完成时间.replace('None','')}}</td>
         <td>量产时间</td>
-        <td>{{details.量产时间}}</td>
+        <td>{{details.量产时间.replace('None','')}}</td>
       </tr>
       <tr>
         <td>水平展开</td>
-        <td>{{details.水平展开}}</td>
+        <td>{{details.水平展开.replace('None','')}}</td>
         <td>最后处置人员</td>
         <td>{{details.最后处置人员}}</td>
       </tr>
@@ -89,7 +89,13 @@
           label="下限"
           :formatter="this.common.removeNone"
         ></el-table-column>
-        <el-table-column align="center" prop="确认模式" width="120" label="确认模式"></el-table-column>
+        <el-table-column
+          align="center"
+          prop="确认模式"
+          width="120"
+          label="确认模式"
+          :formatter="this.common.removeNone"
+        ></el-table-column>
         <el-table-column align="center" prop="确认" width="120" label="确认">
           <template slot-scope="scope">
             <el-checkbox v-model="scope.row.确认" checked></el-checkbox>
