@@ -77,12 +77,12 @@
         :total="tableData.length"
       ></el-pagination>
     </div>-->
-    <!-- <transition
+    <transition
       name="custom-classes-transition"
       enter-active-class="animated rollIn"
       leave-active-class="animated rollOut"
-    >-->
-    <transition name="dialog">
+    >
+    <!-- <transition name="dialog"> -->
       <el-dialog
         title="设备单处置"
         :visible.sync="dealequipment"
@@ -95,12 +95,12 @@
         <deal :id="ticNumber" :group="group"></deal>
       </el-dialog>
     </transition>
-    <!-- <transition
+    <transition
       name="custom-classes-transition"
       enter-active-class="animated rollIn"
       leave-active-class="animated rollOut"
-    >-->
-    <transition name="dialog">
+    >
+    <!-- <transition name="dialog"> -->
       <el-dialog
         title="设备单修改"
         :visible.sync="changeequipment"
@@ -198,39 +198,58 @@ export default {
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage
     },
-    deleteRow(index, rows) {
-      this.$alert("此操作将删除该异常单, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$http
-            .post(
-              "/API/异常处置系统/删除_异常单_设备.py",
-              this.$qs.stringify({
-                编号: rows.编号
-              })
-            )
-            .then(res => {
-              console.log(res)
-              this.tableData.splice(index, 1)
-              this.$message({
-                title: "提示",
-                message: "删除成功！",
-                type: "success",
-                duration: "1400"
-              })
-            })
+    async deleteRow(index, rows) {
+      const { data } = await this.$http.post(
+        "/API/异常处置系统/权限_设备_面板厂.py",
+        this.$qs.stringify({
+          工号: this.$store.state.username,
+          编号: rows.编号
         })
-        .catch(() => {
-          this.$message({
-            title: "提示",
-            message: "已取消删除",
-            type: "warning",
-            duration: "1400"
+      )
+      if (data.state == "无权限") {
+        this.$message.error("无权限")
+        return
+      } else {
+        this.$alert("此操作将删除该异常单, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$http
+              .post(
+                "/API/异常处置系统/删除_异常单_设备.py",
+                this.$qs.stringify({
+                  编号: rows.编号
+                })
+              )
+              .then(res => {
+                console.log(res)
+                this.tableData.splice(index, 1)
+                this.$message({
+                  title: "提示",
+                  message: "删除成功！",
+                  type: "success",
+                  duration: "1400"
+                })
+              })
           })
-        })
+          .catch(() => {
+            this.$message({
+              title: "提示",
+              message: "已取消删除",
+              type: "warning",
+              duration: "1400"
+            })
+          })
+      }
+    }
+  },
+  watch: {
+    "$route.path": function(newVal, oldVal) {
+      if (oldVal === "/新建设备单") {
+        this.getNewsList()
+      }
     }
   },
   created() {

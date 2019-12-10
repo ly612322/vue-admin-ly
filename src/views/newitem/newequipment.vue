@@ -273,7 +273,7 @@ export default {
     async upload() {
       this.uploadbtn = true
       let params = {
-        工号: "C00000",
+        工号: this.$store.state.username,
         制品_异常类型: "设备异常",
         设备_涉及制品: "否",
         设备_故障时间: this.equipmentform.time,

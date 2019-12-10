@@ -310,7 +310,7 @@
         destroy-on-close
         center
       >
-        <el-form v-model="pmMessage" :inline="true" label-width="80px">
+        <el-form v-model="pmMessage" :inline="true" label-width="60px">
           <el-form-item label="品名">
             <el-input v-model="pmMessage.品名" placeholder="品名" maxlength="14" show-word-limit></el-input>
           </el-form-item>
@@ -536,7 +536,7 @@ export default {
         }
       }
       let params = {
-        工号: "C00000",
+        工号: this.$store.state.username,
         制品_异常时间: this.productform.time,
         制品_异常类型: "制品异常",
         制品_处置组: this.productform.group,

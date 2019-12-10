@@ -701,7 +701,7 @@ export default {
         }
       }
       let params = {
-        工号: "C00000",
+        工号: this.$store.state.username,
         制品_异常时间: this.productform.time,
         制品_异常类型: "制品异常,设备异常",
         制品_处置组: this.productform.group,

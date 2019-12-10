@@ -3,6 +3,7 @@
     <template>
       <!-- :data="productdata.slice((currentPage-1)*pagesize,currentPage*pagesize)" 分页 -->
       <el-table
+        ref="protable"
         border
         v-loading="loading"
         :data="productdata"
@@ -23,7 +24,7 @@
         <el-table-column prop="异常" label="异常" width="150" align="center"></el-table-column>
         <el-table-column prop="现象" label="现象" align="center" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column
-          prop="处置" 
+          prop="处置"
           label="处置"
           width="100"
           align="center"
@@ -52,7 +53,7 @@
               type="danger"
               @click.native.prevent="deleteRow(scope.$index, scope.row)"
               size="small"
-              style="margin-left:5px" 
+              style="margin-left:5px"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -98,7 +99,7 @@
       enter-active-class="animated zoomInDown"
       leave-active-class="animated zoomOutDown"
     >
-    <!-- <transition name="dialog"> -->
+      <!-- <transition name="dialog"> -->
       <el-dialog
         title="制品单处置"
         :visible.sync="dealproduct"
@@ -111,8 +112,12 @@
         <deal :id="ticNumber" :group="dealGroup"></deal>
       </el-dialog>
     </transition>
-    <transition name="custom-classes-transition" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight" >
-    <!-- <transition name="dialog"> -->
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animated bounceInLeft"
+      leave-active-class="animated bounceOutRight"
+    >
+      <!-- <transition name="dialog"> -->
       <el-dialog
         title="制品单修改"
         :visible.sync="changeproduct"
@@ -219,7 +224,7 @@ export default {
         })
       )
       if (data.state === "") {
-      this.table = true
+        this.table = true
         this.LotData = data.data
       } else {
         alert(data.state)
@@ -241,21 +246,30 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(() => {
-          this.$http.post(
-            "/API/异常处置系统/删除_异常单_制品.py",
-            this.$qs.stringify({
-              编号: row.编号
-            })
-          )
-          this.productdata.splice(index, 1)
-          this.$notify({
-            title: "提示",
-            message: "删除成功！",
-            type: "success",
-            duration: "1400"
-          })
         })
+          .then(() => {
+            this.$http.post(
+              "/API/异常处置系统/删除_异常单_制品.py",
+              this.$qs.stringify({
+                编号: row.编号
+              })
+            )
+            this.productdata.splice(index, 1)
+            this.$notify({
+              title: "提示",
+              message: "删除成功！",
+              type: "success",
+              duration: "1400"
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+              type: "warning",
+              duration: "1400"
+            })
+          })
       }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -264,6 +278,13 @@ export default {
     },
     handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage
+    }
+  },
+    watch: {
+    "$route.path": function(newVal, oldVal) {
+      if (oldVal === "/新建制品单") {
+        this.getNewsList();
+      }
     }
   },
   created() {
