@@ -19,7 +19,7 @@
         <el-button type="primary" class="uploadbtn" @click="upload" :loading="uploadbtn">提交</el-button>
       </el-col>
     </el-row>
-    <transition mode="out-in">
+    <transition name="item" mode="out-in">
       <div ref="productTic" v-if="ticshow" key="product">
         <el-card class="box-card">
           <el-form

@@ -471,7 +471,7 @@ export default {
       }
     },
     // 添加LOT异常详细信息
-    add(data) {
+    add(data) {         
       this.lotallmessage.push({
         LOT: this.productform.lot,
         SHEET: this.productform.sheet,

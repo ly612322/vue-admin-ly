@@ -97,13 +97,14 @@
         <transition name="item" mode="out-in">
           <el-table
             border
+            :data="protableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             v-if="tableShow"
             key="protable"
-            :data="protableData"
             style="width: 100%;white-space:nowrap"
             height="620"
             highlight-current-row
             :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
+            v-loading="loading"
           >
             <el-table-column prop="编号" label="编号" align="center" width="212" sortable></el-table-column>
             <el-table-column prop="状态" label="状态" align="center" width="50"></el-table-column>
@@ -149,14 +150,15 @@
           <!-- :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" -->
 
           <el-table
+          :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             border
             v-else
             key="eqtable"
-            :data="equtableData"
             style="width: 100%;white-space:nowrap"
             height="680"
             highlight-current-row
             :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
+            v-loading="loading"
           >
             <el-table-column prop="编号" label="编号" align="center" width="135" sortable></el-table-column>
             <el-table-column prop="状态" label="状态" align="center" width="70"></el-table-column>
@@ -189,7 +191,7 @@
             </el-table-column>
           </el-table>
         </transition>
-        <!-- <div class="pagination" v-if="tableShow">
+        <div class="pagination" v-if="tableShow">
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -210,11 +212,15 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="equtableData.length"
           ></el-pagination>
-        </div>-->
+        </div>
       </el-col>
     </el-row>
-         <!-- <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" > -->
-         <transition name="custom-classes-transition" enter-active-class="animated zoomInDown" leave-active-class="animated zoomOutDown" >
+    <!-- <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" > -->
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animated zoomInDown"
+      leave-active-class="animated zoomOutDown"
+    >
       <el-dialog
         title="制品处置详情"
         :visible.sync="querypro"
@@ -227,7 +233,11 @@
         <querypro :id="ticNumber" :group="group" @proclose="proclose"></querypro>
       </el-dialog>
     </transition>
-         <transition name="custom-classes-transition" enter-active-class="animated rollIn" leave-active-class="animated rollOut" >
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animated rollIn"
+      leave-active-class="animated rollOut"
+    >
       <el-dialog
         title="设备处置详情"
         :visible.sync="queryequip"
@@ -249,6 +259,7 @@ import queryequip from "./components/alertequip"
 export default {
   data() {
     return {
+      loading: false,
       tableShow: true,
       querypro: false,
       queryequip: false,
@@ -292,6 +303,7 @@ export default {
       this.queryform.开始日期 = `${year}-${month}-${day}`
     },
     async query() {
+      this.loading = true
       let formstate = this.状态.join()
       let api = ""
       this.type == "制品异常单"
@@ -302,6 +314,7 @@ export default {
         `${api}`,
         this.$qs.stringify(this.queryform)
       )
+      this.loading = false
       if (data.state == "") {
         this.type == "制品异常单"
           ? (this.protableData = data.data)
@@ -358,7 +371,6 @@ body .el-table th.gutter {
 .el-select {
   width: 92%;
 }
-
 .el-radio-group {
   padding: 7px;
   border: 1px solid rgb(218, 218, 218);

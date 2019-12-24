@@ -7,6 +7,7 @@
         border
         style="width: 100%;white-space:nowrap"
         height="680"
+        v-loading="loading"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -35,7 +36,7 @@
             <div>{{ scope.row.结果.replace('None','') }}</div>
           </template>
         </el-table-column>
-                <el-table-column prop="确认人" label="确认人" width="100" align="center" sortable></el-table-column>
+        <el-table-column prop="确认人" label="确认人" width="100" align="center" sortable></el-table-column>
 
         <el-table-column label="操作" width="100" align="center">
           <template slot-scope="scope">
@@ -76,8 +77,9 @@ export default {
   name: "confirm",
   data() {
     return {
+      loading: false,
       ticNumber: null,
-      instruct:'',
+      instruct: "",
       proconfirm: false,
       confirmdata: [],
       currentPage: 1, // 初始页
@@ -118,6 +120,7 @@ export default {
       return row[property] === value
     },
     async getList() {
+      this.loading = true
       const { data } = await this.$http.post(
         "/API/异常处置系统/查询_制品指示确认.py"
       )
@@ -129,6 +132,7 @@ export default {
           type: "success",
           duration: "1200"
         })
+        this.loading = false
       } else {
         this.$notify({
           title: "错误！",
