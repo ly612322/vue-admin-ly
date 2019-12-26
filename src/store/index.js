@@ -10,6 +10,8 @@ const store = new Vuex.Store({
     tabsbar: true,
     refresh: '',
     tagslist: [],
+    siderSwith: false,
+    drawer:false
   },
   mutations: {
     toCollapse(state) {

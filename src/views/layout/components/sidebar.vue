@@ -5,6 +5,7 @@
       class="el-menu-vertica"
       background-color="#304156"
       text-color="white"
+      active-text-color='#2498FF'
       :show-timeout="200"
       router
       unique-opened
@@ -194,7 +195,7 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style lang='less' >
 .el-menu-vertica:not(.el-menu--collapse) {
   width: 200px;
   height: 100vh;
@@ -203,7 +204,6 @@ export default {
   width: 60px;
   height: 110vh;
 }
-
 h3 {
   display: inline-block;
   color: #fff;

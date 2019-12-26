@@ -1,11 +1,15 @@
 <template>
   <div>
     <el-container>
-      <el-aside style=" width: auto;">
-        <sidebar ></sidebar>
+      <el-aside style=" width: auto;" v-show="!$store.state.siderSwith">
+        <sidebar></sidebar>
       </el-aside>
       <el-container>
-        <el-header >
+        <el-header v-if="$store.state.siderSwith" class="header">
+          <hnavbar />
+          <tabsbar></tabsbar>
+        </el-header>
+        <el-header v-else>
           <navbar />
           <tabsbar></tabsbar>
         </el-header>
@@ -16,19 +20,21 @@
 </template>
 
 <script>
-import sidebar from './components/sidebar'
-import navbar from './components/navbar'
-import tabsbar from './components/tabsbar'
-import elmain from './components/main'
+import sidebar from "./components/sidebar"
+import navbar from "./components/navbar"
+import tabsbar from "./components/tabsbar"
+import elmain from "./components/main"
+import hnavbar from "./components/hnavbar"
 export default {
-  data () {
+  data() {
     return {
-      showMain: ''
+      showMain: ""
     }
   },
   components: {
     sidebar,
     navbar,
+    hnavbar,
     tabsbar,
     elmain
   }
@@ -36,17 +42,18 @@ export default {
 </script>
 
 <style scoped>
-.el-header{
+.el-header {
   padding: 0;
   height: auto !important;
+  /* border-bottom: 1px solid #ccc; */
 }
 .el-main {
   padding: 0px 10px;
 }
-.el-container{
+.el-container {
   height: 100vh;
 }
-.el-aside{
+.el-aside {
   overflow: hidden;
 }
 </style>

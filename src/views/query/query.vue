@@ -9,6 +9,7 @@
               type="date"
               value-format="yyyy-MM-dd"
               placeholder="选择日期时间"
+              :clearable="false"
             ></el-date-picker>
           </el-form-item>
           <el-form-item label="结束时间">
@@ -17,6 +18,7 @@
               type="date"
               value-format="yyyy-MM-dd"
               placeholder="选择日期时间"
+              :clearable="false"
             ></el-date-picker>
           </el-form-item>
           <el-form-item label="异常类型" prop="type">
@@ -150,7 +152,7 @@
           <!-- :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" -->
 
           <el-table
-          :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            :data="equtableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             border
             v-else
             key="eqtable"
