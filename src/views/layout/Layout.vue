@@ -25,6 +25,8 @@ import navbar from "./components/navbar"
 import tabsbar from "./components/tabsbar"
 import elmain from "./components/main"
 import hnavbar from "./components/hnavbar"
+import screenfull from "screenfull"
+
 export default {
   data() {
     return {
@@ -37,6 +39,15 @@ export default {
     hnavbar,
     tabsbar,
     elmain
+  },
+  methods: {
+    //全屏
+    screenfull() {
+      screenfull.request()
+    }
+  },
+  created() {
+    this.screenfull()
   }
 }
 </script>

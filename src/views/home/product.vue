@@ -136,7 +136,6 @@
 import deal from "./components/proalert/dealproduct"
 import change from "./components/proalert/changepro"
 import elDragDialog from "../../utils/el-drag-dialog"
-import screenfull from "screenfull"
 
 export default {
   data() {
@@ -285,18 +284,6 @@ export default {
     handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage
     },
-    //全屏
-    screenfull() {
-      // if (!screenfull.enabled) {
-      //   this.$message({
-      //     message: '您的浏览器无法进入全屏模式',
-      //     type: 'warning'
-      //   })
-      //   return false
-      // }
-      screenfull.request()
-      this.isFullscreen = true
-    }
   },
   watch: {
     "$route.path": function(newVal, oldVal) {
@@ -307,7 +294,6 @@ export default {
   },
   created() {
     this.getNewsList()
-    this.screenfull()
   },
   computed: {
     cellStyle: () => {}
