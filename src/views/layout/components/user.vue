@@ -12,19 +12,18 @@
       </el-dropdown-menu>
     </el-dropdown>
     <el-tooltip class="item" effect="dark" content="页面样式设置" placement="bottom">
-    <i class="el-icon-setting setting" @click="childsetting"></i>
+      <i class="el-icon-setting setting" @click="childsetting"></i>
     </el-tooltip>
-    <el-tooltip class="item" effect="dark" content="全屏" placement="bottom">
-    <i class="el-icon-full-screen setting" @click="screenfull"></i>
+    <el-tooltip class="item" effect="dark" :content="fullText" placement="bottom">
+      <i class="setting" :class="fullscreenIcon" @click="screenfull"></i>
     </el-tooltip>
     <el-tooltip class="item" effect="dark" content="刷新" placement="bottom">
-    <i class="setting" :class="refreshIcon" @click="refreshMain"></i>
+      <i class="setting" :class="refreshIcon" @click="refreshMain"></i>
     </el-tooltip>
-
   </div>
 </template>
 <script>
-import screenfull from 'screenfull'
+import screenfull from "screenfull"
 
 export default {
   name: "user",
@@ -32,9 +31,11 @@ export default {
     return {
       siderSwith: false,
       refreshIcon: "el-icon-refresh",
+      fullscreenIcon: "el-icon-aim",
+      fullText:'取消全屏',
       topicColor: "#409EFF",
       drawer: true,
-      isFullscreen:false
+      isFullscreen: false
     }
   },
   methods: {
@@ -67,8 +68,14 @@ export default {
       //   return false
       // }
       screenfull.toggle()
-      this.isFullscreen = true
-    },
+      this.isFullscreen = !this.isFullscreen
+      this.isFullscreen
+        ? (this.fullscreenIcon = "el-icon-full-screen")
+        : (this.fullscreenIcon = "el-icon-aim")
+      this.isFullscreen
+        ? (this.fullText = "全屏")
+        : (this.fullText = "取消全屏")
+    }
     // Esc 全屏监测
     // checkFull() {
     //   let isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled
@@ -77,7 +84,7 @@ export default {
     //   }
     //   return isFull
     // }
-  },
+  }
   //  mounted() {
   //    window.onresize = () => {
   //          // 全屏下监控是否按键了ESC
@@ -87,8 +94,7 @@ export default {
   //          }
   //        }
   //     }
-  }
-
+}
 </script>
 <style lang="less" scoped>
 .setting {

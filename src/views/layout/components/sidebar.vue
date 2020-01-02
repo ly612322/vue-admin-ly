@@ -17,7 +17,7 @@
           <el-menu-item>
             <i class="el-icon-warning" style="margin-right:4px"></i>
             <span v-show="!this.$store.state.collapse">
-              <h3>异常处置系统</h3>
+              <mallki class-name="mallki-text" text="异常处置系统" />
             </span>
           </el-menu-item>
         </template>
@@ -47,7 +47,11 @@
 </template>
 
 <script>
+import Mallki from "../../../components/text-hover/texthover"
 export default {
+  components: {
+    Mallki
+  },
   data() {
     return {
       menulist: [

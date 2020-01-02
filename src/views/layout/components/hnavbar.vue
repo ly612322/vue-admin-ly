@@ -33,7 +33,7 @@
           <el-menu-item
             :index="'/' + subitem.path"
             v-for="subitem in item.children"
-            :key="subitem.id"
+            :key="subitem.id" 
           >
             <i class="el-icon-edit-outline"></i>
             <span slot="title">{{subitem.title}}</span>

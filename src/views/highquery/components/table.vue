@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" height="650" border style="width: 100%" >
+    <el-table :data="tableData" :height="height" border style="width: 100%" >
       <el-table-column prop="编号" label="编号"></el-table-column>
       <el-table-column prop="工厂" label="工厂"></el-table-column>
       <el-table-column prop="年份" label="年份"></el-table-column>
@@ -26,6 +26,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      height:'70vh'
+    }
+  },
   props: ["tableData"]
 }
 </script>
