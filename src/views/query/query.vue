@@ -103,7 +103,7 @@
             v-if="tableShow"
             key="protable"
             style="width: 100%;white-space:nowrap"
-            height="620"
+        :height="height"
             highlight-current-row
             :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
             v-loading="loading"
@@ -157,7 +157,7 @@
             v-else
             key="eqtable"
             style="width: 100%;white-space:nowrap"
-            height="680"
+        :height="height"
             highlight-current-row
             :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
             v-loading="loading"
@@ -283,8 +283,9 @@ export default {
         product: "/API/异常处置系统/制品单查询.py",
         equipment: "/API/异常处置系统/设备单查询.py"
       },
+      height:'81vh',
       currentPage: 1, // 初始页
-      pagesize: 10 //    每页的数据
+      pagesize: 20 //    每页的数据
     }
   },
   components: {

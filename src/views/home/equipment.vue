@@ -7,7 +7,7 @@
         border
         v-loading="loading"
         style="width: 100%"
-        height="680"
+        :height="height"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -126,6 +126,7 @@ export default {
       ticNumber: null,
       group: "",
       tableData: [],
+      height:'100vh',
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
     }

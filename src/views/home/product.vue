@@ -8,7 +8,7 @@
         v-loading="loading"
         :data="productdata"
         style="width: 100%;white-space:nowrap"
-        height="680"
+        :height="height"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
       >
@@ -135,6 +135,8 @@
 <script>
 import deal from "./components/proalert/dealproduct"
 import change from "./components/proalert/changepro"
+import elDragDialog from "../../utils/el-drag-dialog"
+
 export default {
   data() {
     return {
@@ -147,10 +149,12 @@ export default {
       dealGroup: "",
       productdata: [],
       LotData: [],
+      height:'100vh',
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
     }
   },
+  directives: { elDragDialog },
   components: { deal, change },
   methods: {
     // dialog开关
@@ -159,6 +163,7 @@ export default {
       this.ticNumber = row.编号
       this.dealGroup = row.处置
       this.dealproduct = true
+      // this.$router.push({ path: "dealitem", query: { id: `${row.编号}` } })
     },
     //修改 权限判断
     async changerouter(index, row) {
@@ -280,10 +285,10 @@ export default {
       this.currentPage = currentPage
     }
   },
-    watch: {
+  watch: {
     "$route.path": function(newVal, oldVal) {
       if (oldVal === "/新建制品单") {
-        this.getNewsList();
+        this.getNewsList()
       }
     }
   },

@@ -5,7 +5,7 @@
       text-color="white"
       mode="horizontal"
       active-text-color="#2498FF"
-      style="height:50px"
+      style="height:56px"
       :show-timeout="200"
       router
       unique-opened
@@ -206,21 +206,21 @@ h3 {
   padding: 0;
 }
 .user {
-  margin-top: 0;
+  margin-top: 6px;
   color: #fff;
 }
 .el-tabs__item {
   width: 40%;
 }
 .el-menu-item {
-  height: 50px !important;
-  line-height: 50px !important;
+  height: 56px !important;
+  line-height: 56px !important;
 }
 .el-submenu__title {
   height: 40px !important;
 }
 .el-title /deep/ .el-submenu__title {
-  height: 50px !important;
-  line-height: 50px !important;
+  height: 56px !important;
+  line-height: 56px !important;
 }
 </style>

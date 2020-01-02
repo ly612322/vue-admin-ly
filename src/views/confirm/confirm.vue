@@ -6,7 +6,7 @@
         :data="confirmdata"
         border
         style="width: 100%;white-space:nowrap"
-        height="680"
+        :height="height"
         v-loading="loading"
         highlight-current-row
         :header-cell-style="{background:'#E3E3E3',color:'#606266'}"
@@ -58,6 +58,7 @@
     </div>-->
     <transition name="dialog">
       <el-dialog
+        v-el-drag-dialog
         title="制品指示确认"
         :visible.sync="proconfirm"
         v-if="proconfirm"
@@ -72,6 +73,7 @@
   </div>
 </template>
 <script>
+import elDragDialog from "../../utils/el-drag-dialog"
 import con from "./alertconfirm"
 export default {
   name: "confirm",
@@ -82,10 +84,12 @@ export default {
       instruct: "",
       proconfirm: false,
       confirmdata: [],
+      height:'100vh',
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
     }
   },
+  directives: { elDragDialog },
   components: {
     con
   },

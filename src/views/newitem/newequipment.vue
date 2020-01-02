@@ -2,7 +2,7 @@
   <div id="newsheet">
     <transition mode="out-in">
       <div ref="equipmentTic" key="equipment">
-        <el-card class="box-card" style="width:99.5%">
+        <el-card class="box-card" style="width:99.5%;height:85vh">
           <el-form
             ref="equipmentform"
             :model="equipmentform"

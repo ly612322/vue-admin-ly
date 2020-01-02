@@ -4,7 +4,7 @@
       <el-aside style=" width: auto;" v-show="!$store.state.siderSwith">
         <sidebar></sidebar>
       </el-aside>
-      <el-container>
+      <el-container iner>
         <el-header v-if="$store.state.siderSwith" class="header">
           <hnavbar />
           <tabsbar></tabsbar>

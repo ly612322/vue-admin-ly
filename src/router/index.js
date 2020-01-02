@@ -4,8 +4,7 @@ import layout from '../views/layout/Layout.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '',
     name: 'login',
     redirect: '/login',
@@ -13,12 +12,10 @@ const routes = [
     meta: {
       keepAlive: true
     },
-    children: [
-      {
-        path: '/login',
-        component: () => import('../views/login/index')
-      }
-    ]
+    children: [{
+      path: '/login',
+      component: () => import('../views/login/index')
+    }]
   },
   {
     path: '/home',
@@ -27,8 +24,7 @@ const routes = [
       title: '首页'
     },
     component: layout,
-    children: [
-      {
+    children: [{
         path: '/制品单',
         name: '制品单',
         component: () => import('../views/home/product'),
@@ -62,8 +58,7 @@ const routes = [
     meta: {
       title: '新建'
     },
-    children: [
-      {
+    children: [{
         path: '/新建制品单',
         name: '新建制品单',
         component: () => import('../views/newitem/newproduct'),
@@ -95,16 +90,14 @@ const routes = [
     meta: {
       title: '确认'
     },
-    children: [
-      {
-        path: '/制品指示确认',
-        name: '制品指示确认',
-        component: () => import('../views/confirm/confirm'),
-        meta: {
-          title: '制品指示确认'
-        }
+    children: [{
+      path: '/制品指示确认',
+      name: '制品指示确认',
+      component: () => import('../views/confirm/confirm'),
+      meta: {
+        title: '制品指示确认'
       }
-    ]
+    }]
   },
   {
     path: '/查询',
@@ -112,16 +105,14 @@ const routes = [
     meta: {
       title: '查询'
     },
-    children: [
-      {
-        name: '异常单查询',
-        meta: {
-          title: '异常单查询'
-        },
-        path: '/异常单查询',
-        component: () => import('../views/query/query')
-      }
-    ]
+    children: [{
+      name: '异常单查询',
+      meta: {
+        title: '异常单查询'
+      },
+      path: '/异常单查询',
+      component: () => import('../views/query/query')
+    }]
   },
   {
     path: '/高级查询',
@@ -131,8 +122,7 @@ const routes = [
     meta: {
       title: '高级查询'
     },
-    children: [
-      {
+    children: [{
         path: '/制品异常分析',
         name: '制品异常分析',
         component: () => import('../views/highquery/proanalysis'),
