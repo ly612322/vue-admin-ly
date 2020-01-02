@@ -294,7 +294,7 @@ export default {
       //   })
       //   return false
       // }
-      screenfull.toggle()
+      screenfull.request()
       this.isFullscreen = true
     }
   },

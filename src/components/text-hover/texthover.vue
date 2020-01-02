@@ -26,7 +26,7 @@ export default {
 
 .link--mallki {
   font-weight: 800;
-  font-size: 22px;
+  font-size: 20px;
   color: #ffffff;
   font-family: 'Dosis', sans-serif;
   -webkit-transition: color 0.5s 0.25s;
