@@ -1,6 +1,6 @@
 <template>
   <!-- 顶部navbar 包含折叠按钮 面包屑导航 退出按钮-->
-  <div>
+  <div class="navbar">
     <el-row type="flex" justify="space-between">
       <el-col :span="9">
         <!-- 折叠按钮切换 -->
@@ -79,6 +79,9 @@ export default {
 }
 </script>
 <style scoped>
+.navbar{
+  background-color: #ffffff
+}
 h4 {
   margin: 0;
 }

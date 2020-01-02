@@ -136,6 +136,7 @@
 import deal from "./components/proalert/dealproduct"
 import change from "./components/proalert/changepro"
 import elDragDialog from "../../utils/el-drag-dialog"
+import screenfull from "screenfull"
 
 export default {
   data() {
@@ -149,7 +150,7 @@ export default {
       dealGroup: "",
       productdata: [],
       LotData: [],
-      height:'100vh',
+      height: "100vh",
       currentPage: 1, // 初始页
       pagesize: 10 //    每页的数据
     }
@@ -283,6 +284,18 @@ export default {
     },
     handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage
+    },
+    //全屏
+    screenfull() {
+      // if (!screenfull.enabled) {
+      //   this.$message({
+      //     message: '您的浏览器无法进入全屏模式',
+      //     type: 'warning'
+      //   })
+      //   return false
+      // }
+      screenfull.toggle()
+      this.isFullscreen = true
     }
   },
   watch: {
@@ -294,6 +307,7 @@ export default {
   },
   created() {
     this.getNewsList()
+    this.screenfull()
   },
   computed: {
     cellStyle: () => {}

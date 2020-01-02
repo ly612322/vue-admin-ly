@@ -70,23 +70,23 @@ export default {
       this.isFullscreen = true
     },
     // Esc 全屏监测
-    checkFull() {
-      let isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled
-      if (isFull === undefined) {
-          isFull = false
-      }
-      return isFull
-    }
+    // checkFull() {
+    //   let isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled
+    //   if (isFull === undefined) {
+    //       isFull = false
+    //   }
+    //   return isFull
+    // }
   },
-   mounted() {
-     window.onresize = () => {
-           // 全屏下监控是否按键了ESC
-           if (!this.checkFull()) {
-             // 退出全屏
-             this.isFullscreen = false
-           }
-         }
-      }
+  //  mounted() {
+  //    window.onresize = () => {
+  //          // 全屏下监控是否按键了ESC
+  //          if (!this.checkFull()) {
+  //            // 退出全屏
+  //            this.isFullscreen = false
+  //          }
+  //        }
+  //     }
   }
 
 </script>

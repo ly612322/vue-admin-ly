@@ -53,6 +53,7 @@ export default {
   height: 90vh;
   padding: 12px;
   font-size: 13px;
+  background-color: #ffffff
 }
 .setting {
   color: #808080;
