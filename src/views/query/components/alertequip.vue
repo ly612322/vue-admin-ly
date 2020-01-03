@@ -41,29 +41,29 @@
       </tr>
       <tr>
         <td>原因</td>
-        <td colspan="3">{{details.原因.replace('None','')}}</td>
+        <td colspan="3">{{details.原因}}</td>
       </tr>
       <tr>
         <td>处置方法</td>
-        <td colspan="3">{{details.处置方法.replace('None','')}}</td>
+        <td colspan="3">{{details.处置方法}}</td>
       </tr>
       <tr>
         <td>处置结果</td>
-        <td colspan="3">{{details.处置结果.replace('None','')}}</td>
+        <td colspan="3">{{details.处置结果}}</td>
       </tr>
       <tr>
         <td>更换备件</td>
-        <td colspan="3">{{details.更换备件.replace('None','')}}</td>
+        <td colspan="3">{{details.更换备件}}</td>
       </tr>
       <tr>
         <td>处置完成时间</td>
-        <td>{{details.处置完成时间.replace('None','')}}</td>
+        <td>{{details.处置完成时间}}</td>
         <td>量产时间</td>
-        <td>{{details.量产时间.replace('None','')}}</td>
+        <td>{{details.量产时间}}</td>
       </tr>
       <tr>
         <td>水平展开</td>
-        <td>{{details.水平展开.replace('None','')}}</td>
+        <td>{{details.水平展开}}</td>
         <td>最后处置人员</td>
         <td>{{details.最后处置人员}}</td>
       </tr>
@@ -172,6 +172,11 @@ export default {
       this.manremarked = Object.values(data.经理确认)[0]
       this.pqcremarked = Object.values(data.PQC确认)[0]
       this.fullscreenLoading = false
+      Object.entries(this.details).forEach(ele => {
+        if (ele[1] == "None") {
+          this.details[ele[0]] = ""
+        }
+      })
     },
     async manconfirm(state) {
       const { data } = await this.$http.post(
