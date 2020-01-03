@@ -10,7 +10,6 @@
   "dependencies": {
     "animate.css": "^3.7.2",
     "core-js": "^3.5.0",
-    "driver.js": "^0.9.8",
     "echarts": "^4.5.0",
     "element-ui": "^2.13.0",
     "js-cookie": "^2.2.1",
@@ -30,6 +29,8 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "axios": "^0.19.0",
     "babel-eslint": "^10.0.3",
+    "babel-plugin-component": "^1.1.1",
+    "default-passive-events": "^1.0.10",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",
