@@ -162,8 +162,8 @@ export default {
     dealrouter(index, row) {
       this.ticNumber = row.编号
       this.dealGroup = row.处置
-      this.dealproduct = true
-      // this.$router.push({ path: "dealitem", query: { id: `${row.编号}` } })
+      // this.dealproduct = true
+      this.$router.push({ path: "dealitem", query: { id: `${row.编号}` } })
     },
     //修改 权限判断
     async changerouter(index, row) {

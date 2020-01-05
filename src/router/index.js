@@ -100,6 +100,19 @@ const routes = [{
     }]
   },
   {
+    path: '/dealitem',
+    component: layout,
+    name: 'dealitem',
+    redirect: {
+      path:'/handleritem',
+    },
+    children: [{
+      path: '/handleritem',
+      name: 'handleritem',
+      component: () => import('../views/home/components/proalert/dealproduct'),
+    }]
+  },
+  {
     path: '/查询',
     component: layout,
     meta: {

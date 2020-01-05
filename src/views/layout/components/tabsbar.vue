@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="layout-bread"
-    v-show="this.$store.state.tabsbar"
-  >
+  <div class="layout-bread" v-show="this.$store.state.tabsbar">
     <!-- <div class="btn-con left-btn">
       <i class="el-icon-arrow-left"></i>
     </div>
@@ -100,10 +97,17 @@ export default {
           }
         })
         if (flag) {
-          this.editableTabs.push({
-            title: to.meta.title,
-            name: to.meta.title
-          })
+          if (!to.meta.title) {
+            this.editableTabs.push({
+              title: to.query.id,
+              name: to.query.id
+            })
+          } else {
+            this.editableTabs.push({
+              title: to.meta.title,
+              name: to.meta.title
+            })
+          }
           this.activeMenu = to.name
         }
       }

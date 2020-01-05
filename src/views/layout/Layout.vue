@@ -47,7 +47,7 @@ export default {
     }
   },
   created() {
-    this.screenfull()
+    // this.screenfull()
   }
 }
 </script>

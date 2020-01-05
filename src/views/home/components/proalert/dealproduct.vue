@@ -290,11 +290,12 @@ export default {
   props: ["id", "group"],
   methods: {
     async querymessage() {
+      console.log(this.$route);
       this.fullscreenLoading = true
       const { data } = await this.$http.post(
         "/API/异常处置系统/制品单关联.py",
         this.$qs.stringify({
-          编号: this.id
+          编号: this.$route.query.id
         })
       )
       let details = data.制品异常详情
@@ -309,7 +310,6 @@ export default {
       this.causeequipment = Object.values(data.制品异常详情)[9]
       this.track = Object.values(data.制品异常详情)[10].replace("None", "")
       this.reason = Object.values(data.制品异常详情)[11].replace("None", "")
-      console.log(data.不良位置.length);
             
       if (data.不良位置.length == 0) {
         console.log("不良位置为空")
